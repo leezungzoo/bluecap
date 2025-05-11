@@ -1,0 +1,119 @@
+#header{
+    background-color: orange;
+    color: white;
+    padding-left: 40px;
+    padding-top: 40px;
+    font-style: italic;
+    width: auto;
+    height: 80px;
+    font-size: 20px;
+}
+#hd img{
+    margin-top: -15px;
+}
+.navigation{
+    position: absolute;
+    top: 30px;
+    right: 100px;
+    display: flex;
+    gap: 40px;
+    padding: 0%;
+    color: white;
+    font-size: 25px;
+    list-style: none;
+}
+.navigation li {
+    display: flex;
+    align-items: center;
+}
+
+.navigation li a{
+    text-decoration: none;
+    color: white;
+}
+
+#body1{
+    color: green;
+    text-align: center;
+}
+
+#body2 {
+    background-color: lightgray;
+    height: 500px;
+    width: 80%; 
+    margin: 0 auto; 
+    padding: 0 20px; 
+    box-sizing: border-box; 
+}
+
+#login{
+    position: fixed;
+    right: 50px;
+    top: 80%;
+    text-align: center;
+    float: right;
+    padding: 10px;
+}
+#login img{
+    position: fixed;
+    right: 50px;
+    top: 80%;
+    text-align: center;
+    float: right;
+    padding: 10px;
+    height: 70px;
+    width: 70px;
+    border-radius: 30px;
+}
+
+#login input[type="text"],
+#login input[type="password"]{
+  width: 230px;
+  height: 15px;
+  padding: 9px 15px 9px 15px; 
+  border-radius: 20px;
+  background-color: white;
+  color: grey;
+  font-size: 12px;
+  font-style: unset;
+  text-align: left;
+}
+
+#login input[type="submit"] {
+    padding: 7px 15px;
+    border-radius: 20px;
+    background-color: orange;
+    color: white;
+    font-size: 12px;
+    font-style: unset;
+  }
+
+  #commentSection {
+    width: 80%;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+
+#commentInput {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+#commentList {
+    margin-top: 15px;
+}
+
+#commentList p {
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+

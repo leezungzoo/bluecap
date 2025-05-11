@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>blue cap</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body id="html1">
+    <!-- Header -->
+    <div id="header">
+        <div id="hd">
+            <a href="1.html"><img src="bluecap.jpeg" height="75px" width="100"></a>
+            <ul class="navigation">
+                <li><a href="2.html">topics</a></li>
+                <li><a href="3.html">What is my favorite player?</a></li>
+                <li><a href="4.html">game date</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="body1">
+        <h1>Today's Highlight</h1>
+    </div>
+
+    <div id="body2">
+        <!-- This is the gray box content area -->
+    </div>
+
+    <!-- Comment Section -->
+    <div id="commentSection">
+        <h3>Leave a Comment</h3>
+        <textarea id="commentInput" placeholder="Write your comment here..." rows="4" cols="50"></textarea><br>
+        <button onclick="addComment()">Post Comment</button>
+        <div id="commentList"></div>
+    </div>
+
+    <!-- Login Icon & Form -->
+    <div id="login">
+        <img src="eagles.png" alt="eagles" id="loginImage" style="cursor: pointer; position: fixed; right: 20px; top: 80%; transform: translateY(-50%);">
+
+        <div id="loginForm" style="display: none;">
+            <form onsubmit="event.preventDefault(); validateLogin();">
+                <input type="text" id="username" placeholder="Login" required><br>
+                <input type="password" id="password" placeholder="Password" required><br>
+                <input type="submit" value="Sign in">
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function validateLogin() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username === "admin" && password === "1234") {
+                window.location.href = "2.html";
+            } else {
+                alert("Try Again!");
+            }
+        }
+
+        function addComment() {
+            const input = document.getElementById("commentInput");
+            const commentText = input.value.trim();
+
+            if (commentText !== "") {
+                const commentList = document.getElementById("commentList");
+                const newComment = document.createElement("p");
+                newComment.textContent = commentText;
+                commentList.appendChild(newComment);
+                input.value = ""; // Clear input
+            } else {
+                alert("Please write something before posting.");
+            }
+        }
+
+        document.getElementById("loginImage").addEventListener("click", function() {
+            document.getElementById("loginForm").style.display = "block";
+            this.style.display = "none";
+        });
+    </script>
+</body>
+</html>
