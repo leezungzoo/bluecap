@@ -1,0 +1,35 @@
+// App.js
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import OnePage from './OnePage';
+import TwoPage from './TwoPage';
+import ThreePage from './ThreePage';
+import FourPage from './FourPage';
+import FivePage from './Fivepage';
+import SixPage from './SixPage';
+import SevenPage from './SevenPage';
+import EightPage from './EightPage';
+import NinePage from './NinePage';
+import TenPage from './TenPage';
+import ElevenPage from './ElevenPage';
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<OnePage />} />
+        <Route path="/two" element={<TwoPage />} />
+        <Route path="/three" element={<ThreePage />} />
+        <Route path="/four" element={<FourPage />} />
+        <Route path="/five" element={<FivePage />} />
+        <Route path="/six" element={<SixPage />} />
+        <Route path="/seven" element={<SevenPage />} />
+        <Route path="/eight" element={<EightPage />} />
+        <Route path="/nine" element={<NinePage />} />
+        <Route path="/ten" element={<TenPage />} />
+        <Route path="/eleven" element={<ElevenPage />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
