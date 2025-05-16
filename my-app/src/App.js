@@ -1,5 +1,6 @@
 // App.js
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './HomePage';
 import OnePage from './OnePage';
 import TwoPage from './TwoPage';
 import ThreePage from './ThreePage';
@@ -16,7 +17,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<OnePage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/one" element={<OnePage />} />
         <Route path="/two" element={<TwoPage />} />
         <Route path="/three" element={<ThreePage />} />
         <Route path="/four" element={<FourPage />} />
