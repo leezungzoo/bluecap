@@ -1,4 +1,5 @@
 // App.js
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './HomePage';
 import OnePage from './OnePage';
@@ -13,7 +14,13 @@ import NinePage from './NinePage';
 import TenPage from './TenPage';
 import ElevenPage from './ElevenPage';
 
+import Login from './Login';
+import Board from './Board';
+
+
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+
   return (
     <Router>
       <Routes>
@@ -29,6 +36,13 @@ function App() {
         <Route path="/nine" element={<NinePage />} />
         <Route path="/ten" element={<TenPage />} />
         <Route path="/eleven" element={<ElevenPage />} />
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/board" element={<Board />} />
+
+        <Route path="/" element={<Login onLogin={() => setIsLogin(true)} />} />
+        <Route path="/HomePage" element={<HomePage />} />
+
       </Routes>
     </Router>
   );

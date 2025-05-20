@@ -1,0 +1,58 @@
+.header {
+  background-color: orange;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.logo {
+  width: 70px;
+}
+
+.topics {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  font-style: italic;
+}
+
+.main {
+  padding: 2rem;
+  text-align: center;
+}
+
+.board-section {
+  margin-top: 2rem;
+}
+
+.board-section textarea {
+  width: 60%;
+  height: 100px;
+  padding: 10px;
+}
+
+.board-section button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: orange;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.board-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.board-section li {
+  margin-top: 10px;
+  background: #f3f3f3;
+  padding: 10px;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+}

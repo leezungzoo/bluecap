@@ -27,9 +27,10 @@ function HomePage() {
             style={{ cursor: 'pointer' }} 
           />
         <ul id="navigation">
-                <li>topics</li>
+                <li onClick={() => navigate('/board')}>Board</li>
                 <li onClick={Quiz}>Who is my favorite player?</li>
                 <li>game date</li>
+                <li onClick={() => navigate('/Login')}>Sign In</li>
             </ul>
             </div>
       </div>
