@@ -16,13 +16,14 @@ function NinePage() {
   };
 
   return (
-    <div>
-      <h2>아홉번째 페이지</h2>
-      <h3>Question.9</h3>
-      <p>나는 목표한 바를 이뤘을 때의 행복이 소소한 행복보다 더 가치 있다고 생각한다</p>
-      <button onClick={handleYes}>Yes</button>
-      <button onClick={handleNo}>No</button>
+    <div className = "container">
+    <div className = "page">
+      <p style={{ textAlign: 'left' }}> Question.9</p>
+      <h3>나는 목표한 바를 이뤘을 때의 행복이 소소한 행복보다 더 가치 있다고 생각한다</h3>
+      <button className = "button" onClick={handleYes}>O</button>
+      <button className = "button" onClick={handleNo}>X</button>
     </div>
+  </div>
   );
 }
 

@@ -16,13 +16,14 @@ function FourPage() {
   };
 
   return (
-    <div>
-      <h2>네번째 페이지</h2>
-      <h3>Question.4</h3>
-      <p>나는 현재보다 미래의 가치가 더 중요하다고 생각한다 </p>
-      <button onClick={handleYes}>Yes</button>
-      <button onClick={handleNo}>No</button>
+    <div className = "container">
+    <div className = "page">
+      <p style={{ textAlign: 'left' }}> Question.4</p>
+      <h3>나는 현재보다 미래의 가치가 더 중요하다고 생각한다</h3>
+      <button className = "button" onClick={handleYes}>O</button>
+      <button className = "button" onClick={handleNo}>X</button>
     </div>
+  </div>
   );
 }
 

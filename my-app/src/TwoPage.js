@@ -16,13 +16,14 @@ function TwoPage() {
   };
 
   return (
-    <div>
-      <h2>두번째 페이지</h2>
-      <h3>Question.2</h3>
-      <p>나는 터프하고 강한 인상을 주는 사람을 선호한다</p>
-      <button onClick={handleYes}>Yes</button>
-      <button onClick={handleNo}>No</button>
+    <div className = "container">
+    <div className = "page">
+      <p style={{ textAlign: 'left' }}> Question.2</p>
+      <h3>나는 터프하고 강한 인상을 주는 사람을 선호한다</h3>
+      <button className = "button" onClick={handleYes}>O</button>
+      <button className = "button" onClick={handleNo}>X</button>
     </div>
+  </div>
   );
 }
 

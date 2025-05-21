@@ -16,13 +16,14 @@ function FivePage() {
   };
 
   return (
-    <div>
-      <h2>다섯번째 페이지</h2>
-      <h3>Question.5</h3>
-      <p>나는 공격보다 수비가 더 중요하다고 생각한다</p>
-      <button onClick={handleYes}>Yes</button>
-      <button onClick={handleNo}>No</button>
+    <div className = "container">
+    <div className = "page">
+      <p style={{ textAlign: 'left' }}> Question.5</p>
+      <h3>나는 공격보다 수비가 더 중요하다고 생각한다</h3>
+      <button className = "button" onClick={handleYes}>O</button>
+      <button className = "button" onClick={handleNo}>X</button>
     </div>
+  </div>
   );
 }
 

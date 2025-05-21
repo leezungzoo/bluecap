@@ -16,13 +16,14 @@ function TenPage() {
   };
 
   return (
-    <div>
-      <h2>열번째 페이지</h2>
-      <h3>Question.10</h3>
-      <p>나는 외모나 매력이 실력만큼 중요하다고 생각한다</p>
-      <button onClick={handleYes}>Yes</button>
-      <button onClick={handleNo}>No</button>
+    <div className = "container">
+    <div className = "page">
+      <p style={{ textAlign: 'left' }}> Question.10</p>
+      <h3>나는 외모나 매력이 실력만큼 중요하다고 생각한다</h3>
+      <button className = "button" onClick={handleYes}>O</button>
+      <button className = "button" onClick={handleNo}>X</button>
     </div>
+  </div>
   );
 }
 

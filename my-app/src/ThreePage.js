@@ -16,13 +16,14 @@ function ThreePage() {
   };
 
   return (
-    <div>
-      <h2>세번째 페이지</h2>
-      <h3>Question.3</h3>
-      <p>나는 '꾸준한 노력형' 보다 '화끈함'을 더 선호한다 </p>
-      <button onClick={handleYes}>Yes</button>
-      <button onClick={handleNo}>No</button>
+    <div className = "container">
+    <div className = "page">
+      <p style={{ textAlign: 'left' }}> Question.3</p>
+      <h3>나는 '꾸준한 노력형' 보다 '화끈함'을 더 선호한다</h3>
+      <button className = "button" onClick={handleYes}>O</button>
+      <button className = "button" onClick={handleNo}>X</button>
     </div>
+  </div>
   );
 }
 

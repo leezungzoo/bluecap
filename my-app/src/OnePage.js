@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Page.css';
 
 function OnePage() {
   const [yesCount, setYesCount] = useState(0);
@@ -14,13 +15,16 @@ function OnePage() {
     navigate('/two', { state: { yesCount } });
   };
 
+
   return (
-    <div>
-      <h2>첫번째 페이지</h2>
-      <p>시작할까요?</p>
-      <button onClick={handleYes}>Yes</button>
-      <button onClick={handleNo}>No</button>
+  <div className = "container">
+    <div className = "page">
+      <p style={{ textAlign: 'left' }}> Question.1</p>
+      <h3>나는 프로젝트를 할 때 '리더스타일'이다</h3>
+      <button className = "button" onClick={handleYes}>O</button>
+      <button className = "button" onClick={handleNo}>X</button>
     </div>
+  </div>
   );
 }
 

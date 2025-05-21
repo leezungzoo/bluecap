@@ -37,10 +37,9 @@ function App() {
         <Route path="/ten" element={<TenPage />} />
         <Route path="/eleven" element={<ElevenPage />} />
 
-        <Route path="/login" element={<Login />} />
         <Route path="/board" element={<Board />} />
 
-        <Route path="/" element={<Login onLogin={() => setIsLogin(true)} />} />
+        <Route path="/login" element={<Login onLogin={() => setIsLogin(true)} />} />
         <Route path="/HomePage" element={<HomePage />} />
 
       </Routes>
