@@ -1,4 +1,4 @@
-// src/pages/Home.js
+  // src/pages/Home.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -103,15 +103,14 @@ function HomePage() {
         
         {/* 영상이 있고, 로딩과 에러가 아닐 때 첫 번째 영상만 표시 */}
         {!loading && !error && videos.length > 0 && (
-          <div style={{ marginBottom: '20px', border: '1px solid #ddd', padding: '10px' }}>
+          <div style={{ marginBottom: '20px', padding: '10px' }}>
             <h4>{videos[0].snippet.title}</h4>
             <p>{new Date(videos[0].snippet.publishTime).toLocaleDateString()}</p>
             <iframe
               width="100%" 
-              height="315" 
+              height="450" 
               src={`https://www.youtube.com/embed/${videos[0].id.videoId}`}
               title={videos[0].snippet.title}
-              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             ></iframe>
