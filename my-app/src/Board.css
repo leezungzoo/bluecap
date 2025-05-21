@@ -1,9 +1,27 @@
-.header {
+#header {
   background-color: orange;
+  color: white;
+  padding: 10px 40px; /* 위아래 여백 좀 줄이고 좌우 유지 */
+  font-style: italic;
+  height: 80px;
+  font-size: 20px;
+  position: relative; /* navigation 위치 조정 위해 */
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  justify-content: space-between; /* 양 끝 배치 */
+}
+
+#navigation {
+  display: flex;
+  gap: 40px;
+  right: 10px;
+  list-style: none;
+  background-color: rgba(255, 255, 255, 0.2); /* 반투명 흰색 박스 */
+  border-radius: 10px;
+  padding: 10px 20px;
+  align-items: center;
+  color: white;
+  margin-left: auto;
 }
 
 .logo {
@@ -31,6 +49,7 @@
   width: 60%;
   height: 100px;
   padding: 10px;
+  text-align: left;
 }
 
 .board-section button {
@@ -45,6 +64,7 @@
 .board-section ul {
   list-style: none;
   padding: 0;
+  text-align: left; 
 }
 
 .board-section li {

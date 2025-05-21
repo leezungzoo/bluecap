@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Board.css';
 
 function Board() {
+  const navigate = useNavigate();
+
+  const goHome = () => {
+    navigate('/');
+  };
+
+  const Quiz = () => {
+    navigate('/one'); // OnePage로 이동
+  };
+
   const [comments, setComments] = useState([]);
   const [input, setInput] = useState('');
 
@@ -16,10 +27,24 @@ function Board() {
 
   return (
     <div>
-      <header className="header">
-        <img src="/bluecap.jpeg" alt="logo" className="logo" />
-        <div className="topics">topics &nbsp; Who is my favorite player? &nbsp; game date</div>
-      </header>
+      <div id="header">
+        <div id="hd">
+          <img
+            src="bluecap.jpeg"
+            height="75px"
+            width="100"
+            alt="bluecap"
+            onClick={goHome} 
+            style={{ cursor: 'pointer' }} 
+          />
+        <ul id="navigation">
+                <li onClick={() => navigate('/board')}>Board</li>
+                <li onClick={Quiz}>Who is my favorite player?</li>
+                <li>game date</li>
+                <li onClick={() => navigate('/Login')}>Sign In</li>
+            </ul>
+            </div>
+      </div>
       <main className="main">
         <div className="board-section">
           <h3>💬 게시판</h3>
