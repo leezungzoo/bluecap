@@ -41,7 +41,7 @@ function HomePage() {
       const encodedSearchQuery = encodeURIComponent(searchQuery);
       const maxResults = 5;
       const part = "snippet";
-      const apiUrl = `https://www.youtube.com/watch?v=abcdefg1233${encodedSearchQuery}&type=video&order=date&maxResults=${maxResults}&channelId=${targetChannelId}&part=${part}&key=${API_KEY}`;
+      const apiUrl = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${targetChannelId}&q=${encodedSearchQuery}&part=${part}&type=video&order=date&maxResults=${maxResults}`;
 
       console.log("Requesting API URL:", apiUrl);
 
@@ -109,7 +109,7 @@ function HomePage() {
             <iframe
               width="100%" 
               height="315" 
-              src={`https://www.youtube.com/watch?v=abcdefg1233{videos[0].id.videoId}`}
+              src={`https://www.youtube.com/embed/${videos[0].id.videoId}`}
               title={videos[0].snippet.title}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
