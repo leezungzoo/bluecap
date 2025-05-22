@@ -6,7 +6,7 @@ import OnePage from './OnePage';
 import TwoPage from './TwoPage';
 import ThreePage from './ThreePage';
 import FourPage from './FourPage';
-import FivePage from './Fivepage';
+import FivePage from './FivePage';
 import SixPage from './SixPage';
 import SevenPage from './SevenPage';
 import EightPage from './EightPage';

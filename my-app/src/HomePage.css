@@ -1,0 +1,52 @@
+.commentSection {
+    color: navy;
+    margin-top: 0;
+    margin-left: 100px;
+    padding: 10px;
+  }
+
+  .border {
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 0;
+  }
+  
+  #commentInput {
+    margin-top: 10px;
+    width: 600px;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  .commentList p {
+    background-color: #f0f0f0;
+    padding: 8px;
+    margin: 5px 0;
+    margin-right: 100px;
+    border-radius: 4px;
+  }
+  
+  #buttonStyle {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: orange;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .commentBox {
+    margin-bottom: 10px;
+  }
+  
+  .likeButton {
+    cursor: pointer;
+    margin-left: 10px;
+    color: orange;
+  }
+
+  .body1{
+    color: navy;
+    text-align: center;
+  }
+  

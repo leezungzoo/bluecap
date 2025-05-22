@@ -1,25 +1,48 @@
-  // src/pages/Home.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './HomePage.css';
 
-const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
-//.env 파일에 API 키 관리
+const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY; // .env에 저장된 API 키 사용
 
 function HomePage() {
   const navigate = useNavigate();
+
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState([]);
+
+  const addComment = () => {
+    if (comment.trim() === '') {
+      alert('댓글을 입력해주세요.');
+      return;
+    }
+
+    setComments([...comments, { text: comment, good: 0 }]);
+    setComment('');
+  };
+
+  // 좋아요 수 증가
+  const increaseGood = (index) => {
+    const updated = comments.map((c, i) =>
+      i === index ? { ...c, good: c.good + 1 } : c
+    );
+    setComments(updated);
+  };
+
+  // 홈으로 새로고침
   const goHome = () => {
-    navigate('/');
+    window.location.href = '/'; 
   };
 
-  const Quiz = () => {
-    navigate('/one'); // OnePage로 이동
-
+  // 퀴즈 페이지로 이동
+  const goToQuiz = () => {
+    navigate('/one');
   };
 
+  // YouTube API로 영상 가져오기
   useEffect(() => {
     const fetchYoutubeHighlights = async () => {
       if (!API_KEY) {
@@ -27,38 +50,27 @@ function HomePage() {
         setLoading(false);
         return;
       }
-      const targetChannelId = "UC8JtQf77wqhVpOQ8Cze8JjA"; //티빙 스포츠
 
-      //console.log("설정된 targetChannelId:", targetChannelId); 
-
-      if (!targetChannelId) {
-        setError("대상 YouTube 채널 ID가 설정되지 않았습니다.");
-        setLoading(false);
-        return;
-      }
-
+      const targetChannelId = "UC8JtQf77wqhVpOQ8Cze8JjA"; // 티빙 스포츠 채널
       const searchQuery = "하이라이트 KBO";
       const encodedSearchQuery = encodeURIComponent(searchQuery);
       const maxResults = 5;
       const part = "snippet";
-      const apiUrl = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${targetChannelId}&q=${encodedSearchQuery}&part=${part}&type=video&order=date&maxResults=${maxResults}`;
 
-      console.log("Requesting API URL:", apiUrl);
+      const apiUrl = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${targetChannelId}&q=${encodedSearchQuery}&part=${part}&type=video&order=date&maxResults=${maxResults}`;
 
       try {
         setLoading(true);
         setError(null);
+
         const response = await fetch(apiUrl);
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(`YouTube API 오류: ${errorData.error.message || response.status}`);
+          throw new Error(`YouTube API 오류: ${errorData.error?.message || response.status}`);
         }
+
         const data = await response.json();
-        if (data.items && data.items.length > 0) {
-          setVideos(data.items); // API 응답에서 items 배열을 videos 상태에 저장
-        } else {
-          setVideos([]); // 결과가 없을 시 빈 배열
-        }
+        setVideos(data.items || []);
       } catch (err) {
         console.error("YouTube API 호출 중 오류 발생:", err);
         setError(err.message);
@@ -69,11 +81,11 @@ function HomePage() {
     };
 
     fetchYoutubeHighlights();
-
   }, []);
 
   return (
     <div>
+      {/* Header */}
       <div id="header">
         <div id="hd">
           <img
@@ -81,31 +93,31 @@ function HomePage() {
             height="75px"
             width="100"
             alt="bluecap"
-            onClick={goHome} 
-            style={{ cursor: 'pointer' }} 
+            onClick={goHome}
+            style={{ cursor: 'pointer' }}
           />
-        <ul id="navigation">
-                <li onClick={() => navigate('/board')}>Board</li>
-                <li onClick={Quiz}>Who is my favorite player?</li>
-                <li>game date</li>
-                <li onClick={() => navigate('/Login')}>Sign In</li>
-            </ul>
-            </div>
+          <ul id="navigation">
+            <li onClick={() => navigate('/board')}>Board</li>
+            <li onClick={goToQuiz}>Who is my favorite player?</li>
+            <li>game date</li>
+            <li onClick={() => navigate('/Login')}>Sign In</li>
+          </ul>
+        </div>
       </div>
-      <div id="body1">
+      
+      <div className="body1">
         <h1>Today's Highlight</h1>
-    </div>
+      </div>
 
-    <div id="body2">
+      <div id="body2">
         {loading && <p>영상을 불러오는 중입니다...</p>}
         {error && <p style={{ color: 'red' }}>오류: {error}</p>}
-        
-        {/* 영상이 있고, 로딩과 에러가 아닐 때 첫 번째 영상만 표시 */}
+
         {!loading && !error && videos.length > 0 && (
           <div style={{ marginBottom: '20px', padding: '10px' }}>
             <iframe
-              width="100%" 
-              height="450" 
+              width="100%"
+              height="450"
               src={`https://www.youtube.com/embed/${videos[0].id.videoId}`}
               title={videos[0].snippet.title}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -114,21 +126,43 @@ function HomePage() {
           </div>
         )}
 
-        {/* 영상이 없고, 로딩과 에러가 아닐 때 메시지 표시 */}
         {!loading && !error && videos.length === 0 && (
           <p>표시할 영상이 없습니다. 검색 결과가 없거나 채널 ID 또는 API 키를 확인해주세요.</p>
         )}
       </div>
 
-    <div id="commentSection">
-        <h3>Leave a Comment</h3>
-        <textarea id="commentInput" placeholder="Write your comment here..." rows="4" cols="50"></textarea>
-        <button onclick="addComment()">Post Comment</button>
-        <div id="commentList"></div>
-    </div>
+      <br /><br />
+      <div className="border"></div>
 
+      <div className="commentSection">
+        <h3>Leave a Comment</h3>
+
+        <div className="commentList">
+          {comments.map((c, index) => (
+            <div key={index} style={{ marginBottom: '10px' }}>
+              <p>{c.text}</p>
+              <div
+                onClick={() => increaseGood(index)}
+                style={{ cursor: 'pointer', marginLeft: '10px' }}
+              >
+                👍 {c.good}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <textarea
+          id="commentInput"
+          placeholder="댓글을 달아주세요!"
+          rows="4"
+          cols="50"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        ></textarea>
+
+        <button id="buttonStyle" onClick={addComment}>등록</button>
+      </div>
     </div>
-    
   );
 }
 
