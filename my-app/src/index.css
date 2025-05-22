@@ -66,27 +66,10 @@ code {
 }
 
 #body2 {
-  margin-bottom: 20px;
-  padding: 10px;
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
-}
-
-#body2 iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-#commentSection {
-  text-align: center;
+  background-color: lightgray;
+  height: 500px;
+  width: 80%; 
+  margin: 0 auto; 
+  padding: 0 20px; 
+  box-sizing: border-box; 
 }
