@@ -37,9 +37,9 @@ function HomePage() {
         return;
       }
 
-      const searchQuery = "하이라이트 KBO";
+      const searchQuery = "하이라이트 한화";
       const encodedSearchQuery = encodeURIComponent(searchQuery);
-      const maxResults = 5;
+      const maxResults = 1;
       const part = "snippet";
       const apiUrl = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${targetChannelId}&q=${encodedSearchQuery}&part=${part}&type=video&order=date&maxResults=${maxResults}`;
 
@@ -97,18 +97,15 @@ function HomePage() {
     </div>
 
     <div id="body2">
-        <h2>지정 채널 야구 하이라이트 (YouTube) - 최신 영상 1개</h2>
         {loading && <p>영상을 불러오는 중입니다...</p>}
         {error && <p style={{ color: 'red' }}>오류: {error}</p>}
         
         {/* 영상이 있고, 로딩과 에러가 아닐 때 첫 번째 영상만 표시 */}
         {!loading && !error && videos.length > 0 && (
-          <div style={{ marginBottom: '20px', padding: '10px' }}>
-            <h4>{videos[0].snippet.title}</h4>
-            <p>{new Date(videos[0].snippet.publishTime).toLocaleDateString()}</p>
+          <div style={{ marginBottom: '20px'}}>
             <iframe
               width="100%" 
-              height="450" 
+              height="475" 
               src={`https://www.youtube.com/embed/${videos[0].id.videoId}`}
               title={videos[0].snippet.title}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
