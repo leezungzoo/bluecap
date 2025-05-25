@@ -52,9 +52,9 @@ function HomePage() {
       }
 
       const targetChannelId = "UC8JtQf77wqhVpOQ8Cze8JjA"; // 티빙 스포츠 채널
-      const searchQuery = "하이라이트 KBO";
+      const searchQuery = "하이라이트 한화";
       const encodedSearchQuery = encodeURIComponent(searchQuery);
-      const maxResults = 5;
+      const maxResults = 1;
       const part = "snippet";
 
       const apiUrl = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${targetChannelId}&q=${encodedSearchQuery}&part=${part}&type=video&order=date&maxResults=${maxResults}`;

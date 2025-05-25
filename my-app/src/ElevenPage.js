@@ -1,12 +1,43 @@
 // ElevenPage.js
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import './Page.css';
 
 function ElevenPage() {
   const location = useLocation();
   const yesCount = location.state?.yesCount || 0;
+  const navigate = useNavigate();
+
+      // 홈으로 새로고침
+  const goHome = () => {
+    window.location.href = '/'; 
+  };
+
+    // 퀴즈 페이지로 이동
+  const goToQuiz = () => {
+    navigate('/one');
+  };
 
   return (
+  <div>
+    <div id="header">
+        <div id="hd">
+          <img
+            src="bluecap.jpeg"
+            height="75px"
+            width="100"
+            alt="bluecap"
+            onClick={goHome}
+            style={{ cursor: 'pointer' }}
+          />
+          <ul id="navigation">
+            <li onClick={() => navigate('/board')}>Board</li>
+            <li onClick={goToQuiz}>Who is my favorite player?</li>
+            <li>game date</li>
+            <li onClick={() => navigate('/Login')}>Sign In</li>
+          </ul>
+        </div>
+      </div>
     <div className = "container">
       <div className = "player">
       <h5>당신과 어울리는 선수는: </h5>
@@ -124,6 +155,7 @@ function ElevenPage() {
 
       </div>
       
+    </div>
     </div>
   );
 }
