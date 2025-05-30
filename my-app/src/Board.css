@@ -1,15 +1,4 @@
-#header {
-  background-color: orange;
-  color: white;
-  padding: 10px 40px; /* 위아래 여백 좀 줄이고 좌우 유지 */
-  font-style: italic;
-  height: 80px;
-  font-size: 20px;
-  position: relative; /* navigation 위치 조정 위해 */
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* 양 끝 배치 */
-}
+
 
 #navigation {
   display: flex;
