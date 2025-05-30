@@ -17,6 +17,8 @@ import ElevenPage from './ElevenPage';
 
 import Login from './Login';
 import Board from './Board';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 function App() {

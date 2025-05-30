@@ -15,14 +15,14 @@ code {
 #header {
   background-color: orange;
   color: white;
-  padding: 10px 40px; /* 위아래 여백 좀 줄이고 좌우 유지 */
+  padding: 10px 40px; 
   font-style: italic;
   height: 80px;
   font-size: 20px;
-  position: relative; /* navigation 위치 조정 위해 */
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* 양 끝 배치 */
+  justify-content: space-between; 
 }
 
 #hd {
@@ -42,7 +42,7 @@ code {
   gap: 40px;
   right: 10px;
   list-style: none;
-  background-color: rgba(255, 255, 255, 0.2); /* 반투명 흰색 박스 */
+  background-color: rgba(255, 255, 255, 0.2); 
   border-radius: 10px;
   padding: 10px 20px;
   align-items: center;
@@ -57,9 +57,6 @@ code {
   font-size: 20px;
 }
 
-#navigation li:hover {
-  text-decoration: underline;
-}
 
 #body1{
   text-align: center;
