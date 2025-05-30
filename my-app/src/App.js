@@ -1,12 +1,13 @@
 // App.js
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import WelcomePage from './WelcomePage';
 import HomePage from './HomePage';
 import OnePage from './OnePage';
 import TwoPage from './TwoPage';
 import ThreePage from './ThreePage';
 import FourPage from './FourPage';
-import FivePage from './FivePage'; //파일명 대소문자 수정
+import FivePage from './FivePage';
 import SixPage from './SixPage';
 import SevenPage from './SevenPage';
 import EightPage from './EightPage';
@@ -24,7 +25,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<WelcomePage />} /> 
+        <Route path="/home" element={<HomePage />} />
         <Route path="/one" element={<OnePage />} />
         <Route path="/two" element={<TwoPage />} />
         <Route path="/three" element={<ThreePage />} />
