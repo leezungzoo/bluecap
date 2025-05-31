@@ -24,6 +24,7 @@ body {
   height: 90px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   font-family: 'YeojuOettaeJalnanchae', sans-serif;
+
   top: 0;
   z-index: 999;
   transition: all 0.3s ease;
@@ -38,6 +39,47 @@ body {
   padding: 0;
 }
 
+.nav-item {
+  position: relative;
+  cursor: pointer;
+}
+
+.SubMenu {
+  width: max-content;
+  display: flex;
+  position: absolute;
+  background-color: #ffffff;
+  left: 47%;
+  top: 65%;
+  flex-direction: row;
+  padding: 12px 16px;
+  list-style: none;
+  z-index: 1000;
+  gap: 20px;
+
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.SubMenu li {
+  padding: 10px 15px;
+  height: 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.HomeMenu:hover .SubMenu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
 #navigation li {
   color: black;
   font-size: 16px;
@@ -48,15 +90,6 @@ body {
   color: #ff7f2a;
 }
 
-#navigation li::after {
-  content: "";
-  position: absolute;
-  bottom: 2px; 
-  width: 0%;
-  height: 2px;
-  background-color: #ff7f2a;
-  transition: width 0.3s ease-in-out;
-}
 
 #navigation :hover::after{
   width: 100%;
