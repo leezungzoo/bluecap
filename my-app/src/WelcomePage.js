@@ -42,10 +42,10 @@ function WelcomePage() {
           height="75px"
           width="100"
           alt="HanhwaEgleas"
-          onClick={() => window.location.reload()}
+          onClick={() => navigate ('/WelcomePage')}
         />
         <h3
-          onClick={() => window.location.reload()}
+          onClick={() => navigate ('/WelcomePage')}
           style={{ cursor: 'pointer' }}
           >
           blue cap
@@ -108,7 +108,7 @@ function WelcomePage() {
         </p> <br /><br />
         <p>
           늘 응원해주시는 팬들의 성원과 기대에 부응할 수 있도록, 역동적인 경기와 다양한 마케팅을 전개해 팬과 함께 비상하는 구단이 되겠습니다.
-        </p> <br /> <br />
+        </p> <br />
 
         <div className='button-row'>
         <button onClick={() => window.open('https://www.hanwhaeagles.co.kr/index.do', '_blank')} className="home-button">
@@ -127,7 +127,7 @@ function WelcomePage() {
          
       <footer>
       <p>&copy; Websoftware : BLUECAP</p>
-      <p>Blue represents our youth, and Cap signifies being at the heart of that youth. </p>
+      <p>Blue represents our youth, and Cap signifies being at the heart of that youth.  <img src="/images/Github.png" height='50px' width='50px' style={{ marginLeft: '20px', cursor: 'pointer' }} onClick={() => window.open('https://github.com/leezungzoo/bluecap')}></img></p>
       </footer>
     </div>
   

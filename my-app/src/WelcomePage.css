@@ -12,6 +12,7 @@ body {
 #body-text {
   margin-left: 250px;
   margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 #header {
@@ -154,11 +155,11 @@ body {
 }
 
 footer {
+  height: auto;
   color: #222;
   text-align: left;
   padding: 30px 20px;
   font-size: 1rem;
-  margin-top: 60px;
   position: relative;
   border-top-left-radius: 40px;
   border-top-right-radius: 40px;
