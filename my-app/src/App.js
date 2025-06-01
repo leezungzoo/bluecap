@@ -26,6 +26,7 @@ import BoardDetail from './components/BoardDetail';
 import BoardWrite from './components/BoardWrite';
 
 import './App.css';
+import PlayerStatus from './PlayerStatus';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -50,7 +51,7 @@ function App() {
         <Route path="/board" element={<BoardList />} />
         <Route path="/post/:id" element={<BoardDetail />} />
         <Route path="/write" element={<BoardWrite />} />
-
+        <Route path="/playerstatus" element={<PlayerStatus />} />
         <Route path="/shop" element={<Shop />} />
 
         <Route path="/login" element={<Login onLogin={() => setIsLogin(true)} />} />
