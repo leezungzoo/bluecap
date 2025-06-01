@@ -1,6 +1,8 @@
 // App.js
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import WelcomePage from './WelcomePage';
 import HomePage from './HomePage';
 import OnePage from './OnePage';
@@ -17,8 +19,12 @@ import ElevenPage from './ElevenPage';
 
 import Login from './Login';
 import Signup from './Signup';
-import Board from './Board';
-import Shop from './Shop'; 
+import Shop from './Shop';
+
+import BoardList from './components/BoardList';
+import BoardDetail from './components/BoardDetail';
+import BoardWrite from './components/BoardWrite';
+
 import './App.css';
 
 function App() {
@@ -41,7 +47,10 @@ function App() {
         <Route path="/ten" element={<TenPage />} />
         <Route path="/eleven" element={<ElevenPage />} />
 
-        <Route path="/board" element={<Board />} />
+        <Route path="/board" element={<BoardList />} />
+        <Route path="/post/:id" element={<BoardDetail />} />
+        <Route path="/write" element={<BoardWrite />} />
+
         <Route path="/shop" element={<Shop />} />
 
         <Route path="/login" element={<Login onLogin={() => setIsLogin(true)} />} />

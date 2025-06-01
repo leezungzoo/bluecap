@@ -1,0 +1,143 @@
+/* styles/Board.css */
+
+/* 공통 */
+.board-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.board-main {
+  flex: 3;
+}
+
+.board-sidebar {
+  flex: 1;
+}
+
+.board-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* 게시글 등록 버튼 */
+.post-button {
+  display: inline-block;
+  background-color: #fe5a1e;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  float: right;
+  margin-bottom: 1rem;
+}
+
+.post-button:hover {
+  background-color: #d84912;
+}
+
+/* 게시글 목록 스타일 */
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.post-item {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1rem;
+}
+
+.post-highlight {
+  background: #f7f7f7;
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.post-highlight img {
+  width: 160px;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* 게시글 상세 보기 */
+.post-content img {
+  width: 100%;
+  max-width: 500px;
+  margin: 1rem 0;
+  border-radius: 12px;
+}
+
+/* 댓글 */
+.comment-list {
+  margin-top: 2rem;
+}
+
+.comment {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.comment .reply {
+  margin-left: 2rem;
+  border-left: 2px solid #ccc;
+  padding-left: 1rem;
+}
+
+/* 필터 및 태그 사이드바 */
+.sidebar-section {
+  margin-bottom: 2rem;
+}
+
+.sidebar-section h4 {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-tag {
+  display: inline-block;
+  background-color: #f5f5f5;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  margin: 0.3rem 0.2rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sidebar-tag:hover {
+  background-color: #fe5a1e;
+  color: white;
+}
+
+/* 페이지네이션 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.page-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.page-button.active {
+  background-color: black;
+  color: white;
+}
