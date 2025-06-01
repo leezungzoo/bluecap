@@ -19,7 +19,7 @@ import Login from './Login';
 import Signup from './Signup';
 import Board from './Board';
 import Shop from './Shop'; 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);

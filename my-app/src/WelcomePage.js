@@ -52,19 +52,19 @@ function WelcomePage() {
         </h3>
 
         <ul id="navigation">
-          <li className="HomeMenu">HOME
+          <li className="HomeMenu">홈</li>
+          <li onClick={() => navigate('/News')}>뉴스/하이라이트</li>
+          <li onClick={() => navigate('/Board')}>게시판</li>
+          
+          <li className='page-button'> 
             <ul className='SubMenu'>
-              <li onClick={() => navigate('/home')}>HOME</li>
-              <li onClick={() => window.open('https://www.hanwhaeagles.co.kr/index.do', '_blank')}>Eagles HomePage</li>
+              <li onClick={() => navigate('/home')}>홈</li>
+              <li onClick={() => window.open('https://www.hanwhaeagles.co.kr/index.do', '_blank')}>한화이글스 공식 홈페이지</li>
               <li onClick={() => window.open('https://www.koreabaseball.com/', '_blank')}>KBO 경기일정</li>
               <li onClick={() => navigate('/Status')}>선수 Status</li>
               <li onClick={() => navigate('/One')}>나의 최애 선수는?</li>
-            </ul>
+            </ul> 팬 페이지</li>
 
-          </li>
-          <li onClick={() => navigate('/News')}>News/Today's Highlights</li>
-          <li onClick={() => navigate('/Board')}>BOARD</li>
-          <li onClick={() => navigate('/Topics')}>PAGE</li>
           <li onClick={() => navigate('/Shop')}>
             <FaShoppingBag style={{ marginRight: '6px', verticalAlign: 'middle' }} />
             SHOP
