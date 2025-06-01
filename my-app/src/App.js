@@ -16,8 +16,10 @@ import TenPage from './TenPage';
 import ElevenPage from './ElevenPage';
 
 import Login from './Login';
+import Signup from './Signup';
 import Board from './Board';
-
+import Shop from './Shop'; 
+import './App.css';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -40,10 +42,11 @@ function App() {
         <Route path="/eleven" element={<ElevenPage />} />
 
         <Route path="/board" element={<Board />} />
+        <Route path="/shop" element={<Shop />} />
 
         <Route path="/login" element={<Login onLogin={() => setIsLogin(true)} />} />
         <Route path="/HomePage" element={<HomePage />} />
-
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </Router>
   );
