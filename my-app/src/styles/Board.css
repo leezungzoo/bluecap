@@ -42,30 +42,32 @@
 }
 
 /* 게시글 목록 스타일 */
-.post-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.post-item {
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 1rem;
-}
-
+/* 대표 게시글 (첫 번째) */
 .post-highlight {
-  background: #f7f7f7;
-  border-radius: 12px;
-  padding: 1rem;
   display: flex;
-  gap: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  gap: 16px;
+  background-color: #fffaf0;
+  padding: 16px;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
-.post-highlight img {
-  width: 160px;
-  height: auto;
-  border-radius: 8px;
+.post-highlight:hover {
+  background-color: #ffe4cc; /* hover 시 주황빛 */
+}
+
+/* 일반 게시글 */
+.post-item {
+  background-color: #f8f8f8;
+  padding: 14px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.post-item:hover {
+  background-color: #e9e9e9; /* hover 시 연회색 */
 }
 
 /* 게시글 상세 보기 */
