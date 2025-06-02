@@ -37,21 +37,22 @@ function WelcomePage() {
     <div>
       {/* Header */}
       <div id="header">
+          <div className="nav-left">
         <img
           src="/images/Eagleslogo.png"
           height="75px"
-          width="100"
           alt="HanhwaEgleas"
           onClick={() => navigate ('/WelcomePage')}
         />
-        <h3
+        <p id="blueCapLogo"
           onClick={() => navigate ('/WelcomePage')}
           style={{ cursor: 'pointer' }}
           >
-          blue cap
-        </h3>
+          blueCap
+        </p>
+        </div>
 
-        <ul id="navigation">
+        <ul id="navigation" className="nav-center">
           <li className="HomeMenu">홈</li>
           <li onClick={() => navigate('/News')}>뉴스/하이라이트</li>
           <li onClick={() => navigate('/Board')}>게시판</li>
@@ -63,17 +64,14 @@ function WelcomePage() {
               <li onClick={() => window.open('https://www.koreabaseball.com/', '_blank')}>KBO 경기일정</li>
               <li onClick={() => navigate('/Status')}>선수 Status</li>
               <li onClick={() => navigate('/One')}>나의 최애 선수는?</li>
-            </ul> 팬 페이지</li>
+            </ul>팬페이지<img src="/images/fanpageico.svg"/></li>
 
-          <li onClick={() => navigate('/Shop')}>
-            <FaShoppingBag style={{ marginRight: '6px', verticalAlign: 'middle' }} />
-            SHOP
-          </li>
+          <li onClick={() => navigate('/Shop')}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FaShoppingBag style={{marginRight: '6px', verticalAlign: 'middle' }} />장터</li>
+          </ul>
 
-          <li onClick={() => navigate('Login')}>
-            <FaSignInAlt style={{ marginRight: '6px', verticalAlign: 'middle' }} />
-    Login/Signin</li>
-        </ul>
+          <div id="login" className="nav-right" onClick={() => navigate('Login')}>
+            로그인 / 회원가입 <FaSignInAlt style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+            </div>
       </div>
 
       <div id="body">

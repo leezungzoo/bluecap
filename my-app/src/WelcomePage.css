@@ -28,22 +28,72 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 15px 30px;
-  height: 90px;
+  height: 70px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  font-family: 'YeojuOettaeJalnanchae', sans-serif;
-
   top: 0;
   z-index: 999;
   transition: all 0.3s ease;
+}
+
+#header li {
+  white-space: nowrap; /* 줄바꿈 방지 */
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  
+  color: var(--Black, #000);
+  font-family: Exo;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.nav-left img{
+  margin-right: 5px;
+}
+
+.nav-center {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
+  font-family: Exo;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%; /* 19.2px */
+  text-transform: capitalize;
+}
+
+.nav-right {
+  cursor: pointer;
+  font-family: Exo;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%; /* 19.2px */
+  text-transform: capitalize;
 }
 
 
 #navigation {
   list-style: none;
   display: flex;
-  gap: 25px;
+  gap: 40px;
   margin: 0;
   padding: 0;
+}
+
+#navigation li {
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex; /* 아이콘과 텍스트 정렬을 위해 */
+  align-items: center;
 }
 
 .nav-item {
@@ -147,6 +197,10 @@ body {
   gap: 20px;
   cursor: pointer;
   color: black;
+}
+
+#login:hover{
+  color: #e56f1f;
 }
 
 .scroll-fade-in {
