@@ -95,7 +95,7 @@ function WelcomePage() {
 
 
         <div style={{ marginLeft:'250px' }}>
-        <img src="/images/Hanhwalogo.png" alt="eagleslogo" style={{height: '250px', width: '250px'}} /> <br />
+        <img src="/images/Hanhwalogo.png" alt="eagleslogo" style={{height: '250px'}} /> <br />
         </div>
 
         <p>
