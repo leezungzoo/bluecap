@@ -24,6 +24,8 @@ import Shop from './Shop';
 import BoardList from './components/BoardList';
 import BoardDetail from './components/BoardDetail';
 import BoardWrite from './components/BoardWrite';
+import Home from './components/Home';
+
 
 import './App.css';
 
@@ -34,7 +36,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<WelcomePage />} /> 
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/one" element={<OnePage />} />
         <Route path="/two" element={<TwoPage />} />
         <Route path="/three" element={<ThreePage />} />
@@ -50,6 +52,7 @@ function App() {
         <Route path="/board" element={<BoardList />} />
         <Route path="/post/:id" element={<BoardDetail />} />
         <Route path="/write" element={<BoardWrite />} />
+
 
         <Route path="/shop" element={<Shop />} />
 

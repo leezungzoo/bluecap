@@ -1,0 +1,168 @@
+.home-container {
+  padding: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 하이라이트 */
+.highlight-banner {
+  /* background-image: url('/images/highlights.png') no-repeat center/cover; */
+  /* CSS 경로 탐색 오류로 보류 */ 
+  height: 400px;
+  display: flex;
+  align-items: center;
+  padding-left: 100px;
+  color: white;
+}
+
+.highlight-text .sub {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.highlight-text h2 {
+  font-size: 48px;
+  margin: 0;
+}
+
+.highlight-text .desc {
+  margin: 10px 0;
+}
+
+.highlight-text button {
+  background-color: #FF782D;
+  color: white;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* 섹션 공통 */
+.section {
+  padding: 40px 100px;
+}
+
+.section h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* 뉴스 */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.news-item {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px #ddd;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+.news-item:hover {
+  box-shadow: 0 4px 12px #ccc;
+}
+
+.news-item .title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.news-item .info {
+  font-size: 12px;
+  color: #666;
+}
+
+/* 게시글 */
+.board-grid {
+  display: flex;
+  gap: 24px;
+}
+
+.board-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f8f8f8;
+  border-radius: 16px;
+  text-decoration: none;
+  color: black;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px #ddd;
+}
+
+.board-item:hover {
+  box-shadow: 0 4px 10px #ccc;
+}
+
+.board-item:hover .title {
+  color: #FF782D;
+}
+
+.image-box {
+  background: #eaeaea;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-box {
+  padding: 10px 16px;
+}
+
+.text-box .title {
+  font-size: 15px;
+  font-weight: bold;
+  margin: 4px 0;
+}
+
+.text-box .meta {
+  font-size: 12px;
+  color: #999;
+}
+
+/* 장터 */
+.market-grid {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.market-item {
+  background: #f8f8f8;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  width: 120px;
+  transition: 0.3s ease;
+}
+
+.market-item:hover {
+  box-shadow: 0 4px 10px #ccc;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.sub {
+  font-size: 12px;
+  color: #888;
+}
+
+.more-button {
+  display: inline-block;
+  margin-top: 20px;
+  color: #FF782D;
+  font-weight: bold;
+  text-decoration: underline;
+}
