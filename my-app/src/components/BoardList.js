@@ -13,26 +13,58 @@ const BoardList = () => {
   return (
     <div className="board-container">
       <div className="board-main">
-        <div className="board-title">게시판</div>
+        <Link className="board-title" to={`/board`}>게시판</Link>
         <Link to="/write" className="post-button">글쓰기</Link>
 
         <div className="post-list">
-          <div className="post-highlight">
-            <img src={posts[0].image} alt="대표 이미지" />
-            <div>
-              <Link to={`/post/${posts[0].id}`}><strong style={{ color: 'orangered' }}>{posts[0].title}</strong></Link>
-              <p className="text-muted">{posts[0].date}</p>
-              <p>{posts[0].content}</p>
-            </div>
-          </div>
-
           {posts.slice(1).map(post => (
             <div className="post-item" key={post.id}>
-              <Link to={`/post/${post.id}`}><strong>{post.title}</strong></Link>
-              <p className="text-muted">{post.date}</p>
+              <Link className="post-title" to={`/post/${post.id}`}>{post.title}</Link>
+              <p className="text-muted"><img src="/images/calendar.svg" alt="calendar"/>  {post.date}</p>
               <p>{post.content}</p>
             </div>
           ))}
+
+          {posts.slice(1).map(post => (
+            <div className="post-item" key={post.id}>
+              <Link className="post-title" to={`/post/${post.id}`}>{post.title}</Link>
+              <p className="text-muted"><img src="/images/calendar.svg" alt="calendar"/>  {post.date}</p>
+              <p>{post.content}</p>
+            </div>
+          ))}
+
+          {posts.slice(1).map(post => (
+            <div className="post-item" key={post.id}>
+              <Link className="post-title" to={`/post/${post.id}`}>{post.title}</Link>
+              <p className="text-muted"><img src="/images/calendar.svg" alt="calendar"/>  {post.date}</p>
+              <p>{post.content}</p>
+            </div>
+          ))}
+
+          {posts.slice(1).map(post => (
+            <div className="post-item" key={post.id}>
+              <Link className="post-title" to={`/post/${post.id}`}>{post.title}</Link>
+              <p className="text-muted"><img src="/images/calendar.svg" alt="calendar"/>  {post.date}</p>
+              <p>{post.content}</p>
+            </div>
+          ))}
+
+          {posts.slice(1).map(post => (
+            <div className="post-item" key={post.id}>
+              <Link className="post-title" to={`/post/${post.id}`}>{post.title}</Link>
+              <p className="text-muted"><img src="/images/calendar.svg" alt="calendar"/>  {post.date}</p>
+              <p>{post.content}</p>
+            </div>
+          ))}
+
+          {posts.slice(1).map(post => (
+            <div className="post-item" key={post.id}>
+              <Link className="post-title" to={`/post/${post.id}`}>{post.title}</Link>
+              <p className="text-muted"><img src="/images/calendar.svg" alt="calendar"/>  {post.date}</p>
+              <p>{post.content}</p>
+            </div>
+          ))}
+
         </div>
 
         <div className="pagination">

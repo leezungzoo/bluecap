@@ -9,7 +9,7 @@ const BoardDetail = () => {
   return (
     <div className="board-container">
       <div className="board-main">
-        <div className="board-title">게시글</div>
+        <Link className="board-title" to={`/board`}>게시판</Link>
         <Link to="/write" className="post-button">글쓰기</Link>
 
         <div className="post-content">
