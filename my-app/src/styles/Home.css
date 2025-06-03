@@ -1,6 +1,8 @@
 .home-container {
   padding: 0;
   font-family: 'Noto Sans KR', sans-serif;
+
+  padding-top: 80px;
 }
 
 /* 하이라이트 */
@@ -45,8 +47,34 @@
 .section h3 {
   font-size: 20px;
   font-weight: bold;
+  margin: 0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 }
+
+.more-button {
+  margin-left: auto;
+  padding: 5px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 24px;
+  border: 0.3px solid var(--Grey, #9D9D9D);
+  color: var(--Black, #000);
+
+  font-family: Jost;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  text-decoration: none;
+  line-height: 150%;
+}
+
 
 /* 뉴스 */
 .news-grid {
@@ -69,6 +97,13 @@
 }
 
 .news-item .title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.news-item .title:hover {
+  color:#FF782D;
   font-size: 14px;
   font-weight: bold;
   margin-top: 10px;
@@ -140,7 +175,7 @@
   border-radius: 16px;
   padding: 20px;
   text-align: center;
-  width: 120px;
+  width: 200px;
   transition: 0.3s ease;
 }
 
@@ -154,15 +189,11 @@
   margin-top: 10px;
 }
 
+.label:hover {
+  color: #FF782D;
+}
+
 .sub {
   font-size: 12px;
   color: #888;
-}
-
-.more-button {
-  display: inline-block;
-  margin-top: 20px;
-  color: #FF782D;
-  font-weight: bold;
-  text-decoration: underline;
 }

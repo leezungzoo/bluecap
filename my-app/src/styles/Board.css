@@ -1,6 +1,7 @@
 
 /* 공통 */
 .board-container {
+  padding-top: 80px;
   display: flex;
   gap: 2rem;
   padding: 2rem;
@@ -8,10 +9,12 @@
 }
 
 .board-main {
+  padding-top: 80px;
   flex: 3;
 }
 
 .board-sidebar {
+  padding-top: 80px;
   flex: 1;
 }
 

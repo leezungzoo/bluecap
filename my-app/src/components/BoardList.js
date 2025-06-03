@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import BoardSidebar from './BoardSidebar';
+import NavBar from './NavBar';
 import '../styles/Board.css';
 
 const BoardList = () => {
@@ -11,6 +12,8 @@ const BoardList = () => {
   ];
 
   return (
+    <div>
+      <NavBar />
     <div className="board-container">
       <div className="board-main">
         <Link className="board-title" to={`/board`}>게시판</Link>
@@ -75,6 +78,7 @@ const BoardList = () => {
       </div>
 
       <BoardSidebar />
+    </div>
     </div>
   );
 };
