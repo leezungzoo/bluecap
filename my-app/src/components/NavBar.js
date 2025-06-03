@@ -7,7 +7,7 @@ import { CiTextAlignCenter } from 'react-icons/ci';
 import { FaShoppingBag } from 'react-icons/fa';
 
 /* NavBar 추가 방법
-    import '../styles/Board.css'; 상단에 추가 후
+    import NavBar from './NavBar'; 상단에 임포트 후
     콘텐츠 <div className="">로 감싸주고 <NavBar /> 추가
     CSS로 콘텐츠 ."" 안에 padding-top: 80px; 넣기
 */
