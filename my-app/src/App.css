@@ -69,3 +69,46 @@ div {
   background-color: #eee;
   text-align: left;
 }
+
+.mt-5 {
+  width: 100%;
+  margin: auto;
+}
+
+#category-list {
+  display: flex;
+  gap: 30px;
+  margin-left: 200px;
+  list-style: none;
+  margin-top: 20px;
+  margin-bottom: 80px;
+}
+
+#category-card{
+  width: 160px;
+  height: 160px;
+  font-weight: bold;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;      
+  justify-content: center; 
+  align-items: center;
+  text-align: center;
+   transition: all 0.3s ease;
+}
+
+#category-card:hover {
+  transform: translateY(-10px);        
+  border-color: #f37321;
+  color: #f37321;
+}
+
+#subtext {
+  color: black;
+  font-weight: lighter;
+}

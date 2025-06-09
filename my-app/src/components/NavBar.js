@@ -24,10 +24,10 @@ function NavBar() {
           src="/images/Eagleslogo.png"
           height="75px"
           alt="HanhwaEgleas"
-          onClick={() => navigate ('/WelcomePage')}
+          onClick={() => navigate ('/')}
         />
         <p id="blueCapLogo"
-          onClick={() => navigate ('/WelcomePage')}
+          onClick={() => navigate ('/')}
           style={{ cursor: 'pointer' }}
           >
           blueCap
