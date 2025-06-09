@@ -1,7 +1,7 @@
-/* styles/Board.css */
 
 /* 공통 */
 .board-container {
+  padding-top: 80px;
   display: flex;
   gap: 2rem;
   padding: 2rem;
@@ -9,23 +9,28 @@
 }
 
 .board-main {
+  padding-top: 80px;
   flex: 3;
 }
 
 .board-sidebar {
+  padding-top: 80px;
   flex: 1;
 }
 
 .board-title {
+  color: var(--Black, #000);
+  font-style: normal;
   font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 1rem;
+  text-decoration: none; 
+  margin-bottom: 10px;
 }
 
 /* 게시글 등록 버튼 */
 .post-button {
   display: inline-block;
-  background-color: #fe5a1e;
+  background-color: #FF782D;
   color: white;
   font-weight: bold;
   padding: 10px 20px;
@@ -38,36 +43,46 @@
 }
 
 .post-button:hover {
-  background-color: #d84912;
+  background-color: #FF782D;
+}
+
+.post.title {
+  color: var(--Black, #000);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%; /* 24px */
 }
 
 /* 게시글 목록 스타일 */
-/* 대표 게시글 (첫 번째) */
-.post-highlight {
-  display: flex;
-  gap: 16px;
-  background-color: #fffaf0;
-  padding: 16px;
-  border-radius: 12px;
-  transition: background-color 0.3s ease;
-  cursor: pointer;
-}
-
-.post-highlight:hover {
-  background-color: #ffe4cc; /* hover 시 주황빛 */
-}
-
-/* 일반 게시글 */
 .post-item {
-  background-color: #f8f8f8;
+  backgrounad-color: #ffffff;
   padding: 14px;
   border-radius: 10px;
+  border-color: #EAEAEA;
+  color: black; /* 기본 텍스트 색상 */
+  text-decoration: none; 
   transition: background-color 0.3s ease;
   cursor: pointer;
 }
 
 .post-item:hover {
-  background-color: #e9e9e9; /* hover 시 연회색 */
+  border: 1px solid var(--Light_grey, #EAEAEA);
+  background: var(--White_grey, #F5F5F5);
+  /* Shadow */
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+}
+
+.post-title {
+  color: black; /* 기본 텍스트 색상 */
+  font-weight: bold;
+  text-decoration: none; 
+  transition: background-color 0.3s ease;
+}
+
+.post-title:hover {
+  font-weight: bold;
+  color: #FF782D;
 }
 
 /* 게시글 상세 보기 */
@@ -117,13 +132,14 @@
 }
 
 .sidebar-tag:hover {
-  background-color: #fe5a1e;
+  background-color: #FF782D;
   color: white;
 }
 
 /* 페이지네이션 */
 .pagination {
   display: flex;
+  float: bottom;
   justify-content: center;
   gap: 0.5rem;
   margin-top: 2rem;

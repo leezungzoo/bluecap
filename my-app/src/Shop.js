@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FaSignInAlt, FaShoppingBag, FaHome, FaCalendarAlt } from 'react-icons/fa';
+import NavBar from './components/NavBar';
 
 const products = [
   {
@@ -32,47 +33,32 @@ function Shop() {
 
   return (
     <div>
-      {/* Header Navigation */}
-      <div id="header">
-        <img
-          src="/images/Eagleslogo.png"
-          height="75px"
-          width="100"
-          alt="HanhwaEgleas"
-          onClick={() => navigate('/')}
-          style={{ cursor: 'pointer' }}
-        />
-        <h3 onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-          blue cap
-        </h3>
+       <NavBar />
+        <div classname="welcomepage-container"></div>
 
-        <ul id="navigation">
-          <li className="HomeMenu">HOME
-            <ul className="SubMenu">
-              <li onClick={() => navigate('/home')}>HOME</li>
-              <li onClick={() => window.open('https://www.hanwhaeagles.co.kr/index.do', '_blank')}>Eagles HomePage</li>
-              <li onClick={() => window.open('https://www.koreabaseball.com/', '_blank')}>KBO 경기일정</li>
-              <li onClick={() => navigate('/Status')}>선수 Status</li>
-              <li onClick={() => navigate('/One')}>나의 최애 선수는?</li>
-            </ul>
-          </li>
-          <li onClick={() => navigate('/News')}>News/Today's Highlights</li>
-          <li onClick={() => navigate('/Board')}>BOARD</li>
-          <li onClick={() => navigate('/Topics')}>PAGE</li>
-          <li onClick={() => navigate('/shop')}>
-            <FaShoppingBag style={{ marginRight: '6px', verticalAlign: 'middle' }} />
-            SHOP
-          </li>
-          <li onClick={() => navigate('/login')}>
-            <FaSignInAlt style={{ marginRight: '6px', verticalAlign: 'middle' }} />
-            Login/Signin
-          </li>
-        </ul>
-      </div>
+        <h2>매물</h2> <br />
 
-      {/* Main Shop Page */}
-      <Container className="mt-5">
-        <h2 className="text-center mb-4">매물</h2>
+        <div id="category">
+          <ul id = "category-list">
+            <li id='category-card'>티켓 <br />
+            <span id='subtext'>38개 매물</span>
+            </li>
+            <li id='category-card'>미개봉 유니폼 <br />
+            <span id='subtext'>38개 매물</span>
+            </li>
+            <li id='category-card'>중고 유니폼 <br />
+            <span id='subtext'>38개 매물</span>
+            </li>
+            <li id='category-card'>굿즈(카드, 사인볼)<br />
+            <span id='subtext'>38개 매물</span>
+            </li>
+            <li id='category-card'>굿즈(인형, 잡화)<br />
+            <span id='subtext'>38개 매물</span>
+            </li>
+          </ul>
+        </div>
+
+
         <Row>
           {products.map((product) => (
             <Col key={product.id} md={4} className="mb-4">
@@ -93,9 +79,7 @@ function Shop() {
             </Col>
           ))}
         </Row>
-      </Container>
 
-      {/* Footer */}
       <footer>
       <p>&copy; Websoftware : BLUECAP</p>
       <p>Blue represents our youth, and Cap signifies being at the heart of that youth.  <img src="/images/Github.png" height='50px' width='50px' style={{ marginLeft: '20px', cursor: 'pointer' }} onClick={() => window.open('https://github.com/leezungzoo/bluecap')}></img></p>

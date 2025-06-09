@@ -7,6 +7,7 @@ import React, { useEffect, useRef } from 'react';
 import { CiTextAlignCenter } from 'react-icons/ci';
 import { FaShoppingBag } from 'react-icons/fa';
 
+import NavBar from './components/NavBar';
 
 function WelcomePage() {
   const navigate = useNavigate();
@@ -35,50 +36,10 @@ function WelcomePage() {
 
   return (
     <div>
-      {/* Header */}
-      <div id="header">
-        <img
-          src="/images/Eagleslogo.png"
-          height="75px"
-          width="100"
-          alt="HanhwaEgleas"
-          onClick={() => navigate ('/WelcomePage')}
-        />
-        <h3
-          onClick={() => navigate ('/WelcomePage')}
-          style={{ cursor: 'pointer' }}
-          >
-          blue cap
-        </h3>
-
-        <ul id="navigation">
-          <li className="HomeMenu">홈</li>
-          <li onClick={() => navigate('/News')}>뉴스/하이라이트</li>
-          <li onClick={() => navigate('/Board')}>게시판</li>
-          
-          <li className='page-button'> 
-            <ul className='SubMenu'>
-              <li onClick={() => navigate('/home')}>홈</li>
-              <li onClick={() => window.open('https://www.hanwhaeagles.co.kr/index.do', '_blank')}>한화이글스 공식 홈페이지</li>
-              <li onClick={() => window.open('https://www.koreabaseball.com/', '_blank')}>KBO 경기일정</li>
-              <li onClick={() => navigate('/Status')}>선수 Status</li>
-              <li onClick={() => navigate('/One')}>나의 최애 선수는?</li>
-            </ul> 팬 페이지</li>
-
-          <li onClick={() => navigate('/Shop')}>
-            <FaShoppingBag style={{ marginRight: '6px', verticalAlign: 'middle' }} />
-            SHOP
-          </li>
-
-          <li onClick={() => navigate('Login')}>
-            <FaSignInAlt style={{ marginRight: '6px', verticalAlign: 'middle' }} />
-    Login/Signin</li>
-        </ul>
-      </div>
-
-      <div id="body">
+    <NavBar />
+      <div classname="welcomepage-container"><div id="body">
         
-        <img src="images/everyplayers.jpeg" alt="bluecap" style={{height: '650px', width: '100%', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.3)', objectFit: 'cover', marginBottom: '30px',}} />
+      <img src="images/everyplayers.jpeg" alt="bluecap" style={{height: '650px', width: '100%', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.3)', objectFit: 'cover', marginBottom: '30px',}} />
 
        <div
         id="body-text"
@@ -95,17 +56,19 @@ function WelcomePage() {
 
 
         <div style={{ marginLeft:'250px' }}>
-        <img src="/images/Hanhwalogo.png" alt="eagleslogo" style={{height: '250px', width: '250px'}} /> <br />
+          <br /><br />
+        <img src="/images/Hanhwalogo.png" alt="eagleslogo" style={{height: '250px'}} /> <br />
+        <br /><br />
         </div>
 
         <p>
           <span style={{ color: '#e56f1f', fontWeight: 'bold' }}>한화 이글스</span>는 충청권을 연고로 1985년 한국 프로 야구(KBO)의 제7구단으로 출범했습니다. <br />
           대전광역시 중구 부사동에 위치한 대전 한화생명볼파크를 홈 구장으로 이용하고 있으며, <br /> 제2구장은 충청북도 청주시 서원구 사직동에 위치한 청주야구장입니다
-        </p> <br /><br />
+        </p> <br />
         <p>
           보다 많은 분들이 야구를 관람하며 행복을 느낄 수 있도록 한화이글스는 투혼을 담은 경기를 위해 최선을 다하고 있습니다. <br />
           내부 육성 시스템을 정비하고 중장기 계획을 바탕으로 모두가 함께 노력하고 있습니다.
-        </p> <br /><br />
+        </p> <br />
         <p>
           늘 응원해주시는 팬들의 성원과 기대에 부응할 수 있도록, 역동적인 경기와 다양한 마케팅을 전개해 팬과 함께 비상하는 구단이 되겠습니다.
         </p> <br />
@@ -124,13 +87,13 @@ function WelcomePage() {
           </div>
         </div>
       </div>
-         
+  
       <footer>
       <p>&copy; Websoftware : BLUECAP</p>
       <p>Blue represents our youth, and Cap signifies being at the heart of that youth.  <img src="/images/Github.png" height='50px' width='50px' style={{ marginLeft: '20px', cursor: 'pointer' }} onClick={() => window.open('https://github.com/leezungzoo/bluecap')}></img></p>
       </footer>
     </div>
-  
+  </div>
     
   );
 }

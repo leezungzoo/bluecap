@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import { FaShoppingBag, FaSignInAlt } from 'react-icons/fa';
+import NavBar from './components/NavBar';
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState('');
@@ -25,47 +26,9 @@ function Login({ onLogin }) {
 
   return (
     <div>
-      {/* Header */}
-      <div id="header">
-        <img
-          src="/images/Eagleslogo.png"
-          height="75px"
-          width="100"
-          alt="HanhwaEgleas"
-          onClick={() => navigate ('/')}
-        />
-        <h3
-          onClick={() => navigate ('/')}
-          style={{ cursor: 'pointer' }}
-        >
-          blue cap
-        </h3>
+      <NavBar />
+      <div className="welcomepage-container"></div>
 
-        <ul id="navigation">
-          <li className="HomeMenu">HOME
-            <ul className="SubMenu">
-              <li onClick={() => navigate('/home')}>HOME</li>
-              <li onClick={() => window.open('https://www.hanwhaeagles.co.kr/index.do', '_blank')}>Eagles HomePage</li>
-              <li onClick={() => window.open('https://www.koreabaseball.com/', '_blank')}>KBO 경기일정</li>
-              <li onClick={() => navigate('/Status')}>선수 Status</li>
-              <li onClick={() => navigate('/One')}>나의 최애 선수는?</li>
-            </ul>
-          </li>
-          <li onClick={() => navigate('/News')}>News/Today's Highlights</li>
-          <li onClick={() => navigate('/Board')}>BOARD</li>
-          <li onClick={() => navigate('/Topics')}>PAGE</li>
-          <li onClick={() => navigate('/Shop')}>
-            <FaShoppingBag style={{ marginRight: '6px', verticalAlign: 'middle' }} />
-            SHOP
-          </li>
-          <li onClick={() => navigate('/Login')}>
-            <FaSignInAlt style={{ marginRight: '6px', verticalAlign: 'middle' }} />
-            Login/Signin
-          </li>
-        </ul>
-      </div>
-
-      {/* 로그인 폼 */}
       <div className="login-container">
         <form onSubmit={handleSubmit} className="login-form">
           <h2>Login</h2>
@@ -81,9 +44,7 @@ function Login({ onLogin }) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-
           <button type="submit" className="login-btn">로그인</button>
-
           <button
             type="button"
             className="signup-btn"
@@ -93,10 +54,21 @@ function Login({ onLogin }) {
           </button>
         </form>
       </div>
-          <footer>
-          <p>&copy; Websoftware : BLUECAP</p>
-          <p>Blue represents our youth, and Cap signifies being at the heart of that youth.  <img src="/images/Github.png" height='50px' width='50px' style={{ marginLeft: '20px', cursor: 'pointer' }} onClick={() => window.open('https://github.com/leezungzoo/bluecap')}></img> </p>
-          </footer>
+
+      <footer>
+        <p>&copy; Websoftware : BLUECAP</p>
+        <p>
+          Blue represents our youth, and Cap signifies being at the heart of that youth.
+          <img
+            src="/images/Github.png"
+            alt="GitHub"
+            height="50px"
+            width="50px"
+            style={{ marginLeft: '20px', cursor: 'pointer' }}
+            onClick={() => window.open('https://github.com/leezungzoo/bluecap')}
+          />
+        </p>
+      </footer>
     </div>
   );
 }
