@@ -38,9 +38,11 @@ function WelcomePage() {
     <div>
     <NavBar />
       <div classname="welcomepage-container"><div id="body">
-        
-      <img src="images/everyplayers.jpeg" alt="bluecap" style={{height: '650px', width: '100%', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.3)', objectFit: 'cover', marginBottom: '30px',}} />
 
+      <div className='welcompage-img'>  
+      <img src="images/everyplayers.jpeg" alt="bluecap" style={{height: '650px', width: '100%', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.3)', objectFit: 'cover', marginBottom: '30px',}} />
+      </div>
+      
        <div
         id="body-text"
         ref={bodyTextRef}
