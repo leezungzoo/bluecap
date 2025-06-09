@@ -20,6 +20,7 @@ import ElevenPage from './ElevenPage';
 import Login from './Login';
 import Signup from './Signup';
 import Shop from './Shop';
+import PlayerStatus from './PlayerStatus'
 
 import BoardList from './components/BoardList';
 import BoardDetail from './components/BoardDetail';
@@ -53,7 +54,7 @@ function App() {
         <Route path="/post/:id" element={<BoardDetail />} />
         <Route path="/write" element={<BoardWrite />} />
 
-
+        <Route path="/Status" element={<PlayerStatus />} />
         <Route path="/shop" element={<Shop />} />
 
         <Route path="/login" element={<Login onLogin={() => setIsLogin(true)} />} />

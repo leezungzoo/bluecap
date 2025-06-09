@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Image, Tabs, Tab } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { FaSignInAlt, FaShoppingBag } from 'react-icons/fa';
+import NavBar from './components/NavBar';
+import './PlayerStatus.css';
+
+
 
 const SpotlightBox = ({ title, player, statValue, statUnit, getImageUrl }) => {
   return (
@@ -36,7 +38,6 @@ const SpotlightBox = ({ title, player, statValue, statUnit, getImageUrl }) => {
 
 
 function PlayerStatus() {
-  const navigate = useNavigate();
   const [allPlayers, setAllPlayers] = useState({ pitchers: [], batters: [] });
   const [selectedType, setSelectedType] = useState('pitchers');
   const [displayedPlayers, setDisplayedPlayers] = useState([]);
@@ -100,41 +101,8 @@ function PlayerStatus() {
 
   return (
     <div>
-      <div id="header">
-        <img
-          src="/images/Eagleslogo.png"
-          height="75px"
-          width="100"
-          alt="HanhwaEagles"
-          onClick={() => navigate('/')}
-          style={{ cursor: 'pointer' }}
-        />
-        <h3 onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-          blue cap
-        </h3>
-        <ul id="navigation">
-          <li className="HomeMenu">HOME
-            <ul className="SubMenu">
-              <li onClick={() => navigate('/home')}>HOME</li>
-              <li onClick={() => window.open('https://www.hanwhaeagles.co.kr/index.do', '_blank')}>Eagles HomePage</li>
-              <li onClick={() => window.open('https://www.koreabaseball.com/', '_blank')}>KBO 경기일정</li>
-              <li onClick={() => navigate('/Status')}>선수 Status</li>
-              <li onClick={() => navigate('/One')}>나의 최애 선수는?</li>
-            </ul>
-          </li>
-          <li onClick={() => navigate('/News')}>News/Today's Highlights</li>
-          <li onClick={() => navigate('/Board')}>BOARD</li>
-          <li onClick={() => navigate('/Topics')}>PAGE</li>
-          <li onClick={() => navigate('/shop')}>
-            <FaShoppingBag style={{ marginRight: '6px', verticalAlign: 'middle' }} />
-            SHOP
-          </li>
-          <li onClick={() => navigate('/login')}>
-            <FaSignInAlt style={{ marginRight: '6px', verticalAlign: 'middle' }} />
-            Login/Signin
-          </li>
-        </ul>
-      </div>
+      <NavBar />
+      <div className="Welcomepage-container"></div>
 
       <Container fluid style={{ marginTop: '20px', marginBottom: '20px', padding: '0 30px' }}>
         <Row className="align-items-stretch">
@@ -217,37 +185,40 @@ function PlayerStatus() {
             </div>
           </Col>
 
-          <Col 
-            md 
-            className="d-flex justify-content-center align-items-center"
-          >
+          <Col md className="d-flex justify-content-center align-items-center">
             <Row className="g-5 w-auto justify-content-center"> 
               <Col md="auto" sm={6} xs={12} className="mb-3 d-flex">
-                <SpotlightBox 
-                  title="탈삼진" 
-                  player={topStrikeoutPlayer} 
-                  statValue={topStrikeoutPlayer?.strikeouts} 
-                  statUnit="K"
-                  getImageUrl={getPlayerBigImage} 
-                />
+                <div className={`spotlight-wrapper ${topStrikeoutPlayer ? 'visible' : ''}`}>
+                  <SpotlightBox 
+                    title="탈삼진" 
+                    player={topStrikeoutPlayer} 
+                    statValue={topStrikeoutPlayer?.strikeouts} 
+                    statUnit="K"
+                    getImageUrl={getPlayerBigImage} 
+                  />
+                  </div>
               </Col>
               <Col md="auto" sm={6} xs={12} className="mb-3 d-flex">
-                <SpotlightBox 
-                  title="최고 타점" 
-                  player={topRbiPlayer} 
-                  statValue={topRbiPlayer?.rbi} 
-                  statUnit="점"
-                  getImageUrl={getPlayerBigImage}
-                />
+                <div className={`spotlight-wrapper ${topRbiPlayer ? 'visible' : ''}`}>
+                  <SpotlightBox 
+                    title="최고 타점" 
+                    player={topRbiPlayer} 
+                    statValue={topRbiPlayer?.rbi} 
+                    statUnit="점"
+                    getImageUrl={getPlayerBigImage}
+                  />
+                </div>
               </Col>
               <Col md="auto" sm={6} xs={12} className="mb-3 d-flex">
-                <SpotlightBox 
-                  title="홈런왕" 
-                  player={topHomerunPlayer} 
-                  statValue={topHomerunPlayer?.homeruns} 
-                  statUnit="개"
-                  getImageUrl={getPlayerBigImage}
-                />
+                <div className={`spotlight-wrapper ${topHomerunPlayer ? 'visible' : ''}`}>
+                  <SpotlightBox 
+                    title="홈런왕" 
+                    player={topHomerunPlayer} 
+                    statValue={topHomerunPlayer?.homeruns} 
+                    statUnit="개"
+                    getImageUrl={getPlayerBigImage}
+                  />
+                </div> 
               </Col>
             </Row>
           </Col>
