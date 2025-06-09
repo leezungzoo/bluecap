@@ -158,3 +158,13 @@ div {
   cursor: pointer;
   padding: 0 4px;
 }
+
+#products {
+  margin-left: 10px;
+}
+
+.market-text {
+  margin-left: 10px;
+  padding-top: 80px;
+  margin-top: 20px;
+}

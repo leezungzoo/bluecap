@@ -20,7 +20,7 @@ function Shop() {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState(null); 
-  const [priceFilter, setPriceFilter] = useState(null); // 가격 필터 추가
+  const [priceFilter, setPriceFilter] = useState(null); 
 
   const productsPerPage = 6;
   const navigate = useNavigate();
@@ -59,16 +59,16 @@ function Shop() {
   return (
     <div>
       <NavBar />
-      <h2 className='market-title'>한화장터 매물</h2>
+      <h2 className='market-text'>한화장터 매물</h2>
 
       <div className="market-grid">
         {[
-          ['전체상품', '38개 매물'],
-          ['유니폼', '38개 매물'],
-          ['의류/모자', '38개 매물'],
-          ['굿즈(로고볼, 가방)', '38개 매물'],
-          ['굿즈(인형, 잡화)', '38개 매물'],
-          ['티켓', '38개 매물'],
+          ['전체상품'],
+          ['유니폼'],
+          ['의류/모자'],
+          ['굿즈(로고볼, 가방)'],
+          ['굿즈(인형, 잡화)'],
+          ['티켓',],
         ].map(([label, sub], idx) => (
           <div
             className={`market-item ${selectedCategory === label ? 'active' : ''}`}
@@ -95,7 +95,7 @@ function Shop() {
       <Container fluid className="mt-4">
         <Row>
           <Col md={10}>
-            <h2>All Courses</h2>
+            <div id='products'><h2>상품</h2></div>
             <div className="d-flex justify-content-between align-items-center mb-3">
               <div id="searching" className="ms-auto">
                 <form onSubmit={handleSearch} className="d-flex align-items-center gap-2">
