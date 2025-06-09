@@ -2,7 +2,16 @@ import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FaSignInAlt, FaShoppingBag, FaHome, FaCalendarAlt } from 'react-icons/fa';
-import NavBar from './components/NavBar';
+import ShopSidebar from './ShopSidebar';
+import NavBar from './NavBar';
+
+const icons = {
+  '티켓': 'images/icons/ticket.png',
+  '미개봉 유니폼': 'images/icons/uniform.png',
+  '중고 유니폼': 'images/icons/recycle-uniform.png',
+  '굿즈(카드, 사인볼)': 'images/icons/signball.png',
+  '굿즈(인형, 팔찌)': 'images/icons/doll.png',
+};
 
 const products = [
   {
@@ -36,30 +45,25 @@ function Shop() {
        <NavBar />
         <div classname="welcomepage-container"></div>
 
-        <h2>매물</h2> <br />
-
-        <div id="category">
-          <ul id = "category-list">
-            <li id='category-card'>티켓 <br />
-            <span id='subtext'>38개 매물</span>
-            </li>
-            <li id='category-card'>미개봉 유니폼 <br />
-            <span id='subtext'>38개 매물</span>
-            </li>
-            <li id='category-card'>중고 유니폼 <br />
-            <span id='subtext'>38개 매물</span>
-            </li>
-            <li id='category-card'>굿즈(카드, 사인볼)<br />
-            <span id='subtext'>38개 매물</span>
-            </li>
-            <li id='category-card'>굿즈(인형, 잡화)<br />
-            <span id='subtext'>38개 매물</span>
-            </li>
-          </ul>
+         <h2 className='market-title'>한화장터 매물</h2>
+         <div className="market-grid">
+          {[
+            ['티켓', '38개 매물'],
+            ['미개봉 유니폼', '38개 매물'],
+            ['중고 유니폼', '38개 매물'],
+            ['굿즈(카드, 사인볼)', '38개 매물'],
+            ['굿즈(인형, 팔찌)', '38개 매물']
+          ].map(([label, sub], idx) => (
+            <div className="market-item" key={idx}>
+              <div className="icon-box"><img src={icons[label]} alt={label} className="icon-img" /></div>
+              <p className="label">{label}</p>
+              <p className="sub">{sub}</p>
+            </div>
+          ))}
         </div>
 
 
-        <Row>
+        <Row className='products'>
           {products.map((product) => (
             <Col key={product.id} md={4} className="mb-4">
               <Card>

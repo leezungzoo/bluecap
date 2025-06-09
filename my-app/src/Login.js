@@ -14,7 +14,7 @@ function Login({ onLogin }) {
     e.preventDefault();
     if (username === 'admin' && password === 'admin') {
       onLogin();
-      navigate('/HomePage');
+      navigate('/Home');
     } else {
       alert('아이디 또는 비밀번호가 잘못되었습니다.');
     }

@@ -19,7 +19,7 @@ import ElevenPage from './ElevenPage';
 
 import Login from './Login';
 import Signup from './Signup';
-import Shop from './Shop';
+import Shop from './components/Shop';
 
 import BoardList from './components/BoardList';
 import BoardDetail from './components/BoardDetail';
