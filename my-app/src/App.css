@@ -112,3 +112,49 @@ div {
   color: black;
   font-weight: lighter;
 }
+
+.market-title { 
+  margin-bottom: 30px;
+}
+
+.search-input {
+  border: none;
+  border-bottom: 2px solid #ccc;
+  background: transparent;
+  outline: none;
+  padding: 4px 8px;
+}
+
+#searching {
+  align-items: end;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #999;
+  padding-bottom: 2px;
+}
+
+.search-input-custom {
+  border: none;
+  outline: none;
+  padding: 5px 8px;
+  font-size: 16px;
+  background-color: transparent;
+}
+
+.search-button {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  color: #000;
+  cursor: pointer;
+  padding: 0 4px;
+}

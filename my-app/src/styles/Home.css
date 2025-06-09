@@ -189,6 +189,7 @@
 .market-item:hover {
   box-shadow: 0 4px 10px #ccc;
   color: #FF782D;
+  cursor: pointer;
   
 }
 
