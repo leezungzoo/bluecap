@@ -5,11 +5,14 @@ import { FaSearch } from 'react-icons/fa';
 import ShopSidebar from './ShopSidebar';
 import NavBar from './NavBar';
 import { products } from './products';
+import Footer from './Footer'; // Footer import
+import '../styles/Footer.css';
+
 
 const icons = {
   '전체상품': 'images/icons/uniform.png',
-  '유니폼': 'images/icons/uniform.png',
-  '의류/모자': 'images/icons/recycle-uniform.png',
+  '유니폼/의류': 'images/icons/uniform.png',
+  '모자': 'images/icons/recycle-uniform.png',
   '굿즈(로고볼, 가방)': 'images/icons/signball.png',
   '굿즈(인형, 잡화)': 'images/icons/doll.png',
   '티켓': 'images/icons/ticket.png',
@@ -64,8 +67,8 @@ function Shop() {
       <div className="market-grid">
         {[
           ['전체상품'],
-          ['유니폼'],
-          ['의류/모자'],
+          ['유니폼/의류'],
+          ['모자'],
           ['굿즈(로고볼, 가방)'],
           ['굿즈(인형, 잡화)'],
           ['티켓',],
@@ -127,7 +130,7 @@ function Shop() {
                       <Card.Title>{product.name}</Card.Title>
                       <Card.Text>{product.description}</Card.Text>
                       <Card.Text className="text-muted">{product.price}</Card.Text>
-                      <Button variant="warning">구매하기</Button>
+                      <Button variant="warning" onClick={() => navigate('/cart', { state: { product } })}>구매하기</Button>
                     </Card.Body>
                   </Card>
                 </Col>
@@ -153,20 +156,7 @@ function Shop() {
         </Row>
       </Container>
 
-      <footer className="text-left mt-4">
-        <p>&copy; Websoftware : BLUECAP</p>
-        <p>
-          Blue represents our youth, and Cap signifies being at the heart of that youth.
-          <img
-            src="/images/Github.png"
-            height="50px"
-            width="50px"
-            style={{ marginLeft: '20px', cursor: 'pointer' }}
-            onClick={() => window.open('https://github.com/leezungzoo/bluecap')}
-            alt="GitHub"
-          />
-        </p>
-      </footer>
+     <Footer />
     </div>
   );
 }
