@@ -42,6 +42,10 @@ const getSizeDisplayLabel = (value, productCategory) => {
 };
 
 
+const FREE_SHIPPING_THRESHOLD = 70000;
+const SHIPPING_COST = 3000; 
+
+
 function Purchase() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -56,7 +60,9 @@ function Purchase() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
 
   const [orderedProducts, setOrderedProducts] = useState([]);
-  const [totalOrderPrice, setTotalOrderPrice] = useState(0);
+  const [baseTotalPrice, setBaseTotalPrice] = useState(0); 
+  const [shippingFee, setShippingFee] = useState(0); 
+  const [finalPaymentAmount, setFinalPaymentAmount] = useState(0); 
 
   useEffect(() => {
     if (location.state && location.state.product) {
@@ -64,18 +70,27 @@ function Purchase() {
       const quantityData = location.state.quantity || 1;
 
       const priceNumeric = parseFloat(String(productData.price).replace(/[^0-9.]/g, ''));
+      const calculatedBasePrice = priceNumeric * quantityData;
 
       setOrderedProducts([{
         ...productData,
         quantity: quantityData,
-        linePrice: priceNumeric * quantityData,
+        linePrice: calculatedBasePrice,
       }]);
-      setTotalOrderPrice(priceNumeric * quantityData);
+      setBaseTotalPrice(calculatedBasePrice); 
     } else {
       setOrderedProducts([]);
-      setTotalOrderPrice(0);
+      setBaseTotalPrice(0);
     }
   }, [location.state, navigate]);
+
+  useEffect(() => {
+    const calculatedShippingFee = baseTotalPrice >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+    const calculatedFinalAmount = baseTotalPrice + calculatedShippingFee;
+
+    setShippingFee(calculatedShippingFee);
+    setFinalPaymentAmount(calculatedFinalAmount);
+  }, [baseTotalPrice]);
 
 
   const handleShippingInfoChange = (e) => {
@@ -103,13 +118,13 @@ function Purchase() {
     }
 
     alert(
-      `주문이 성공적으로 접수되었습니다!\n\n` +
+      `주문이 성공적으로 접수되었습니다! \n\n` +
       `받는 사람: ${shippingInfo.receiverName}\n` +
       `주소: ${shippingInfo.address}\n` +
       `연락처: ${shippingInfo.phoneNumber}\n` +
       `이메일: ${shippingInfo.email}\n\n` +
       `결제 수단: ${selectedPaymentMethod}\n` +
-      `총 결제 금액: ${totalOrderPrice.toLocaleString()}원\n\n` +
+      `총 결제 금액: ${finalPaymentAmount.toLocaleString()}원\n\n` + 
       `구매해주셔서 감사합니다!`
     );
 
@@ -192,9 +207,20 @@ function Purchase() {
                 </li>
               ))}
               <li className="order-summary-total">
-                <span>총 주문 금액:</span>
-                <span className="total-price">{totalOrderPrice.toLocaleString()}원</span>
+                <span>총 상품 금액:</span>
+                <span className="total-price">{finalPaymentAmount.toLocaleString()}원</span>
               </li>
+              <li className="order-summary-shipping">
+                <span>배송비:</span>
+                <span className="shipping-fee">
+                  {shippingFee === 0 ? '무료' : `${shippingFee.toLocaleString()}원`}
+                </span>
+              </li>
+              {baseTotalPrice < FREE_SHIPPING_THRESHOLD && (
+                <li className="shipping-info-message">
+                  ({(FREE_SHIPPING_THRESHOLD - baseTotalPrice).toLocaleString()}원 추가 구매 시 무료 배송)
+                </li>
+              )}
             </ul>
           ) : (
             <p className="no-products">주문할 상품이 없습니다.</p>
@@ -239,7 +265,7 @@ function Purchase() {
             </div>
           </div>
           <p className="total-amount-display">
-            최종 결제 금액: <strong>{totalOrderPrice.toLocaleString()}원</strong>
+            최종 결제 금액: <strong>{finalPaymentAmount.toLocaleString()}원</strong>
           </p>
         </div>
 

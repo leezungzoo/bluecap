@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-// import { Navigate, useLocation } from 'react-router-dom'; // 이 줄은 제거해야 합니다.
 
 import '../styles/Cart.css';
 import NavBar from './NavBar';
 import Footer from './Footer';
-import '../styles/Footer.css';
+import '../styles/Footer.css'; // Footer 스타일 임포트
 
+// --- 새로 추가될 모달 컴포넌트 임포트 (아래에서 구현할 예정) ---
+import MiniCartModal from './MiniCartModal';
+// -------------------------------------------------------------
 
 const CLOTHING_SIZES = [
   { value: 'S', label: '90' },
@@ -29,7 +31,6 @@ const Ticket_AREA = [
   {value: '포수구역', label: '포수구역'},
   {value: '외야구역', label: '외야구역'},
 ];
-
 
 const getSizeDisplayLabel = (value, productCategory) => {
   let sizesToUse = [];
@@ -56,34 +57,43 @@ function Cart() {
   const [showButtons, setShowButtons] = useState(false);
   const [showSizeSelection, setShowSizeSelection] = useState(true);
 
-  // handleBuyClick 함수에서 navigate로 데이터 전달
+  // --- 새로 추가: 미니 장바구니 모달 상태 ---
+  const [isMiniCartOpen, setIsMiniCartOpen] = useState(false);
+  // ------------------------------------------
+
   const handleBuyClick = () => {
-    // 상품이 선택되었는지 확인
     if (!product) {
       alert('구매할 상품이 없습니다.');
       return;
     }
-    // 사이즈 선택이 필요한 상품인데 선택되지 않았다면
     if (showSizeSelection && !selectedSize) {
         alert('사이즈 또는 구역을 선택해주세요.');
         return;
     }
 
-    // Purchase 페이지로 상품 정보와 수량을 함께 넘깁니다.
     navigate('/purchase', {
       state: {
-        product: { // 구매할 상품의 모든 정보
+        product: {
           ...product,
-          selectedSize: selectedSize // 선택된 사이즈 정보도 추가
+          selectedSize: selectedSize
         },
-        quantity: quantity // 선택된 수량
+        quantity: quantity
       }
     });
   };
 
+  // --- handleBasketClick 수정: 모달 열기 ---
   const handleBasketClick = () => {
+    if (!product) {
+      alert('장바구니에 담을 상품이 없습니다.');
+      return;
+    }
+    // 여기에 상품을 실제 장바구니 상태에 추가하는 로직이 들어갈 수 있습니다.
+    // 현재는 단일 상품만 다루므로, 간단히 알림 후 모달을 엽니다.
     alert(`${product.name} ${quantity}개가 장바구니에 담겼습니다!`);
+    setIsMiniCartOpen(true); // 모달 열기
   };
+  // ----------------------------------------
 
   const increaseQuantity = () => {
     setQuantity(prev => prev + 1);
@@ -195,7 +205,7 @@ function Cart() {
                       <div id='sS'></div>
                     )} </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ display: 'center', alignItems: 'center', gap: '10px' }}>
                       <button onClick={decreaseQuantity} className="quantity-button">-</button>
                       <span>{quantity}</span>
                       <button onClick={increaseQuantity} className="quantity-button">+</button>
@@ -207,7 +217,6 @@ function Cart() {
 
                   <div className='babu'>
                     <button onClick={handleBasketClick} className="basket-button">장바구니</button>
-                    {/* handleBuyClick을 호출하여 navigate 함수가 실행되도록 합니다. */}
                     <button onClick={handleBuyClick} className="buy-button">구매하기</button>
                   </div>
                 </div>
@@ -219,6 +228,26 @@ function Cart() {
         )}
       </div>
       <Footer />
+
+      {/* --- 새로 추가: 미니 장바구니 모달 렌더링 --- */}
+      {isMiniCartOpen && product && ( // 모달이 열려 있고 상품 정보가 있을 때만 렌더링
+        <MiniCartModal
+          product={product}
+          quantity={quantity}
+          totalPrice={totalPrice}
+          selectedSizeLabel={getSizeDisplayLabel(selectedSize, product.category)}
+          onClose={() => setIsMiniCartOpen(false)} // 닫기 버튼 콜백
+          onGoToCart={() => { // "장바구니로 이동" 버튼 콜백 (선택 사항)
+            setIsMiniCartOpen(false);
+            navigate('/cart-details'); // 상세 장바구니 페이지로 이동 (별도 페이지 필요)
+          }}
+          onGoToPurchase={() => { // "바로 구매" 버튼 콜백
+            setIsMiniCartOpen(false);
+            handleBuyClick(); // 기존 구매 로직 호출
+          }}
+        />
+      )}
+      {/* ------------------------------------------------ */}
     </div>
   );
 }
