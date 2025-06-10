@@ -159,12 +159,40 @@ div {
   padding: 0 4px;
 }
 
-#products {
-  margin-left: 10px;
+.products {
+  margin-left: 100px;
 }
 
 .market-text {
   margin-left: 10px;
   padding-top: 80px;
   margin-top: 20px;
+}
+
+.icon-img{
+  width: 32px;
+  height: 32px;
+}
+
+
+.object-products {
+  cursor: pointer; 
+  border-radius: 8px; 
+  overflow: hidden; 
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.object-products:hover {
+  transform: translateY(-8px); 
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); 
+}
+
+.object-products .card {
+  border: none; 
+}
+
+.object-products:hover .card-img-top {
+  filter: brightness(1.05); 
+  transition: filter 0.3s ease-in-out;
 }

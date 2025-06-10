@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+// import { Navigate, useLocation } from 'react-router-dom'; // 이 줄은 제거해야 합니다.
 
 import '../styles/Cart.css';
 import NavBar from './NavBar';
 import Footer from './Footer';
 import '../styles/Footer.css';
 
-// Define your size options
+
 const CLOTHING_SIZES = [
   { value: 'S', label: '90' },
   { value: 'M', label: '95' },
@@ -22,28 +23,62 @@ const HAT_SIZES = [
   { value: '62', label: '62' },
 ];
 
-// Helper to map selectedSize value to its display label (e.g., 'S' to '90', or '56' to '56')
+const Ticket_AREA = [
+  {value: '1루구역', label: '1루구역'},
+  {value: '3루구역', label: '3루구역'},
+  {value: '포수구역', label: '포수구역'},
+  {value: '외야구역', label: '외야구역'},
+];
+
+
 const getSizeDisplayLabel = (value, productCategory) => {
   let sizesToUse = [];
-  if (productCategory === '모자') { // Assuming '모자' is the category for hats
+  if (productCategory === '모자') {
     sizesToUse = HAT_SIZES;
-  } else { // Default to clothing sizes for other categories
+  } else if (productCategory === '티켓') {
+    sizesToUse = Ticket_AREA;
+  } else {
     sizesToUse = CLOTHING_SIZES;
   }
   const found = sizesToUse.find(size => size.value === value);
-  return found ? found.label : value; // Return label if found, otherwise the value itself
+  return found ? found.label : value;
 };
 
 
 function Cart() {
+  const navigate = useNavigate();
   const location = useLocation();
   const product = location.state?.product;
 
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [selectedSize, setSelectedSize] = useState('');
+  const [showButtons, setShowButtons] = useState(false);
+  const [showSizeSelection, setShowSizeSelection] = useState(true);
 
+  // handleBuyClick 함수에서 navigate로 데이터 전달
   const handleBuyClick = () => {
-    alert(`감사합니다 ${product.name} ${quantity}개가 구매 되었습니다!`);
+    // 상품이 선택되었는지 확인
+    if (!product) {
+      alert('구매할 상품이 없습니다.');
+      return;
+    }
+    // 사이즈 선택이 필요한 상품인데 선택되지 않았다면
+    if (showSizeSelection && !selectedSize) {
+        alert('사이즈 또는 구역을 선택해주세요.');
+        return;
+    }
+
+    // Purchase 페이지로 상품 정보와 수량을 함께 넘깁니다.
+    navigate('/purchase', {
+      state: {
+        product: { // 구매할 상품의 모든 정보
+          ...product,
+          selectedSize: selectedSize // 선택된 사이즈 정보도 추가
+        },
+        quantity: quantity // 선택된 수량
+      }
+    });
   };
 
   const handleBasketClick = () => {
@@ -58,16 +93,26 @@ function Cart() {
     setQuantity(prev => (prev > 1 ? prev - 1 : 1));
   };
 
-  const [selectedSize, setSelectedSize] = useState('');
-  const [showButtons, setShowButtons] = useState(false);
-
   useEffect(() => {
-    if (selectedSize !== '') {
+    const isGoodsProduct = product && (product.category === '굿즈(로고볼, 가방)' || product.category === '굿즈(인형, 잡화)');
+    if (isGoodsProduct) {
+      setShowButtons(true);
+    } else if (selectedSize !== '') {
       setShowButtons(true);
     } else {
       setShowButtons(false);
     }
-  }, [selectedSize]);
+  }, [selectedSize, product]);
+
+
+  useEffect(() => {
+    if (product && (product.category === '굿즈(로고볼, 가방)' || product.category === '굿즈(인형, 잡화)')) {
+      setShowSizeSelection(false);
+    } else {
+      setShowSizeSelection(true);
+    }
+  }, [product]);
+
 
   useEffect(() => {
     if (product && product.price) {
@@ -85,13 +130,13 @@ function Cart() {
     }
   }, [quantity, product]);
 
-  // Determine which set of sizes to use
+
   let currentSizeOptions = CLOTHING_SIZES;
-  if (product && product.category === '의류/모자') { // Assuming '모자' is the category for hats
+  if (product && product.category === '모자') {
     currentSizeOptions = HAT_SIZES;
+  } else if (product && product.category === '티켓') {
+    currentSizeOptions = Ticket_AREA;
   }
-  // You might need to refine 'product.category' based on your actual product data structure.
-  // For example, if '모자' is part of '의류/모자', you might need to check 'product.name' or add a specific 'type' property to your product objects.
 
 
   return (
@@ -116,32 +161,39 @@ function Cart() {
                     </div>
                   </div>
 
-                  <div id='body-text'>
-                    <p>Size </p>
-                    <div>
-                      <label htmlFor="size-select"></label>
-                      <select
-                        id="size-select"
-                        value={selectedSize}
-                        onChange={(e) => setSelectedSize(e.target.value)}
-                        className="size-select"
-                      >
-                        <option value="">(필수)사이즈를 선택하세요</option>
-                        {/* Conditionally render options based on product category */}
-                        {currentSizeOptions.map((size) => (
-                          <option key={size.value} value={size.value}>
-                            {size.label}
-                          </option>
-                        ))}
-                      </select>
+                  {showSizeSelection && (
+                    <div id='body-text'>
+                      <p>Size </p>
+                      <div>
+                        <label htmlFor="size-select"></label>
+                        <select
+                          id="size-select"
+                          value={selectedSize}
+                          onChange={(e) => setSelectedSize(e.target.value)}
+                          className="size-select"
+                        >
+                          <option value="">(필수) 선택하세요</option>
+
+                          {currentSizeOptions.map((size) => (
+                            <option key={size.value} value={size.value}>
+                              {size.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 <div id='find-button' className={showButtons ? 'visible' : 'hidden'} >
                   <div style={{ alignItems: 'center', gap: '10px' }}>
-                    {/* Display the correct label for the selected size */}
-                    <div id='sS'>{selectedSize ? getSizeDisplayLabel(selectedSize, product.category) : ''}<br /><br /></div>
+
+                <div id='f-b'>
+                    {showSizeSelection && selectedSize ? (
+                      <div id='sS'>{getSizeDisplayLabel(selectedSize, product.category)}<br /><br /></div>
+                    ) : (
+                      <div id='sS'></div>
+                    )} </div>
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                       <button onClick={decreaseQuantity} className="quantity-button">-</button>
@@ -155,6 +207,7 @@ function Cart() {
 
                   <div className='babu'>
                     <button onClick={handleBasketClick} className="basket-button">장바구니</button>
+                    {/* handleBuyClick을 호출하여 navigate 함수가 실행되도록 합니다. */}
                     <button onClick={handleBuyClick} className="buy-button">구매하기</button>
                   </div>
                 </div>

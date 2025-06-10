@@ -121,8 +121,8 @@
 
 #find-button {
     width: 570px;
-    height: 300px;
-    background-color: #ddd;
+    height: auto;
+    background-color: #f4f6f7;
     padding: 22px;
     font-size: 15px;
     border: 0.5px solid black;
@@ -147,4 +147,20 @@
     margin-left: 0px;
     gap: 100px;
     color: #6d6d6d;
+}
+
+.body-text-2{
+    display: flex;
+    font-size: 17px;
+    margin-left: 0px;
+    gap: 100px;
+    color: #6d6d6d;
+}
+
+#body-text-2.hidden {
+    display: none;
+}
+
+#body-text-2.visible {
+    display: block;
 }

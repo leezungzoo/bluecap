@@ -10,9 +10,9 @@ import '../styles/Footer.css';
 
 
 const icons = {
-  '전체상품': 'images/icons/uniform.png',
+  '전체상품': 'images/icons/all.png',
   '유니폼/의류': 'images/icons/uniform.png',
-  '모자': 'images/icons/recycle-uniform.png',
+  '모자': 'images/icons/cap.png',
   '굿즈(로고볼, 가방)': 'images/icons/signball.png',
   '굿즈(인형, 잡화)': 'images/icons/doll.png',
   '티켓': 'images/icons/ticket.png',
@@ -119,6 +119,7 @@ function Shop() {
             <Row className='products'>
               {currentProducts.map((product) => (
                 <Col key={product.id} md={4} className="mb-4">
+                  <div className='object-products' onClick={() => navigate('/cart', { state: { product } })}>
                   <Card>
                     <Card.Img
                       variant="top"
@@ -130,9 +131,9 @@ function Shop() {
                       <Card.Title>{product.name}</Card.Title>
                       <Card.Text>{product.description}</Card.Text>
                       <Card.Text className="text-muted">{product.price}</Card.Text>
-                      <Button variant="warning" onClick={() => navigate('/cart', { state: { product } })}>구매하기</Button>
                     </Card.Body>
                   </Card>
+                  </div>
                 </Col>
               ))}
             </Row>
