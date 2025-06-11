@@ -56,7 +56,7 @@
 
 /* 게시글 목록 스타일 */
 .post-item {
-  background-color: #ffffff;
+  backgrounad-color: #ffffff;
   padding: 14px;
   border-radius: 10px;
   border-color: #EAEAEA;
@@ -113,7 +113,6 @@
 /* 필터 및 태그 사이드바 */
 .sidebar-section {
   margin-bottom: 2rem;
-  margin-top: 25px;
 }
 
 .sidebar-section h4 {
