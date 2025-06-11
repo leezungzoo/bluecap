@@ -66,7 +66,7 @@ function App() {
 
         <Route path="/cart" element={<Cart />} />
         <Route path="/purchase" element={<Purchase />} />
-        <Route path="/playerstatus" element= {<PlayerStatus />} />
+        <Route path="/Status" element= {<PlayerStatus />} />
 
       </Routes>
     </Router>
