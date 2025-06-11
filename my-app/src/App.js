@@ -21,7 +21,6 @@ import Login from './Login';
 import Signup from './Signup';
 import Shop from './components/Shop';
 import PlayerStatus from './PlayerStatus'
-
 import BoardList from './components/BoardList';
 import BoardDetail from './components/BoardDetail';
 import BoardWrite from './components/BoardWrite';
