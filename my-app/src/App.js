@@ -1,4 +1,4 @@
-// App.js
+//App.js
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -25,6 +25,10 @@ import BoardList from './components/BoardList';
 import BoardDetail from './components/BoardDetail';
 import BoardWrite from './components/BoardWrite';
 import Home from './components/Home';
+
+import Cart from './components/Cart';
+import Purchase from './components/Purchase';
+import PlayerStatus from './PlayerStatus';
 
 
 import './App.css';
@@ -53,12 +57,17 @@ function App() {
         <Route path="/post/:id" element={<BoardDetail />} />
         <Route path="/write" element={<BoardWrite />} />
 
-        <Route path="/Status" element={<PlayerStatus />} />
+
         <Route path="/shop" element={<Shop />} />
 
         <Route path="/login" element={<Login onLogin={() => setIsLogin(true)} />} />
         <Route path="/HomePage" element={<HomePage />} />
         <Route path="/signup" element={<Signup />} />
+
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/purchase" element={<Purchase />} />
+        <Route path="/playerstatus" element={<PlayerStatus />} />
+
       </Routes>
     </Router>
   );
