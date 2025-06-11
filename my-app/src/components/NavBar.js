@@ -35,12 +35,13 @@ function NavBar() {
         </div>
 
         <ul id="navigation" className="nav-center">
-          <li onClick={() => navigate('/home')}>홈</li>
+          <li className="HomeMenu">홈</li>
           <li onClick={() => navigate('/News')}>뉴스/하이라이트</li>
           <li onClick={() => navigate('/Board')}>게시판</li>
           
           <li className='page-button'> 
             <ul className='SubMenu'>
+              <li onClick={() => navigate('/home')}>홈</li>
               <li onClick={() => window.open('https://www.hanwhaeagles.co.kr/index.do', '_blank')}>한화이글스 공식 홈페이지</li>
               <li onClick={() => window.open('https://www.koreabaseball.com/', '_blank')}>KBO 경기일정</li>
               <li onClick={() => navigate('/Status')}>선수 Status</li>
@@ -50,7 +51,7 @@ function NavBar() {
           <li onClick={() => navigate('/Shop')}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FaShoppingBag style={{marginRight: '6px', verticalAlign: 'middle' }} />장터</li>
           </ul>
 
-          <div id="login" className="nav-right" onClick={() => navigate('/Login')}>
+          <div id="login" className="nav-right" onClick={() => navigate('Login')}>
             로그인 / 회원가입 <FaSignInAlt style={{ marginRight: '6px', verticalAlign: 'middle' }} />
             </div>
       </div>

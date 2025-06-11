@@ -26,9 +26,6 @@ import BoardDetail from './components/BoardDetail';
 import BoardWrite from './components/BoardWrite';
 import Home from './components/Home';
 
-import Cart from './components/Cart';
-import Purchase from './components/Purchase';
-
 
 import './App.css';
 
@@ -62,10 +59,6 @@ function App() {
         <Route path="/login" element={<Login onLogin={() => setIsLogin(true)} />} />
         <Route path="/HomePage" element={<HomePage />} />
         <Route path="/signup" element={<Signup />} />
-
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/purchase" element={<Purchase />} />
-
       </Routes>
     </Router>
   );
