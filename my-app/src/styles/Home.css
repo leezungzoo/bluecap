@@ -164,10 +164,17 @@
 }
 
 /* 장터 */
+
+.market-title {
+  padding-top: 80px;
+}
+
 .market-grid {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  flex-wrap: wrap;
+  gap: 20px; 
+  margin-top: 30px;
+  justify-content: center;
 }
 
 .market-item {
@@ -181,6 +188,9 @@
 
 .market-item:hover {
   box-shadow: 0 4px 10px #ccc;
+  color: #FF782D;
+  cursor: pointer;
+  
 }
 
 .label {
@@ -189,11 +199,11 @@
   margin-top: 10px;
 }
 
-.label:hover {
-  color: #FF782D;
-}
-
 .sub {
   font-size: 12px;
   color: #888;
+}
+
+.products {
+  padding-top: 30px;
 }
