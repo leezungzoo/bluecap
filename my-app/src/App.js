@@ -28,6 +28,7 @@ import Home from './components/Home';
 
 import Cart from './components/Cart';
 import Purchase from './components/Purchase';
+import PlayerStatus from './PlayerStatus';
 
 
 import './App.css';
@@ -65,6 +66,7 @@ function App() {
 
         <Route path="/cart" element={<Cart />} />
         <Route path="/purchase" element={<Purchase />} />
+        <Route path="/playerstatus" element= {<PlayerStatus />} />
 
       </Routes>
     </Router>
