@@ -47,9 +47,9 @@ const StatBarChart = ({ label, playerA, playerB, statKey }) => {
   return (
     <div className="stat-chart-row">
       <div className="stat-labels">
-        <span style={{color: '#007bff'}}>{valueA}</span>
+        <span style={{color: '#FC4E00'}}>{valueA}</span>
         <span>{label}</span>
-        <span style={{color: '#28a745'}}>{valueB}</span>
+        <span style={{color: '#07111F'}}>{valueB}</span>
       </div>
       <div className="bar-container">
         <div className="bar-segment playerA-bar" style={{ width: `${percentA}%` }}></div>
@@ -64,13 +64,16 @@ const ComparisonView = ({ players, type, getImageUrl, onClose }) => {
   const playerB = players[1];
 
   const pitcherStats = [
-    { label: '승', key: 'wins' }, { label: '패', key: 'losses' },
-    { label: '세이브', key: 'saves' }, { label: '탈삼진', key: 'strikeouts' },
+    { label: '승', key: 'wins' },
+    { label: '세이브', key: 'saves' },
+    { label: '탈삼진', key: 'strikeouts' },
     { label: '평균자책점', key: 'era' },
   ];
   const batterStats = [
-    { label: '타점', key: 'rbi' }, { label: '홈런', key: 'homeruns' },
-    { label: '안타', key: 'hits' }, { label: '타율', key: 'avg' },
+    { label: '타점', key: 'rbi' },
+    { label: '홈런', key: 'homeruns' },
+    { label: '안타', key: 'hits' },
+    { label: '타율', key: 'avg' },
     { label: '도루', key: 'stolen_bases' },
   ];
   const statsToShow = type === 'pitchers' ? pitcherStats : batterStats;
@@ -86,7 +89,7 @@ const ComparisonView = ({ players, type, getImageUrl, onClose }) => {
           <Col xs={3} className="text-center">
             {playerA && (
               <div className="spotlight-wrapper visible">
-                <Image src={getImageUrl(playerA.name)} alt={playerA.name} fluid style={{maxHeight: '250px'}} />
+                <Image src={getImageUrl(playerA.name)} alt={playerA.name} fluid style={{maxHeight: '300px'}} />
                 <h5 className="mt-2">{playerA.name}</h5>
               </div>
             )}
@@ -107,7 +110,7 @@ const ComparisonView = ({ players, type, getImageUrl, onClose }) => {
           <Col xs={3} className="text-center">
             {playerB ? (
               <div className="spotlight-wrapper visible">
-                <Image src={getImageUrl(playerB.name)} alt={playerB.name} fluid style={{maxHeight: '250px'}} />
+                <Image src={getImageUrl(playerB.name)} alt={playerB.name} fluid style={{maxHeight: '300px'}} />
                 <h5 className="mt-2">{playerB.name}</h5>
               </div>
             ) : (
