@@ -173,7 +173,7 @@ function PlayerStatus() {
   const displayedPlayers = selectedType === 'pitchers' ? allPlayers.pitchers : allPlayers.batters;
 
   return (
-    <div>
+    <div style={{ marginTop: '100px' }}>
       <NavBar />
       <Container fluid style={{ marginTop: '20px', marginBottom: '20px', padding: '0 30px' }}>
         <Row className="align-items-stretch">
