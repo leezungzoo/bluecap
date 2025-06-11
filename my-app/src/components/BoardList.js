@@ -4,7 +4,20 @@ import BoardSidebar from './BoardSidebar';
 import NavBar from './NavBar';
 import '../styles/Board.css';
 
+import Modal from 'react-modal';
+
 const BoardList = () => {
+  //모달 함수
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const posts = [
     { id: 1, title: '제발 김경문은 현구장에 두고 가자', date: '2025.05.28', content: '대한야구협회의 마지막 감독이...', image: '/sample.jpg' },
     { id: 2, title: '한화이글스 최다 탈삼진 투구 기록한 선수 2명 보유한 팀돼요', date: '2025.05.28', content: '본문 시작. kbo 정규시즌 최다 탈삼진 투수...', image: null },
@@ -17,7 +30,24 @@ const BoardList = () => {
     <div className="board-container">
       <div className="board-main">
         <Link className="board-title" to={`/board`}>게시판</Link>
-        <Link to="/write" className="post-button">글쓰기</Link>
+        <Link onClick={openModal} className="post-button">글쓰기</Link>
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          contentLabel="Example Modal"
+         >
+          <div className="board-container">
+            <div className="board-main">
+              <div className="board-title">게시글 작성</div>
+              <form>
+                <input type="text" placeholder="제목을 입력하세요" className="form-control" style={{ marginBottom: '1rem' }} />
+                <textarea placeholder="내용을 입력하세요" className="form-control" style={{ height: '300px' }}></textarea>
+                <button className="post-button" style={{ marginTop: '1rem' }}>등록</button>
+              </form>
+            </div>
+          </div>
+          </Modal>
+        
 
         <div className="post-list">
           {posts.slice(1).map(post => (
