@@ -8,7 +8,7 @@ const SpotlightBox = ({ title, player, statValue, statUnit, getImageUrl }) => (
       className="text-center p-3 border rounded h-100 d-flex flex-column" 
       style={{ minWidth: '240px' }}
     >
-      <h4 className="mb-3">{title}</h4>
+      <h4 className="mb-3" style={{ fontSize: '1.5rem' }}>{title}</h4>
       {player ? (
         <>
           <Image 
@@ -18,15 +18,15 @@ const SpotlightBox = ({ title, player, statValue, statUnit, getImageUrl }) => (
             fluid 
             rounded 
             style={{ 
-              maxHeight: '360px', 
+              maxHeight: '300px', 
               objectFit: 'contain', 
               borderRadius: '8px',
               marginBottom: '1rem'
             }}
             className="mx-auto"
           />
-          <h5 style={{fontSize: '1.2rem', fontWeight: 'bold', marginTop: '0.5rem'}}>{player.name}</h5>
-          <p style={{fontSize: '1rem', marginTop: 'auto'}}>{statValue} {statUnit}</p>
+          <h5 style={{ fontSize: '1.6rem', fontWeight: 'bold', marginTop: 'auto' }}>{player.name}</h5>
+          <p style={{ fontSize: '1.3rem' }}>{statValue} {statUnit}</p>
         </>
       ) : <p className="mt-auto mb-auto">데이터 없음</p>}
     </div>
@@ -191,27 +191,25 @@ function PlayerStatus() {
             </div>
           </Col>
 
-          <Col md={7} lg={8} xl={7} className="d-flex align-items-center">
+          <Col>
             {comparisonPlayers.length === 0 ? (
-              <div className="w-100">
-                <Row className="g-5 justify-content-center"> 
-                    <Col lg={8} xl={6} className="mb-3 d-flex justify-content-center">
-                      <div className={`spotlight-wrapper ${topStrikeoutPlayer ? 'visible' : ''}`}>
-                        <SpotlightBox title="탈삼진" player={topStrikeoutPlayer} statValue={topStrikeoutPlayer?.strikeouts} statUnit="K" getImageUrl={getPlayerBigImage} />
-                      </div>
-                    </Col>
-                    <Col lg={8} xl={6} className="mb-3 d-flex justify-content-center">
-                      <div className={`spotlight-wrapper ${topRbiPlayer ? 'visible' : ''}`}>
-                        <SpotlightBox title="최고 타점" player={topRbiPlayer} statValue={topRbiPlayer?.rbi} statUnit="점" getImageUrl={getPlayerBigImage} />
-                      </div>
-                    </Col>
-                    <Col lg={8} xl={6} className="mb-3 d-flex justify-content-center">
-                       <div className={`spotlight-wrapper ${topHomerunPlayer ? 'visible' : ''}`}>
-                        <SpotlightBox title="홈런왕" player={topHomerunPlayer} statValue={topHomerunPlayer?.homeruns} statUnit="개" getImageUrl={getPlayerBigImage} />
-                      </div>
-                    </Col>
-                </Row>
-              </div>
+              <Row className="g-4 h-100 align-items-center"> 
+                  <Col md={4} className="d-flex justify-content-center">
+                    <div className={`spotlight-wrapper ${topStrikeoutPlayer ? 'visible' : ''}`}>
+                      <SpotlightBox title="탈삼진" player={topStrikeoutPlayer} statValue={topStrikeoutPlayer?.strikeouts} statUnit="K" getImageUrl={getPlayerBigImage} />
+                    </div>
+                  </Col>
+                  <Col md={4} className="d-flex justify-content-center">
+                    <div className={`spotlight-wrapper ${topRbiPlayer ? 'visible' : ''}`}>
+                      <SpotlightBox title="최고 타점" player={topRbiPlayer} statValue={topRbiPlayer?.rbi} statUnit="점" getImageUrl={getPlayerBigImage} />
+                    </div>
+                  </Col>
+                  <Col md={4} className="d-flex justify-content-center">
+                      <div className={`spotlight-wrapper ${topHomerunPlayer ? 'visible' : ''}`}>
+                      <SpotlightBox title="홈런왕" player={topHomerunPlayer} statValue={topHomerunPlayer?.homeruns} statUnit="개" getImageUrl={getPlayerBigImage} />
+                    </div>
+                  </Col>
+              </Row>
             ) : (
               <div className="comparison-view-animate w-100 h-100">
                   <ComparisonView
