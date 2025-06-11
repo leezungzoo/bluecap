@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Page.css';
+import NavBar from './components/NavBar';
 
 function OnePage() {
   const [yesCount, setYesCount] = useState(0);
@@ -28,24 +29,9 @@ function OnePage() {
 
   return (
   <div>
-    <div id="header">
-        <div id="hd">
-          <img
-            src="bluecap.jpeg"
-            height="75px"
-            width="100"
-            alt="bluecap"
-            onClick={goHome}
-            style={{ cursor: 'pointer' }}
-          />
-          <ul id="navigation">
-            <li onClick={() => navigate('/board')}>Board</li>
-            <li onClick={goToQuiz}>Who is my favorite player?</li>
-            <li>game date</li>
-            <li onClick={() => navigate('/Login')}>Sign In</li>
-          </ul>
-        </div>
-      </div>
+    <NavBar />
+    <div className="welcomepage-container"></div>
+    
    <div className = "container">
     <div className = "page">
       <p style={{ textAlign: 'left' }}> Question.1</p>

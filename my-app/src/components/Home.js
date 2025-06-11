@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Home.css';
+import Footer from './Footer';
+import '../styles/Footer.css';
 
 import NavBar from './NavBar';
 
 const icons = {
+  '전체상품': 'images/icons/uniform.png',
+  '유니폼': 'images/icons/uniform.png',
+  '의류/모자': 'images/icons/recycle-uniform.png',
+  '굿즈(로고볼, 가방)': 'images/icons/signball.png',
+  '굿즈(인형, 잡화)': 'images/icons/doll.png',
   '티켓': 'images/icons/ticket.png',
-  '미개봉 유니폼': 'images/icons/uniform.png',
-  '중고 유니폼': 'images/icons/recycle-uniform.png',
-  '굿즈(카드, 사인볼)': 'images/icons/signball.png',
-  '굿즈(인형, 팔찌)': 'images/icons/doll.png',
 };
 
 function Home() {
@@ -80,11 +83,11 @@ function Home() {
         </div>
         <div className="market-grid">
           {[
-            ['티켓', '38개 매물'],
-            ['미개봉 유니폼', '38개 매물'],
-            ['중고 유니폼', '38개 매물'],
-            ['굿즈(카드, 사인볼)', '38개 매물'],
-            ['굿즈(인형, 팔찌)', '38개 매물']
+          ['유니폼'],
+          ['의류/모자'],
+          ['굿즈(로고볼, 가방)'],
+          ['굿즈(인형, 잡화)'],
+          ['티켓',],
           ].map(([label, sub], idx) => (
             <div className="market-item" key={idx}>
               <div className="icon-box"><img src={icons[label]} alt={label} className="icon-img" /></div>
