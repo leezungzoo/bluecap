@@ -46,7 +46,7 @@ const PlayerDetailStats = ({ player, type }) => {
   const statsToDisplay = type === 'pitchers' ? pitcherStats : batterStats;
 
   return (
-    <ListGroup variant="flush" className="mt-3">
+    <ListGroup variant="flush">
       {statsToDisplay.map(stat => (
         <ListGroup.Item key={stat.label} className="d-flex justify-content-between px-1 bg-transparent">
           <strong>{stat.label}</strong>
@@ -95,16 +95,28 @@ const ComparisonView = ({ players, type, getImageUrl, onClose }) => (
         </Card.Header>
         <Card.Body className="p-2">
             <Row className="g-2 h-100">
-                {players.map((player, index) => (
-                    <Col key={player.name} md={players.length === 2 ? 6 : 12} className="d-flex flex-column">
-                        <PlayerComparisonCard 
-                            player={player} 
-                            type={type}
-                            getImageUrl={getImageUrl}
-                            isReversed={index === 1} 
-                        />
-                    </Col>
-                ))}
+                <Col md={6} className="d-flex flex-column">
+                  {players[0] && 
+                    <PlayerComparisonCard 
+                        player={players[0]} 
+                        type={type}
+                        getImageUrl={getImageUrl}
+                    />
+                  }
+                </Col>
+                <Col md={6} className="d-flex flex-column">
+                  {players[1] ? 
+                    <PlayerComparisonCard 
+                        player={players[1]} 
+                        type={type}
+                        getImageUrl={getImageUrl}
+                        isReversed={true} 
+                    /> :
+                    <div className="d-flex align-items-center justify-content-center h-100 text-muted border rounded">
+                      비교할 선수를 선택하세요.
+                    </div>
+                  }
+                </Col>
             </Row>
         </Card.Body>
     </Card>
@@ -144,13 +156,22 @@ function PlayerStatus() {
 
   const handlePlayerSelect = (player) => {
     setComparisonPlayers(prev => {
+      const fixedPlayer = prev[0];
       const isAlreadySelected = prev.some(p => p.name === player.name);
+
+      if (fixedPlayer && fixedPlayer.name === player.name) {
+        return [];
+      }
+      
       if (isAlreadySelected) {
         return prev.filter(p => p.name !== player.name);
-      } else {
-        const newSelection = [player, ...prev];
-        return newSelection.slice(0, 2);
       }
+
+      if (!fixedPlayer) {
+        return [player];
+      }
+
+      return [fixedPlayer, player];
     });
   };
   
