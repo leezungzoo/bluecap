@@ -4,11 +4,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Cart.css';
 import NavBar from './NavBar';
 import Footer from './Footer';
-import '../styles/Footer.css'; // Footer 스타일 임포트
+import '../styles/Footer.css'; 
 
-// --- 새로 추가될 모달 컴포넌트 임포트 (아래에서 구현할 예정) ---
 import MiniCartModal from './MiniCartModal';
-// -------------------------------------------------------------
+
 
 const CLOTHING_SIZES = [
   { value: 'S', label: '90' },
