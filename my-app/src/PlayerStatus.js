@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, Image, Tabs, Tab, ListGroup, Card } from 'react-bootstrap';
+import { Container, Row, Col, Button, Image, Tabs, Tab, Card } from 'react-bootstrap';
 import NavBar from './components/NavBar';
 import './PlayerStatus.css';
 
@@ -32,95 +32,95 @@ const SpotlightBox = ({ title, player, statValue, statUnit, getImageUrl }) => (
     </div>
 );
 
-const PlayerDetailStats = ({ player, type }) => {
-  const pitcherStats = [
-    { label: '승', value: player.wins }, { label: '패', value: player.losses },
-    { label: '세이브', value: player.saves }, { label: '탈삼진', value: player.strikeouts },
-    { label: '평균자책점', value: player.era },
-  ];
-  const batterStats = [
-    { label: '타점', value: player.rbi }, { label: '홈런', value: player.homeruns },
-    { label: '안타', value: player.hits }, { label: '타율', value: player.avg },
-    { label: '도루', value: player.stolen_bases },
-  ];
-  const statsToDisplay = type === 'pitchers' ? pitcherStats : batterStats;
+const StatBarChart = ({ label, playerA, playerB, statKey }) => {
+  const valueA = playerA?.[statKey] ?? 0;
+  const valueB = playerB?.[statKey] ?? 0;
+  const total = valueA + valueB;
+  
+  let percentA = 50;
+  if (total > 0) {
+    percentA = (valueA / total) * 100;
+  } else {
+    percentA = playerB ? 0 : 100;
+  }
 
   return (
-    <ListGroup variant="flush">
-      {statsToDisplay.map(stat => (
-        <ListGroup.Item key={stat.label} className="d-flex justify-content-between px-1 bg-transparent">
-          <strong>{stat.label}</strong>
-          <span>{stat.value !== undefined ? stat.value : '-'}</span>
-        </ListGroup.Item>
-      ))}
-    </ListGroup>
+    <div className="stat-chart-row">
+      <div className="stat-labels">
+        <span style={{color: '#007bff'}}>{valueA}</span>
+        <span>{label}</span>
+        <span style={{color: '#28a745'}}>{valueB}</span>
+      </div>
+      <div className="bar-container">
+        <div className="bar-segment playerA-bar" style={{ width: `${percentA}%` }}></div>
+        <div className="bar-segment playerB-bar" style={{ width: `${100 - percentA}%` }}></div>
+      </div>
+    </div>
   );
 };
 
-const PlayerComparisonCard = ({ player, type, getImageUrl, isReversed = false }) => {
-  const Photo = (
-    <Col xs={5} className="d-flex flex-column align-items-center justify-content-center">
-      <Image
-        src={getImageUrl(player.name)}
-        alt={player.name}
-        onError={(e) => { e.target.onerror = null; e.target.src="/images/player/big/default_big.png"; }}
-        fluid
-        style={{ maxHeight: '150px', objectFit: 'contain' }}
-      />
-    </Col>
-  );
-  const Stats = (
-    <Col xs={7}>
-      <PlayerDetailStats player={player} type={type} />
-    </Col>
-  );
+const ComparisonView = ({ players, type, getImageUrl, onClose }) => {
+  const playerA = players[0];
+  const playerB = players[1];
+
+  const pitcherStats = [
+    { label: '승', key: 'wins' }, { label: '패', key: 'losses' },
+    { label: '세이브', key: 'saves' }, { label: '탈삼진', key: 'strikeouts' },
+    { label: '평균자책점', key: 'era' },
+  ];
+  const batterStats = [
+    { label: '타점', key: 'rbi' }, { label: '홈런', key: 'homeruns' },
+    { label: '안타', key: 'hits' }, { label: '타율', key: 'avg' },
+    { label: '도루', key: 'stolen_bases' },
+  ];
+  const statsToShow = type === 'pitchers' ? pitcherStats : batterStats;
 
   return (
     <Card className="h-100">
-      <Card.Body className="d-flex flex-column p-2">
-        <Card.Title className="text-center mb-2 h6">{player.name}</Card.Title>
-        <Row className="flex-grow-1 align-items-center g-0">
-          {isReversed ? [Stats, Photo] : [Photo, Stats]}
+      <Card.Header className="d-flex justify-content-between align-items-center">
+        <strong>선수 비교</strong>
+        <Button variant="close" onClick={onClose} aria-label="Close" />
+      </Card.Header>
+      <Card.Body>
+        <Row className="h-100 align-items-center">
+          <Col xs={3} className="text-center">
+            {playerA && (
+              <div className="spotlight-wrapper visible">
+                <Image src={getImageUrl(playerA.name)} alt={playerA.name} fluid style={{maxHeight: '250px'}} />
+                <h5 className="mt-2">{playerA.name}</h5>
+              </div>
+            )}
+          </Col>
+
+          <Col xs={6}>
+            {statsToShow.map(stat => (
+              <StatBarChart
+                key={stat.key}
+                label={stat.label}
+                playerA={playerA}
+                playerB={playerB}
+                statKey={stat.key}
+              />
+            ))}
+          </Col>
+
+          <Col xs={3} className="text-center">
+            {playerB ? (
+              <div className="spotlight-wrapper visible">
+                <Image src={getImageUrl(playerB.name)} alt={playerB.name} fluid style={{maxHeight: '250px'}} />
+                <h5 className="mt-2">{playerB.name}</h5>
+              </div>
+            ) : (
+              <div className="d-flex align-items-center justify-content-center h-100 text-muted">
+                비교할 선수를 선택하세요.
+              </div>
+            )}
+          </Col>
         </Row>
       </Card.Body>
     </Card>
   );
 };
-
-const ComparisonView = ({ players, type, getImageUrl, onClose }) => (
-    <Card className="h-100">
-        <Card.Header className="d-flex justify-content-between align-items-center">
-            <strong>선수 비교</strong>
-            <Button variant="close" onClick={onClose} aria-label="Close" />
-        </Card.Header>
-        <Card.Body className="p-2">
-            <Row className="g-2 h-100">
-                <Col md={6} className="d-flex flex-column">
-                  {players[0] && 
-                    <PlayerComparisonCard 
-                        player={players[0]} 
-                        type={type}
-                        getImageUrl={getImageUrl}
-                    />
-                  }
-                </Col>
-                <Col md={6} className="d-flex flex-column">
-                  {players[1] ? 
-                    <PlayerComparisonCard 
-                        player={players[1]} 
-                        type={type}
-                        getImageUrl={getImageUrl}
-                        isReversed={true} 
-                    /> :
-                    <div className="d-flex align-items-center justify-content-center h-100 text-muted border rounded">
-                      비교할 선수를 선택하세요.
-                    </div>
-                  }
-                </Col>
-            </Row>
-        </Card.Body>
-    </Card>
-);
 
 function PlayerStatus() {
   const [allPlayers, setAllPlayers] = useState({ pitchers: [], batters: [] });
@@ -159,24 +159,14 @@ function PlayerStatus() {
       const fixedPlayer = prev[0];
       const isAlreadySelected = prev.some(p => p.name === player.name);
 
-      if (fixedPlayer && fixedPlayer.name === player.name) {
-        return [];
-      }
-      
-      if (isAlreadySelected) {
-        return prev.filter(p => p.name !== player.name);
-      }
-
-      if (!fixedPlayer) {
-        return [player];
-      }
-
+      if (fixedPlayer && fixedPlayer.name === player.name) return [];
+      if (isAlreadySelected) return prev.filter(p => p.name !== player.name);
+      if (!fixedPlayer) return [player];
       return [fixedPlayer, player];
     });
   };
   
   const isPlayerSelected = (player) => comparisonPlayers.some(p => p.name === player.name);
-
   const displayedPlayers = selectedType === 'pitchers' ? allPlayers.pitchers : allPlayers.batters;
 
   return (
