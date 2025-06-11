@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import NavBar from './components/NavBar';
 
 function SevenPage() {
   const location = useLocation();
@@ -28,24 +29,8 @@ function SevenPage() {
   //나는 혼자 돋보이는 것 보다 팀을위해 희생하는 것을 선호한다
   return (
   <div>
-    <div id="header">
-        <div id="hd">
-          <img
-            src="bluecap.jpeg"
-            height="75px"
-            width="100"
-            alt="bluecap"
-            onClick={goHome}
-            style={{ cursor: 'pointer' }}
-          />
-          <ul id="navigation">
-            <li onClick={() => navigate('/board')}>Board</li>
-            <li onClick={goToQuiz}>Who is my favorite player?</li>
-            <li>game date</li>
-            <li onClick={() => navigate('/Login')}>Sign In</li>
-          </ul>
-        </div>
-      </div>
+    <NavBar />
+    <div className="welcomepage-container"></div>
     <div className = "container">
     <div className = "page">
       <p style={{ textAlign: 'left' }}> Question.7</p>
