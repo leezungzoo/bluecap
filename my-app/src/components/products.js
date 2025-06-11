@@ -4,13 +4,13 @@ import '../styles/Home.css';
 
 
 export const products = [
-  { id: 1, name: '응원 유니폼', description: '한화 이글스 홈 유니폼(오렌지)', price: '₩143,000', image: '/images/uniform.jpg', category: '유니폼'},
-  { id: 2, name: '응원유니폼', description: '한화이글스 홈 유니폼(화이트)', price: '₩143,000', image: '/images/uniform-white.jpg', category: '유니폼'},
-  { id: 3, name: '응원유니폼', description: '한화이글스 원정 유니폼(네이비)', price: '₩143,000', image: '/images/uniform-navy.jpg', category: '유니폼'},
-  { id: 4, name: '반팔티셔츠', description: '한화이글스 반팔티셔츠(오렌지)', price: '₩59,000', image: '/images/shirt-orange.jpg', category: '의류/모자'},
-  { id: 5, name: '반팔티셔츠', description: '한화이글스 반팔티셔츠(화이트)', price: '₩59,000', image: '/images/shirt-white.jpg', category: '의류/모자' },
-  { id: 6, name: '모자', description: '한화이글스 볼캡(오렌지)', price: '₩49,000', image: '/images/cap-orange.jpg', category: '의류/모자' },
-  { id: 7, name: '모자', description: '한화이글스 볼캡(화이트)', price: '₩49,000', image: '/images/cap-white.jpg', category: '의류/모자' },
+  { id: 1, name: '어센틱 유니폼(오렌지)', description: '한화 이글스 홈 유니폼(오렌지)', price: '₩143,000', image: '/images/uniform.jpg', category: '유니폼/의류'},
+  { id: 2, name: '어센틱 유니폼(화이트)', description: '한화이글스 홈 유니폼(화이트)', price: '₩143,000', image: '/images/uniform-white.jpg', category: '유니폼/의류'},
+  { id: 3, name: '어센틱 유니폼(네이비)', description: '한화이글스 원정 유니폼(네이비)', price: '₩143,000', image: '/images/uniform-navy.jpg', category: '유니폼/의류'},
+  { id: 4, name: '이글스 반팔티셔츠', description: '한화이글스 반팔티셔츠(오렌지)', price: '₩59,000', image: '/images/shirt-orange.jpg', category: '유니폼/의류'},
+  { id: 5, name: '이글스 반팔티셔츠', description: '한화이글스 반팔티셔츠(화이트)', price: '₩59,000', image: '/images/shirt-white.jpg', category: '유니폼/의류' },
+  { id: 6, name: '모자', description: '한화이글스 볼캡(오렌지)', price: '₩49,000', image: '/images/cap-orange.jpg', category: '모자' },
+  { id: 7, name: '모자', description: '한화이글스 볼캡(화이트)', price: '₩49,000', image: '/images/cap-white.jpg', category: '모자' },
   { id: 8, name: '이글스 짐쌕', description: '한화이글스 짐썍', price: '₩39,000', image: '/images/jimsack.jpg' , category: '굿즈(로고볼, 가방)'},
   { id: 9, name: '이글스 짐쌕', description: '한화이글스 짐썍', price: '₩39,000', image: '/images/jimsack-navy.jpg' , category: '굿즈(로고볼, 가방)'},
   { id: 10, name: '이글스 보스턴 백', description: '한화이글스 보스턴 백', price: '₩59,000', image: '/images/bostonbag.jpg' , category: '굿즈(로고볼, 가방)'},

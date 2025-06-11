@@ -1,0 +1,171 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; 
+}
+
+.mini-cart-modal {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 450px; 
+  animation: fadeIn 0.3s ease-out;
+  position: relative;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 30px;
+  color: #888;
+  cursor: pointer;
+  padding: 5px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.close-button:hover {
+  color: #333;
+}
+
+.modal-body {
+  margin-bottom: 20px;
+}
+
+.mini-cart-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 0;
+  border-bottom: 1px dashed #f0f0f0;
+}
+
+.mini-cart-item:last-child {
+  border-bottom: none;
+}
+
+.item-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+}
+
+.item-details {
+  flex-grow: 1;
+}
+
+.item-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.item-price-qty {
+  font-size: 16px;
+  color: #666;
+}
+
+.mini-cart-summary {
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-top: 25px;
+  border: 1px solid #eee;
+  line-height: 1.6;
+}
+
+.mini-cart-summary p {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  color: #555;
+}
+
+.mini-cart-summary p strong {
+  color: #222;
+  font-size: 18px;
+}
+
+.mini-cart-summary .final-total {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+}
+
+.mini-cart-summary .final-total strong {
+  color: #dc3545; 
+  font-size: 20px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-around; 
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.modal-footer button {
+  flex-grow: 1; 
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 17px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.continue-shopping-button {
+  background-color: #f0f0f0;
+  color: #555;
+}
+
+.continue-shopping-button:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+.buy-now-button {
+  background-color: #222; 
+  color: white;
+}
+
+.buy-now-button:hover {
+  cursor: pointer;
+  transform: translateY(-1px);
+}
