@@ -1,34 +1,14 @@
 const express = require('express');
-//const mysql = require('mysql');
-const cors = require('cors');
-
 const app = express();
-app.use(cors());
+const path = require('path');
+const PORT = 8080;
 
-/*  db 사용 예정 시 주석 해제
-const db = mysql.createConnection({
-  host:
-  user:
-  password:
-  database:
+app.use(express.static(path.join(__dirname, '../my-app/build')));
+
+app.get('/', function (요청, 응답) {
+  응답.sendFile(path.join(__dirname, '../my-app/build/.index.html'))
 });
 
-
-db.connect(err => {
-  if (err) throw err;
-  console.log('MySQL Connected');
-});
-
-
-app.get('/users', (req, res) => {
-  db.query('SELECT * FROM users', (err, result) => {
-    if (err) res.status(500).send(err);
-    else res.json(result);
-  });
-});
-
-*/
-
-app.listen(3001, () => {
-  console.log('Backend running at http://localhost:3001');
+app.listen(PORT, () => {
+    console.log(`✅ 서버가 http://localhost:${PORT} 에서 실행 중입니다.`);
 });
