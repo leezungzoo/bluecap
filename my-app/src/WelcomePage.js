@@ -14,7 +14,7 @@ const images = [
   "images/ss-3.png",
   "images/ss-4.png",
   "images/ss-5.png",
-  "images/ss-6.png",
+  "images/ss-6.png",  
 ];
 
 function WelcomePage() {
