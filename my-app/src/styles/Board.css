@@ -160,3 +160,42 @@
   background-color: black;
   color: white;
 }
+
+/* 모달 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  max-width: 700px; 
+  width: 90%; 
+  max-height: 90vh; 
+  overflow-y: auto; /* 내용이 길어지면 스크롤바 생성 */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative; 
+}
+
+/* 추가 폼 스타일 */
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* 기존 post-button float 속성 제거 (모달 내 버튼에 사용) */
+.post-button.modal-submit {
+  float: none;
+}
