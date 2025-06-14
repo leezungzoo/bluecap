@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import './Page.css';
+import Footer from './components/Footer';
+import './styles/Footer.css';
 import NavBar from './components/NavBar';
 
 function TwoPage() {
@@ -29,8 +32,7 @@ function TwoPage() {
   return (
   <div>
     <NavBar />
-    <div className="welcomepage-container"></div>
-    
+    <div className="welcomepage-container">
     <div className = "container">
     <div className = "page">
       <p style={{ textAlign: 'left' }}> Question.2</p>
@@ -38,8 +40,12 @@ function TwoPage() {
       <button className = "button" onClick={handleYes}>O</button>
       <button className = "button" onClick={handleNo}>X</button>
     </div>
+   </div>
   </div>
-  </div>
+   <div className='Footer-space'>
+      <Footer /> 
+      </div>
+</div>
   );
 }
 

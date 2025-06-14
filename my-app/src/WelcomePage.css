@@ -10,6 +10,7 @@ body {
   font-family: 'Pretendard-Regular', sans-serif;
   text-align: left;
   line-height: 1.6;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
 
 .home-button {
@@ -68,13 +69,6 @@ body {
   margin-left: auto;
   margin-right: auto;
   justify-content: center;
-}
-
-.scroll-fade-in {
-  /*opacity: 0;*/
-  /*transform: translateY(40px);*/
-  /*transition: opacity 0.8s ease-out, transform 0.8s ease-out;*/
-  /*gap: 30px;*/
 }
 
 .scroll-fade-in.visible {

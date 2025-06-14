@@ -42,6 +42,7 @@
 /* 섹션 공통 */
 .section {
   padding: 40px 100px;
+  
 }
 
 .section h3 {
@@ -171,8 +172,7 @@
 
 .market-grid {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px; 
+  gap: 10px; 
   margin-top: 30px;
   justify-content: center;
 }
