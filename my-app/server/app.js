@@ -6,39 +6,34 @@ const fs = require('fs');
 const { v4: uuidv4 } = require('uuid'); // 고유 ID 생성을 위해
 
 const app = express();
-const PORT = 5000; // React 앱(3000번)과 충돌하지 않도록 5000번 포트 사용
+const PORT = 5000;
 
-// CORS 활성화 (모든 도메인 허용 - 개발용)
 app.use(cors());
-
-// JSON 요청 본문 파싱
 app.use(express.json());
-
-// 정적 파일 제공 (업로드된 이미지 접근용)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// posts.json 파일 경로
 const postsFilePath = path.join(__dirname, 'posts.json');
+const commentsFilePath = path.join(__dirname, 'comments.json'); // 댓글 파일 경로 추가
 
-// uploads 디렉토리가 없으면 생성
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir);
 }
 
-// posts.json 파일이 없으면 초기화
 if (!fs.existsSync(postsFilePath)) {
     fs.writeFileSync(postsFilePath, JSON.stringify([]));
 }
+// comments.json 파일이 없으면 초기화
+if (!fs.existsSync(commentsFilePath)) {
+    fs.writeFileSync(commentsFilePath, JSON.stringify([]));
+}
 
-// Multer 설정 (이미지 업로드 처리)
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/'); // 이미지가 저장될 디렉토리
+        cb(null, 'uploads/');
     },
     filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+        cb(null, Date.now() + '-' + file.originalname);
     }
 });
 const upload = multer({ storage: storage });
@@ -47,19 +42,19 @@ const upload = multer({ storage: storage });
 app.post('/api/posts', upload.single('image'), (req, res) => {
     try {
         const { title, content, tags } = req.body;
-        const image = req.file ? req.file.filename : null; // 업로드된 이미지 파일명
+        const image = req.file ? req.file.filename : null;
 
         if (!title || !content) {
             return res.status(400).json({ message: '제목과 내용을 입력해주세요.' });
         }
 
         const newPost = {
-            id: uuidv4(), // 고유 ID 생성
+            id: uuidv4(),
             title,
             content,
-            image, // 이미지 파일명
-            date: new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '.').replace(/\.$/, ''), // 'YYYY.MM.DD' 형식
-            tags: Array.isArray(tags) ? tags : (tags ? tags.split(',') : []) // 태그 배열로 저장
+            image,
+            date: new Date().toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).replace(/\. /g, '.').replace(/\.$/, ''),
+            tags: tags ? (Array.isArray(tags) ? tags : [tags]) : [] // 태그가 단일 문자열로 올 수도 있으므로 배열로 처리
         };
 
         const posts = JSON.parse(fs.readFileSync(postsFilePath, 'utf8'));
@@ -76,10 +71,32 @@ app.post('/api/posts', upload.single('image'), (req, res) => {
 // 모든 게시글 조회 (GET /api/posts)
 app.get('/api/posts', (req, res) => {
     try {
-        const posts = JSON.parse(fs.readFileSync(postsFilePath, 'utf8'));
-        // 최신순으로 정렬 (id는 생성 순서와 같다고 가정하거나, 실제 date 필드를 사용하여 정렬)
-        // id를 uuidv4로 생성했으므로, 편의상 date 필드를 기준으로 정렬
-        posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        let posts = JSON.parse(fs.readFileSync(postsFilePath, 'utf8'));
+        const comments = JSON.parse(fs.readFileSync(commentsFilePath, 'utf8')); // 댓글 데이터 로드
+
+        const { filter, tag } = req.query; // filter와 tag 쿼리 파라미터 받기
+
+        // 태그 필터링
+        if (tag) {
+            posts = posts.filter(post => post.tags && post.tags.includes(tag));
+        }
+
+        // 필터링 (정렬)
+        if (filter === 'latest') {
+            posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        } else if (filter === 'comments') {
+            // 댓글 수 계산
+            const commentCounts = comments.reduce((acc, comment) => {
+                acc[comment.postId] = (acc[comment.postId] || 0) + 1;
+                return acc;
+            }, {});
+            // 댓글 수에 따른 내림차순 정렬
+            posts.sort((a, b) => (commentCounts[b.id] || 0) - (commentCounts[a.id] || 0));
+        } else {
+            // 기본 정렬: 최신순 (date 필드 기준)
+            posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
+
         res.status(200).json(posts);
     } catch (error) {
         console.error('Error fetching posts:', error);
@@ -94,17 +111,94 @@ app.get('/api/posts/:id', (req, res) => {
         const posts = JSON.parse(fs.readFileSync(postsFilePath, 'utf8'));
         const post = posts.find(p => p.id === postId);
 
-        if (post) {
-            res.status(200).json(post);
-        } else {
-            res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
+        if (!post) {
+            return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
         }
+        res.status(200).json(post);
     } catch (error) {
-        console.error('Error fetching single post:', error);
+        console.error('Error fetching post:', error);
         res.status(500).json({ message: '게시글을 불러오는 중 오류가 발생했습니다.', error: error.message });
     }
 });
 
+// 댓글 생성 (POST /api/posts/:postId/comments)
+app.post('/api/posts/:postId/comments', (req, res) => {
+    try {
+        const postId = req.params.postId;
+        const { author, content } = req.body;
+
+        if (!author || !content) {
+            return res.status(400).json({ message: '작성자와 내용을 입력해주세요.' });
+        }
+
+        const newComment = {
+            id: uuidv4(),
+            postId,
+            author,
+            content,
+            date: new Date().toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).replace(/\. /g, '.').replace(/\.$/, ''),
+            replies: []
+        };
+
+        const comments = JSON.parse(fs.readFileSync(commentsFilePath, 'utf8'));
+        comments.push(newComment);
+        fs.writeFileSync(commentsFilePath, JSON.stringify(comments, null, 2));
+
+        res.status(201).json({ message: '댓글이 성공적으로 작성되었습니다.', comment: newComment });
+    } catch (error) {
+        console.error('Error creating comment:', error);
+        res.status(500).json({ message: '댓글 작성 중 오류가 발생했습니다.', error: error.message });
+    }
+});
+
+// 특정 게시글의 댓글 조회 (GET /api/posts/:postId/comments)
+app.get('/api/posts/:postId/comments', (req, res) => {
+    try {
+        const postId = req.params.postId;
+        const comments = JSON.parse(fs.readFileSync(commentsFilePath, 'utf8'));
+        const postComments = comments.filter(comment => comment.postId === postId);
+        postComments.sort((a, b) => new Date(b.date) - new Date(a.date)); // 최신순 정렬
+        res.status(200).json(postComments);
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+        res.status(500).json({ message: '댓글을 불러오는 중 오류가 발생했습니다.', error: error.message });
+    }
+});
+
+// 대댓글 생성 (POST /api/comments/:commentId/replies)
+app.post('/api/comments/:commentId/replies', (req, res) => {
+    try {
+        const commentId = req.params.commentId;
+        const { author, content } = req.body;
+
+        if (!author || !content) {
+            return res.status(400).json({ message: '작성자와 내용을 입력해주세요.' });
+        }
+
+        const newReply = {
+            id: uuidv4(),
+            author,
+            content,
+            date: new Date().toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).replace(/\. /g, '.').replace(/\.$/, ''),
+        };
+
+        const comments = JSON.parse(fs.readFileSync(commentsFilePath, 'utf8'));
+        const commentIndex = comments.findIndex(c => c.id === commentId);
+
+        if (commentIndex === -1) {
+            return res.status(404).json({ message: '댓글을 찾을 수 없습니다.' });
+        }
+
+        comments[commentIndex].replies.push(newReply);
+        fs.writeFileSync(commentsFilePath, JSON.stringify(comments, null, 2));
+
+        res.status(201).json({ message: '대댓글이 성공적으로 작성되었습니다.', reply: newReply });
+    } catch (error) {
+        console.error('Error creating reply:', error);
+        res.status(500).json({ message: '대댓글 작성 중 오류가 발생했습니다.', error: error.message });
+    }
+});
+
 app.listen(PORT, () => {
-    console.log(`Node.js backend running on http://localhost:${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
