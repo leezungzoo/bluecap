@@ -13,7 +13,7 @@ const BoardList = () => {
 
   const [postTitle, setPostTitle] = useState('');
   const [postContent, setPostContent] = useState('');
-  const [postImage, setPostImage] = useState(null);
+  const [postImage, setPostImage] = useState(null); // File 객체
   const [selectedTags, setSelectedTags] = useState([]);
 
   const tagsList = ['경기', '선수', '감독', '시구', '직관 일기'];
@@ -37,7 +37,7 @@ const BoardList = () => {
         queryParams.append('tag', tag);
       }
       queryParams.append('page', page);
-      queryParams.append('limit', postsPerPage); // limit 값을 백엔드로 전달
+      queryParams.append('limit', postsPerPage); // limit 값을 백엔드로 전달 (백엔드에서 고정값 사용하므로 필수는 아니지만 일관성을 위해 유지)
 
       const queryString = queryParams.toString();
       const url = `http://localhost:5000/api/posts${queryString ? `?${queryString}` : ''}`;
@@ -50,6 +50,9 @@ const BoardList = () => {
         setCurrentPage(data.currentPage); // 현재 페이지 (백엔드에서 받은 값으로 업데이트)
       } else {
         console.error('Failed to fetch posts:', response.statusText);
+        // 오류 응답 본문이 있다면 파싱하여 출력
+        const errorData = await response.json();
+        console.error('Server error response:', errorData);
       }
     } catch (error) {
       console.error('Error fetching posts:', error);
@@ -97,16 +100,16 @@ const BoardList = () => {
     formData.append('title', postTitle);
     formData.append('content', postContent);
     if (postImage) {
-      formData.append('image', postImage);
+      formData.append('image', postImage); // 파일 객체를 'image'라는 필드명으로 추가
     }
     selectedTags.forEach(tag => {
-      formData.append('tags', tag);
+      formData.append('tags', tag); // 여러 태그를 'tags' 필드명으로 각각 추가
     });
 
     try {
       const response = await fetch('http://localhost:5000/api/posts', {
         method: 'POST',
-        body: formData,
+        body: formData, // FormData 사용 시 'Content-Type' 헤더를 수동으로 설정하지 않음 (브라우저가 자동으로 설정)
       });
 
       if (response.ok) {
@@ -114,7 +117,7 @@ const BoardList = () => {
         closeModal();
         // 게시글 작성 후 첫 페이지로 이동하며 목록 새로고침
         const queryParams = new URLSearchParams(location.search);
-        queryParams.set('page', 1); // 첫 페이지로 이동
+        queryParams.set('page', 1); // <--- 이 부분이 중요: 항상 첫 페이지로 설정
         // 필터와 태그는 유지
         if (currentFilter && currentFilter !== 'latest') {
             queryParams.set('filter', currentFilter);
@@ -130,6 +133,7 @@ const BoardList = () => {
       } else {
         const errorData = await response.json();
         alert('게시글 작성 실패: ' + (errorData.message || '알 수 없는 오류'));
+        console.error('Post submission failed:', errorData); // 서버 응답 에러 콘솔에 출력
       }
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -151,7 +155,7 @@ const BoardList = () => {
   };
 
   const handleTagClick = (tag) => {
-    const newTag = currentTag === tag ? '' : tag;
+    const newTag = currentTag === tag ? '' : tag; // 같은 태그 다시 클릭 시 해제
     setCurrentTag(newTag);
     const queryParams = new URLSearchParams(location.search);
     if (newTag) {
@@ -263,7 +267,7 @@ const BoardList = () => {
                       type="file"
                       id="postImage"
                       accept="image/*"
-                      onChange={(e) => setPostImage(e.target.files[0])}
+                      onChange={(e) => setPostImage(e.target.files[0])} // 파일 객체 저장
                       style={{ padding: '10px 0' }}
                     />
                   </div>
@@ -292,7 +296,11 @@ const BoardList = () => {
           </Modal>
 
           <div className="post-list">
-            {posts.length === 0 ? (
+            {posts.length === 0 && (currentFilter === 'latest' && !currentTag) ? ( // 첫 로드 시 게시글이 없을 때만 표시
+                <p style={{textAlign: 'center', marginTop: '20px', fontSize: '1.1rem', color: '#666'}}>
+                    아직 작성된 게시글이 없습니다. 첫 게시글을 작성해보세요!
+                </p>
+            ) : posts.length === 0 ? ( // 필터링/태그 적용 후 게시글이 없을 때
                 <p style={{textAlign: 'center', marginTop: '20px', fontSize: '1.1rem', color: '#666'}}>
                     현재 선택된 필터와 태그에 해당하는 게시글이 없습니다.
                 </p>
@@ -304,9 +312,10 @@ const BoardList = () => {
                       )}
                       <div>
                         <Link className="post-title" to={`/post/${post.id}`}>{post.title}</Link>
+                        {/* ISOString으로 저장된 날짜를 다시 로케일 형식으로 변환하여 표시 */}
                         <p className="text-muted" style={{ fontSize: '0.9rem', color: '#888' }}>
                           <img src="/images/calendar.svg" alt="calendar" style={{ verticalAlign: 'middle', marginRight: '5px', width: '16px', height: '16px' }} />
-                          {post.date}
+                          {new Date(post.date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).replace(/\. /g, '.').replace(/\.$/, '')}
                         </p>
                         <p style={{ fontSize: '1rem', color: '#333' }}>{post.content.substring(0, 100)}{post.content.length > 100 ? '...' : ''}</p>
                         <div style={{ clear: 'both' }}>

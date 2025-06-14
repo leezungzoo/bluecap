@@ -16,7 +16,7 @@ const BoardDetail = () => {
   // 댓글 페이지네이션 상태
   const [currentCommentPage, setCurrentCommentPage] = useState(1);
   const [totalCommentPages, setTotalCommentPages] = useState(1);
-  const commentsPerPage = 6; // 페이지당 댓글 수 6개로 변경
+  const commentsPerPage = 6; // 페이지당 댓글 수 6개로 고정
 
   // 댓글 불러오는 함수를 별도로 정의
   const fetchComments = async (page = 1) => {
@@ -29,6 +29,8 @@ const BoardDetail = () => {
         setCurrentCommentPage(commentsData.currentPage);
       } else {
         console.error('Failed to fetch comments:', commentsResponse.statusText);
+        const errorData = await commentsResponse.json();
+        console.error('Server error response:', errorData);
       }
     } catch (err) {
       console.error('Error fetching comments:', err);
@@ -47,6 +49,7 @@ const BoardDetail = () => {
           const errorData = await postResponse.json();
           setError(errorData.message || '게시글을 불러오는 데 실패했습니다.');
           console.error('Failed to fetch post detail:', postResponse.statusText);
+          console.error('Server error response:', errorData);
           return;
         }
 
@@ -83,6 +86,7 @@ const BoardDetail = () => {
       } else {
         const errorData = await response.json();
         alert('댓글 작성 실패: ' + (errorData.message || '알 수 없는 오류'));
+        console.error('Comment submission failed:', errorData);
       }
     } catch (error) {
       console.error('Error submitting comment:', error);
@@ -107,12 +111,14 @@ const BoardDetail = () => {
 
       if (response.ok) {
         setReplyContent(prev => ({ ...prev, [commentId]: '' }));
-        setShowReplyInput(prev => ({ ...prev, [commentId]: false }));
+        // 'comment.id' 대신 'commentId' 사용
+        setShowReplyInput(prev => ({ ...prev, [commentId]: false })); 
         // 대댓글 작성 후 댓글 목록 새로고침 (현재 페이지 유지)
         fetchComments(currentCommentPage);
       } else {
         const errorData = await response.json();
         alert('대댓글 작성 실패: ' + (errorData.message || '알 수 없는 오류'));
+        console.error('Reply submission failed:', errorData);
       }
     } catch (error) {
       console.error('Error submitting reply:', error);
@@ -188,7 +194,7 @@ const BoardDetail = () => {
           <Link className="board-title" to={`/board`}>게시판</Link>
           <h2>{post.title}</h2>
           <p className="text-muted">
-            익명의 한화팬 | {post.date}
+            익명의 한화팬 | {new Date(post.date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).replace(/\. /g, '.').replace(/\.$/, '')}
           </p>
           {post.image && (
             <img src={`http://localhost:5000/uploads/${post.image}`} alt="대표 이미지" style={{ maxWidth: '100%', height: 'auto', marginBottom: '1rem', borderRadius: '8px' }} />
@@ -236,7 +242,7 @@ const BoardDetail = () => {
             ) : (
                 comments.map(comment => (
                     <div className="comment" key={comment.id}>
-                        <p><strong>{comment.author || '익명의 한화팬'}</strong> - {comment.date}</p>
+                        <p><strong>{comment.author || '익명의 한화팬'}</strong> - {new Date(comment.date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).replace(/\. /g, '.').replace(/\.$/, '')}</p>
                         <p>{comment.content}</p>
                         <button
                             className="post-button"
@@ -271,7 +277,7 @@ const BoardDetail = () => {
 
                         {comment.replies && comment.replies.map(reply => (
                             <div className="reply" key={reply.id}>
-                                <p><strong>{reply.author || '익명의 한화팬'}</strong> (답글) - {reply.date}</p>
+                                <p><strong>{reply.author || '익명의 한화팬'}</strong> (답글) - {new Date(reply.date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).replace(/\. /g, '.').replace(/\.$/, '')}</p>
                                 <p>{reply.content}</p>
                             </div>
                         ))}

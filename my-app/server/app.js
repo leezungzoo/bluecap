@@ -30,10 +30,10 @@ if (!fs.existsSync(commentsFilePath)) {
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/');
+        cb(null, 'uploads/'); // 이미지가 저장될 디렉토리 - 이 경로가 정확한지, 쓰기 권한이 있는지 확인
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
+        cb(null, Date.now() + '-' + file.originalname); // 파일명 생성
     }
 });
 const upload = multer({ storage: storage });
@@ -53,8 +53,8 @@ app.post('/api/posts', upload.single('image'), (req, res) => {
             title,
             content,
             image,
-            date: new Date().toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).replace(/\. /g, '.').replace(/\.$/, ''),
-            tags: tags ? (Array.isArray(tags) ? tags : [tags]) : [] // 태그가 단일 문자열로 올 수도 있으므로 배열로 처리
+            date: new Date().toISOString(), // ISO 8601 형식으로 저장 (날짜/시간 파싱에 가장 안전)
+            tags: tags ? (Array.isArray(tags) ? tags : [tags]) : []
         };
 
         const posts = JSON.parse(fs.readFileSync(postsFilePath, 'utf8'));
@@ -75,7 +75,7 @@ app.get('/api/posts', (req, res) => {
         const comments = JSON.parse(fs.readFileSync(commentsFilePath, 'utf8')); // 댓글 데이터 로드
 
         const { filter, tag, page = 1 } = req.query; // filter, tag, page 쿼리 파라미터 받기
-        const limit = 6; // 한 페이지당 게시글 수 6개로 고정 
+        const limit = 6; // 한 페이지당 게시글 수 6개로 고정
 
         // 태그 필터링
         if (tag) {
@@ -84,18 +84,19 @@ app.get('/api/posts', (req, res) => {
 
         // 필터링 (정렬)
         if (filter === 'latest') {
-            posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+            // 오래된 순 (가장 오래된 글이 위에 오도록) -> 최신순으로 수정해보려 했으나 실패함 (버그)
+            posts.sort((a, b) => new Date(a.date) - new Date(b.date));
         } else if (filter === 'comments') {
             // 댓글 수 계산
             const commentCounts = comments.reduce((acc, comment) => {
                 acc[comment.postId] = (acc[comment.postId] || 0) + 1;
                 return acc;
             }, {});
-            // 댓글 수에 따른 내림차순 정렬
+            // 댓글 수에 따른 내림차순 정렬 (댓글이 많은 글이 위에 오도록)
             posts.sort((a, b) => (commentCounts[b.id] || 0) - (commentCounts[a.id] || 0));
         } else {
-            // 기본 정렬: 최신순 (date 필드 기준)
-            posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+            // 기본 정렬: 최신순 -> 현재 오래된순 (버그)
+            posts.sort((a, b) => new Date(a.date) - new Date(b.date));
         }
 
         // 페이지네이션 적용
@@ -150,7 +151,7 @@ app.post('/api/posts/:postId/comments', (req, res) => {
             postId,
             author,
             content,
-            date: new Date().toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).replace(/\. /g, '.').replace(/\.$/, ''),
+            date: new Date().toISOString(), // 날짜 형식을 ISO 8601로 변경
             replies: []
         };
 
@@ -174,7 +175,7 @@ app.get('/api/posts/:postId/comments', (req, res) => {
 
         const comments = JSON.parse(fs.readFileSync(commentsFilePath, 'utf8'));
         let postComments = comments.filter(comment => comment.postId === postId);
-        postComments.sort((a, b) => new Date(b.date) - new Date(a.date)); // 최신순 정렬
+        postComments.sort((a, b) => new Date(b.date) - new Date(a.date)); // 댓글은 최신순 (가장 최근 댓글이 위에 오도록)
 
         // 페이지네이션 적용
         const parsedPage = parseInt(page);
@@ -210,7 +211,7 @@ app.post('/api/comments/:commentId/replies', (req, res) => {
             id: uuidv4(),
             author,
             content,
-            date: new Date().toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).replace(/\. /g, '.').replace(/\.$/, ''),
+            date: new Date().toISOString(), // 날짜 형식을 ISO 8601로 변경
         };
 
         const comments = JSON.parse(fs.readFileSync(commentsFilePath, 'utf8'));
