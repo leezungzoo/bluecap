@@ -1,0 +1,15 @@
+1. 제가 모달창을 만들어 써가지고... 리액트 모달 설치해주세요.
+npm install react-modal 
+
+2. my-app 안에 서버 폴더를 새로 만들었는데요 거기서 노드js 의존성 설치해주세요.
+bluecap\my-app\server> npm install express cors multer
+
+3. 실행시 터미널을 두개 띄워 서버 폴더에서 서버를 실행하고, 동시에 마이앱에서 npm start를 해야합니다.
+bluecap\my-app\server> node app.js 
+bluecap\my-app> npm start
+
+/* NavBar 추가 방법
+    import NavBar from './NavBar'; 상단에 임포트 후
+    콘텐츠 <div className="">로 감싸주고 <NavBar /> 추가
+    CSS로 콘텐츠 ."" 안에 padding-top: 80px; 넣기
+*/
