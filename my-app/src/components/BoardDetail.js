@@ -1,18 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import BoardSidebar from './BoardSidebar'; // BoardDetail에서는 직접 사용하지 않지만, 구조상 있으면 유지
 import '../styles/Board.css';
 
 const BoardDetail = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
   const [error, setError] = useState(null);
-  const [comments, setComments] = useState([]); // 댓글 목록 상태
-  const [newCommentContent, setNewCommentContent] = useState(''); // 새 댓글 내용
-  const [newCommentAuthor, setNewCommentAuthor] = useState('익명의 한화팬'); // 새 댓글 작성자 (기본값)
-  const [replyContent, setReplyContent] = useState({}); // 대댓글 내용 (댓글 ID를 키로 가짐)
-  const [replyAuthor, setReplyAuthor] = useState('익명의 한화팬'); // 대댓글 작성자 (기본값)
-  const [showReplyInput, setShowReplyInput] = useState({}); // 대댓글 입력창 표시 여부
+  const [comments, setComments] = useState([]);
+  const [newCommentContent, setNewCommentContent] = useState('');
+  const [newCommentAuthor, setNewCommentAuthor] = useState('익명의 한화팬');
+  const [replyContent, setReplyContent] = useState({});
+  const [replyAuthor, setReplyAuthor] = useState('익명의 한화팬');
+  const [showReplyInput, setShowReplyInput] = useState({});
+
+  // 댓글 페이지네이션 상태
+  const [currentCommentPage, setCurrentCommentPage] = useState(1);
+  const [totalCommentPages, setTotalCommentPages] = useState(1);
+  const commentsPerPage = 6; // 페이지당 댓글 수 6개로 변경
+
+  // 댓글 불러오는 함수를 별도로 정의
+  const fetchComments = async (page = 1) => {
+    try {
+      const commentsResponse = await fetch(`http://localhost:5000/api/posts/${id}/comments?page=${page}&limit=${commentsPerPage}`); // limit 값을 백엔드로 전달
+      if (commentsResponse.ok) {
+        const commentsData = await commentsResponse.json();
+        setComments(commentsData.comments);
+        setTotalCommentPages(commentsData.totalPages);
+        setCurrentCommentPage(commentsData.currentPage);
+      } else {
+        console.error('Failed to fetch comments:', commentsResponse.statusText);
+      }
+    } catch (err) {
+      console.error('Error fetching comments:', err);
+    }
+  };
 
   useEffect(() => {
     const fetchPostAndComments = async () => {
@@ -26,17 +47,11 @@ const BoardDetail = () => {
           const errorData = await postResponse.json();
           setError(errorData.message || '게시글을 불러오는 데 실패했습니다.');
           console.error('Failed to fetch post detail:', postResponse.statusText);
-          return; // 게시글 불러오기 실패 시 댓글 로드 중단
+          return;
         }
 
-        // 댓글 불러오기
-        const commentsResponse = await fetch(`http://localhost:5000/api/posts/${id}/comments`);
-        if (commentsResponse.ok) {
-          const commentsData = await commentsResponse.json();
-          setComments(commentsData);
-        } else {
-          console.error('Failed to fetch comments:', commentsResponse.statusText);
-        }
+        // 초기 댓글 불러오기 (첫 페이지)
+        fetchComments(1);
       } catch (err) {
         setError('네트워크 오류 또는 서버에 연결할 수 없습니다.');
         console.error('Error fetching data:', err);
@@ -45,6 +60,7 @@ const BoardDetail = () => {
 
     fetchPostAndComments();
   }, [id]);
+
 
   const handleCommentSubmit = async () => {
     if (!newCommentContent.trim()) {
@@ -61,9 +77,9 @@ const BoardDetail = () => {
       });
 
       if (response.ok) {
-        const addedComment = await response.json();
-        setComments(prevComments => [addedComment.comment, ...prevComments]); // 새 댓글을 목록 맨 앞에 추가
-        setNewCommentContent(''); // 입력 필드 초기화
+        // 댓글 작성 후 첫 페이지 댓글 목록 새로고침
+        setNewCommentContent('');
+        fetchComments(1); // 댓글 작성 후 첫 페이지로 이동
       } else {
         const errorData = await response.json();
         alert('댓글 작성 실패: ' + (errorData.message || '알 수 없는 오류'));
@@ -90,16 +106,10 @@ const BoardDetail = () => {
       });
 
       if (response.ok) {
-        const addedReply = await response.json();
-        setComments(prevComments =>
-          prevComments.map(comment =>
-            comment.id === commentId
-              ? { ...comment, replies: [...comment.replies, addedReply.reply] }
-              : comment
-          )
-        );
-        setReplyContent(prev => ({ ...prev, [commentId]: '' })); // 대댓글 입력 필드 초기화
-        setShowReplyInput(prev => ({ ...prev, [commentId]: false })); // 대댓글 입력창 닫기
+        setReplyContent(prev => ({ ...prev, [commentId]: '' }));
+        setShowReplyInput(prev => ({ ...prev, [commentId]: false }));
+        // 대댓글 작성 후 댓글 목록 새로고침 (현재 페이지 유지)
+        fetchComments(currentCommentPage);
       } else {
         const errorData = await response.json();
         alert('대댓글 작성 실패: ' + (errorData.message || '알 수 없는 오류'));
@@ -110,6 +120,45 @@ const BoardDetail = () => {
     }
   };
 
+  const handleCommentPageChange = (pageNumber) => {
+    fetchComments(pageNumber);
+  };
+
+  const renderCommentPaginationButtons = () => {
+    const pageButtons = [];
+    const startPage = Math.max(1, currentCommentPage - 2);
+    const endPage = Math.min(totalCommentPages, currentCommentPage + 2);
+
+    if (currentCommentPage > 1) {
+      pageButtons.push(
+        <button key="prev-comment" className="page-button" onClick={() => handleCommentPageChange(currentCommentPage - 1)}>
+          &lt;
+        </button>
+      );
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageButtons.push(
+        <button
+          key={`comment-page-${i}`}
+          className={`page-button ${i === currentCommentPage ? 'active' : ''}`}
+          onClick={() => handleCommentPageChange(i)}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    if (currentCommentPage < totalCommentPages) {
+      pageButtons.push(
+        <button key="next-comment" className="page-button" onClick={() => handleCommentPageChange(currentCommentPage + 1)}>
+          &gt;
+        </button>
+      );
+    }
+
+    return pageButtons;
+  };
 
   if (error) {
     return (
@@ -134,11 +183,9 @@ const BoardDetail = () => {
 
   return (
     <div className="board-container">
-      {/* BoardDetail에서는 BoardSidebar를 직접 사용하지 않을 수 있지만, 레이아웃을 위해 유지 */}
-      {/* <BoardSidebar /> */}
       <div className="board-main">
         <div className="post-detail">
-          <Link className="board-title" to={`/board`}>게시판</Link> {/* BoardList로 돌아가는 링크 */}
+          <Link className="board-title" to={`/board`}>게시판</Link>
           <h2>{post.title}</h2>
           <p className="text-muted">
             익명의 한화팬 | {post.date}
@@ -146,7 +193,7 @@ const BoardDetail = () => {
           {post.image && (
             <img src={`http://localhost:5000/uploads/${post.image}`} alt="대표 이미지" style={{ maxWidth: '100%', height: 'auto', marginBottom: '1rem', borderRadius: '8px' }} />
           )}
-          <p style={{ whiteSpace: 'pre-wrap' }}>{post.content}</p> {/* 개행 문자 유지를 위해 pre-wrap */}
+          <p style={{ whiteSpace: 'pre-wrap' }}>{post.content}</p>
 
           <div className="tags" style={{ marginTop: '1.5rem', marginBottom: '2rem' }}>
             {post.tags && post.tags.length > 0 && (
@@ -161,7 +208,7 @@ const BoardDetail = () => {
         </div>
 
         <div className="comment-list">
-            <h4>댓글 ({comments.length})</h4> {/* 댓글 수 표시 */}
+            <h4>댓글 ({comments.length} / 총 {totalCommentPages} 페이지)</h4>
             <div style={{ marginTop: '1rem', marginBottom: '2rem' }}>
                 <textarea
                     className="form-control"
@@ -179,11 +226,13 @@ const BoardDetail = () => {
                     style={{ width: '150px', display: 'inline-block', marginRight: '0.5rem' }}
                 />
                 <button onClick={handleCommentSubmit} className="post-button" style={{ marginTop: '0.5rem', float: 'right' }}>등록</button>
-                <div style={{ clear: 'both' }}></div> {/* float 해제 */}
+                <div style={{ clear: 'both' }}></div>
             </div>
 
-            {comments.length === 0 ? (
+            {comments.length === 0 && currentCommentPage === 1 ? (
                 <p>아직 댓글이 없습니다. 첫 댓글을 작성해보세요!</p>
+            ) : comments.length === 0 ? (
+                <p>해당 페이지에 댓글이 없습니다.</p>
             ) : (
                 comments.map(comment => (
                     <div className="comment" key={comment.id}>
@@ -196,7 +245,7 @@ const BoardDetail = () => {
                         >
                             답글
                         </button>
-                        <div style={{ clear: 'both' }}></div> {/* float 해제 */}
+                        <div style={{ clear: 'both' }}></div>
 
                         {showReplyInput[comment.id] && (
                             <div style={{ marginTop: '1rem', border: '1px solid #eee', padding: '1rem', borderRadius: '5px', backgroundColor: '#f9f9f9' }}>
@@ -231,14 +280,10 @@ const BoardDetail = () => {
             )}
 
             <div className="pagination">
-                <button className="page-button active">1</button>
-                <button className="page-button">2</button>
-                <button className="page-button">3</button>
+                {renderCommentPaginationButtons()}
             </div>
         </div>
       </div>
-      {/* BoardDetail에서 사이드바를 필요로 하지 않는다면 이 부분을 제거해도 됩니다. */}
-      {/* <BoardSidebar /> */}
     </div>
   );
 };

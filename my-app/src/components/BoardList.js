@@ -1,5 +1,3 @@
-// BoardList.js
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import BoardSidebar from './BoardSidebar';
@@ -25,8 +23,11 @@ const BoardList = () => {
 
   const [currentFilter, setCurrentFilter] = useState('latest');
   const [currentTag, setCurrentTag] = useState('');
+  const [currentPage, setCurrentPage] = useState(1); // 현재 게시글 페이지
+  const [totalPages, setTotalPages] = useState(1); // 전체 게시글 페이지 수
+  const postsPerPage = 6; // 페이지당 게시글 수 (6개로 고정)
 
-  const fetchPosts = async (filter = 'latest', tag = '') => {
+  const fetchPosts = async (filter = 'latest', tag = '', page = 1) => {
     try {
       const queryParams = new URLSearchParams();
       if (filter && filter !== 'latest') {
@@ -35,13 +36,18 @@ const BoardList = () => {
       if (tag) {
         queryParams.append('tag', tag);
       }
+      queryParams.append('page', page);
+      queryParams.append('limit', postsPerPage); // limit 값을 백엔드로 전달
+
       const queryString = queryParams.toString();
       const url = `http://localhost:5000/api/posts${queryString ? `?${queryString}` : ''}`;
 
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
-        setPosts(data);
+        setPosts(data.posts); // 실제 게시글 데이터
+        setTotalPages(data.totalPages); // 전체 페이지 수
+        setCurrentPage(data.currentPage); // 현재 페이지 (백엔드에서 받은 값으로 업데이트)
       } else {
         console.error('Failed to fetch posts:', response.statusText);
       }
@@ -54,10 +60,13 @@ const BoardList = () => {
     const queryParams = new URLSearchParams(location.search);
     const filterFromUrl = queryParams.get('filter') || 'latest';
     const tagFromUrl = queryParams.get('tag') || '';
+    const pageFromUrl = parseInt(queryParams.get('page')) || 1; // URL에서 페이지 정보 가져오기
+
     setCurrentFilter(filterFromUrl);
     setCurrentTag(tagFromUrl);
+    setCurrentPage(pageFromUrl); // URL 페이지로 현재 페이지 설정
 
-    fetchPosts(filterFromUrl, tagFromUrl);
+    fetchPosts(filterFromUrl, tagFromUrl, pageFromUrl);
   }, [location.search]);
 
   const openModal = () => {
@@ -103,7 +112,21 @@ const BoardList = () => {
       if (response.ok) {
         alert('게시글이 성공적으로 작성되었습니다!');
         closeModal();
-        fetchPosts(currentFilter, currentTag);
+        // 게시글 작성 후 첫 페이지로 이동하며 목록 새로고침
+        const queryParams = new URLSearchParams(location.search);
+        queryParams.set('page', 1); // 첫 페이지로 이동
+        // 필터와 태그는 유지
+        if (currentFilter && currentFilter !== 'latest') {
+            queryParams.set('filter', currentFilter);
+        } else {
+            queryParams.delete('filter');
+        }
+        if (currentTag) {
+            queryParams.set('tag', currentTag);
+        } else {
+            queryParams.delete('tag');
+        }
+        navigate(`/board?${queryParams.toString()}`);
       } else {
         const errorData = await response.json();
         alert('게시글 작성 실패: ' + (errorData.message || '알 수 없는 오류'));
@@ -118,16 +141,17 @@ const BoardList = () => {
     setCurrentFilter(filter);
     const queryParams = new URLSearchParams(location.search);
     queryParams.set('filter', filter);
-    if (currentTag) { // 태그가 선택되어 있다면 유지
+    queryParams.set('page', 1); // 필터 변경 시 첫 페이지로
+    if (currentTag) {
         queryParams.set('tag', currentTag);
     } else {
-        queryParams.delete('tag'); // 태그가 없으면 제거
+        queryParams.delete('tag');
     }
     navigate(`/board?${queryParams.toString()}`);
   };
 
   const handleTagClick = (tag) => {
-    const newTag = currentTag === tag ? '' : tag; // 토글 기능
+    const newTag = currentTag === tag ? '' : tag;
     setCurrentTag(newTag);
     const queryParams = new URLSearchParams(location.search);
     if (newTag) {
@@ -135,12 +159,58 @@ const BoardList = () => {
     } else {
         queryParams.delete('tag');
     }
-    if (currentFilter && currentFilter !== 'latest') { // 필터가 선택되어 있다면 유지
+    queryParams.set('page', 1); // 태그 변경 시 첫 페이지로
+    if (currentFilter && currentFilter !== 'latest') {
         queryParams.set('filter', currentFilter);
     } else {
         queryParams.delete('filter');
     }
     navigate(`/board?${queryParams.toString()}`);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    const queryParams = new URLSearchParams(location.search);
+    queryParams.set('page', pageNumber);
+    navigate(`/board?${queryParams.toString()}`);
+  };
+
+  const renderPaginationButtons = () => {
+    const pageButtons = [];
+    // 현재 페이지를 중심으로 앞뒤 2페이지씩 보여주기 (총 5개)
+    const startPage = Math.max(1, currentPage - 2);
+    const endPage = Math.min(totalPages, currentPage + 2);
+
+    // 이전 페이지 버튼
+    if (currentPage > 1) {
+      pageButtons.push(
+        <button key="prev" className="page-button" onClick={() => handlePageChange(currentPage - 1)}>
+          &lt;
+        </button>
+      );
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageButtons.push(
+        <button
+          key={i}
+          className={`page-button ${i === currentPage ? 'active' : ''}`}
+          onClick={() => handlePageChange(i)}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    // 다음 페이지 버튼
+    if (currentPage < totalPages) {
+      pageButtons.push(
+        <button key="next" className="page-button" onClick={() => handlePageChange(currentPage + 1)}>
+          &gt;
+        </button>
+      );
+    }
+
+    return pageButtons;
   };
 
   return (
@@ -251,9 +321,7 @@ const BoardList = () => {
           </div>
 
           <div className="pagination">
-            <button className="page-button active">1</button>
-            <button className="page-button">2</button>
-            <button className="page-button">3</button>
+            {renderPaginationButtons()}
           </div>
         </div>
 

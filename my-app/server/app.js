@@ -68,13 +68,14 @@ app.post('/api/posts', upload.single('image'), (req, res) => {
     }
 });
 
-// 모든 게시글 조회 (GET /api/posts)
+// 모든 게시글 조회 (GET /api/posts) - 페이지네이션 및 필터링/태그 적용
 app.get('/api/posts', (req, res) => {
     try {
         let posts = JSON.parse(fs.readFileSync(postsFilePath, 'utf8'));
         const comments = JSON.parse(fs.readFileSync(commentsFilePath, 'utf8')); // 댓글 데이터 로드
 
-        const { filter, tag } = req.query; // filter와 tag 쿼리 파라미터 받기
+        const { filter, tag, page = 1 } = req.query; // filter, tag, page 쿼리 파라미터 받기
+        const limit = 6; // 한 페이지당 게시글 수 6개로 고정 
 
         // 태그 필터링
         if (tag) {
@@ -97,7 +98,20 @@ app.get('/api/posts', (req, res) => {
             posts.sort((a, b) => new Date(b.date) - new Date(a.date));
         }
 
-        res.status(200).json(posts);
+        // 페이지네이션 적용
+        const parsedPage = parseInt(page);
+
+        const startIndex = (parsedPage - 1) * limit;
+        const endIndex = parsedPage * limit;
+
+        const results = {};
+        results.totalPosts = posts.length;
+        results.totalPages = Math.ceil(posts.length / limit);
+        results.currentPage = parsedPage;
+
+        results.posts = posts.slice(startIndex, endIndex);
+
+        res.status(200).json(results); // 페이지네이션 정보와 함께 반환
     } catch (error) {
         console.error('Error fetching posts:', error);
         res.status(500).json({ message: '게시글을 불러오는 중 오류가 발생했습니다.', error: error.message });
@@ -151,14 +165,31 @@ app.post('/api/posts/:postId/comments', (req, res) => {
     }
 });
 
-// 특정 게시글의 댓글 조회 (GET /api/posts/:postId/comments)
+// 특정 게시글의 댓글 조회 (GET /api/posts/:postId/comments) - 페이지네이션 적용
 app.get('/api/posts/:postId/comments', (req, res) => {
     try {
         const postId = req.params.postId;
+        const { page = 1 } = req.query; // page 쿼리 파라미터 받기
+        const limit = 6; // 한 페이지당 댓글 수 6개로 고정
+
         const comments = JSON.parse(fs.readFileSync(commentsFilePath, 'utf8'));
-        const postComments = comments.filter(comment => comment.postId === postId);
+        let postComments = comments.filter(comment => comment.postId === postId);
         postComments.sort((a, b) => new Date(b.date) - new Date(a.date)); // 최신순 정렬
-        res.status(200).json(postComments);
+
+        // 페이지네이션 적용
+        const parsedPage = parseInt(page);
+
+        const startIndex = (parsedPage - 1) * limit;
+        const endIndex = parsedPage * limit;
+
+        const results = {};
+        results.totalComments = postComments.length;
+        results.totalPages = Math.ceil(postComments.length / limit);
+        results.currentPage = parsedPage;
+
+        results.comments = postComments.slice(startIndex, endIndex);
+
+        res.status(200).json(results); // 페이지네이션 정보와 함께 반환
     } catch (error) {
         console.error('Error fetching comments:', error);
         res.status(500).json({ message: '댓글을 불러오는 중 오류가 발생했습니다.', error: error.message });
