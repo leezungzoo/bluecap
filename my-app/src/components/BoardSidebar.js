@@ -1,5 +1,3 @@
-// BoardSidebar.js
-
 import React from 'react';
 import '../styles/Board.css';
 
@@ -10,28 +8,27 @@ const BoardSidebar = ({ onFilterChange, onTagClick, currentFilter, currentTag })
     <div className="board-sidebar">
       <div className="sidebar-section">
         <h4>필터</h4>
-        <p
-          className={currentFilter === 'latest' ? 'filter-active' : ''}
-          onClick={() => onFilterChange('latest')}
-          style={{ cursor: 'pointer' }}
-        >
-          최신순
-        </p>
-        {/* '좋아요 많은 순' 필터 제거 */}
-        {/* <p
-          className={currentFilter === 'likes' ? 'filter-active' : ''}
-          onClick={() => onFilterChange('likes')}
-          style={{ cursor: 'pointer' }}
-        >
-          좋아요 많은 순
-        </p> */}
-        <p
-          className={currentFilter === 'comments' ? 'filter-active' : ''}
-          onClick={() => onFilterChange('comments')}
-          style={{ cursor: 'pointer' }}
-        >
-          댓글 많은 순
-        </p>
+        <div className="filter-options">
+          {/* 체크박스 필터 */}
+          <label className="filter-item">
+            <input
+              type="checkbox"
+              value="latest"
+              checked={currentFilter === 'latest'}
+              onChange={() => onFilterChange('latest')}
+            />
+            <span className="filter-text">최신 순</span>
+          </label>
+          <label className="filter-item">
+            <input
+              type="checkbox"
+              value="comments" 
+              checked={currentFilter === 'comments'}
+              onChange={() => onFilterChange('comments')}
+            />
+            <span className="filter-text">댓글 순</span>
+          </label>
+        </div>
       </div>
       <div className="sidebar-section">
         <h4>태그</h4>

@@ -21,36 +21,34 @@ const BoardList = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [currentFilter, setCurrentFilter] = useState('latest');
-  const [currentTag, setCurrentTag] = useState('');
-  const [currentPage, setCurrentPage] = useState(1); // 현재 게시글 페이지
-  const [totalPages, setTotalPages] = useState(1); // 전체 게시글 페이지 수
-  const postsPerPage = 6; // 페이지당 게시글 수 (6개로 고정)
+  // 필터링 및 페이지네이션 관련 상태
+  const [currentFilter, setCurrentFilter] = useState('latest'); // 'latest', 'comments'
+  const [currentTag, setCurrentTag] = useState(''); // 선택된 태그
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
 
   const fetchPosts = async (filter = 'latest', tag = '', page = 1) => {
     try {
       const queryParams = new URLSearchParams();
-      if (filter && filter !== 'latest') {
+      if (filter && filter !== 'latest') { // 'latest'는 기본값이므로 쿼리에 포함시키지 않음
         queryParams.append('filter', filter);
       }
       if (tag) {
         queryParams.append('tag', tag);
       }
       queryParams.append('page', page);
-      queryParams.append('limit', postsPerPage); // limit 값을 백엔드로 전달 (백엔드에서 고정값 사용하므로 필수는 아니지만 일관성을 위해 유지)
-
+      
       const queryString = queryParams.toString();
       const url = `http://localhost:5000/api/posts${queryString ? `?${queryString}` : ''}`;
 
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
-        setPosts(data.posts); // 실제 게시글 데이터
-        setTotalPages(data.totalPages); // 전체 페이지 수
-        setCurrentPage(data.currentPage); // 현재 페이지 (백엔드에서 받은 값으로 업데이트)
+        setPosts(data.posts);
+        setTotalPages(data.totalPages);
+        setCurrentPage(data.currentPage);
       } else {
         console.error('Failed to fetch posts:', response.statusText);
-        // 오류 응답 본문이 있다면 파싱하여 출력
         const errorData = await response.json();
         console.error('Server error response:', errorData);
       }
@@ -63,11 +61,11 @@ const BoardList = () => {
     const queryParams = new URLSearchParams(location.search);
     const filterFromUrl = queryParams.get('filter') || 'latest';
     const tagFromUrl = queryParams.get('tag') || '';
-    const pageFromUrl = parseInt(queryParams.get('page')) || 1; // URL에서 페이지 정보 가져오기
+    const pageFromUrl = parseInt(queryParams.get('page')) || 1;
 
     setCurrentFilter(filterFromUrl);
     setCurrentTag(tagFromUrl);
-    setCurrentPage(pageFromUrl); // URL 페이지로 현재 페이지 설정
+    setCurrentPage(pageFromUrl);
 
     fetchPosts(filterFromUrl, tagFromUrl, pageFromUrl);
   }, [location.search]);
@@ -100,16 +98,16 @@ const BoardList = () => {
     formData.append('title', postTitle);
     formData.append('content', postContent);
     if (postImage) {
-      formData.append('image', postImage); // 파일 객체를 'image'라는 필드명으로 추가
+      formData.append('image', postImage);
     }
     selectedTags.forEach(tag => {
-      formData.append('tags', tag); // 여러 태그를 'tags' 필드명으로 각각 추가
+      formData.append('tags', tag);
     });
 
     try {
       const response = await fetch('http://localhost:5000/api/posts', {
         method: 'POST',
-        body: formData, // FormData 사용 시 'Content-Type' 헤더를 수동으로 설정하지 않음 (브라우저가 자동으로 설정)
+        body: formData,
       });
 
       if (response.ok) {
@@ -117,8 +115,7 @@ const BoardList = () => {
         closeModal();
         // 게시글 작성 후 첫 페이지로 이동하며 목록 새로고침
         const queryParams = new URLSearchParams(location.search);
-        queryParams.set('page', 1); // <--- 이 부분이 중요: 항상 첫 페이지로 설정
-        // 필터와 태그는 유지
+        queryParams.set('page', 1);
         if (currentFilter && currentFilter !== 'latest') {
             queryParams.set('filter', currentFilter);
         } else {
@@ -133,7 +130,7 @@ const BoardList = () => {
       } else {
         const errorData = await response.json();
         alert('게시글 작성 실패: ' + (errorData.message || '알 수 없는 오류'));
-        console.error('Post submission failed:', errorData); // 서버 응답 에러 콘솔에 출력
+        console.error('Post submission failed:', errorData);
       }
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -180,11 +177,9 @@ const BoardList = () => {
 
   const renderPaginationButtons = () => {
     const pageButtons = [];
-    // 현재 페이지를 중심으로 앞뒤 2페이지씩 보여주기 (총 5개)
     const startPage = Math.max(1, currentPage - 2);
     const endPage = Math.min(totalPages, currentPage + 2);
 
-    // 이전 페이지 버튼
     if (currentPage > 1) {
       pageButtons.push(
         <button key="prev" className="page-button" onClick={() => handlePageChange(currentPage - 1)}>
@@ -205,7 +200,6 @@ const BoardList = () => {
       );
     }
 
-    // 다음 페이지 버튼
     if (currentPage < totalPages) {
       pageButtons.push(
         <button key="next" className="page-button" onClick={() => handlePageChange(currentPage + 1)}>
@@ -267,7 +261,7 @@ const BoardList = () => {
                       type="file"
                       id="postImage"
                       accept="image/*"
-                      onChange={(e) => setPostImage(e.target.files[0])} // 파일 객체 저장
+                      onChange={(e) => setPostImage(e.target.files[0])}
                       style={{ padding: '10px 0' }}
                     />
                   </div>
@@ -296,11 +290,11 @@ const BoardList = () => {
           </Modal>
 
           <div className="post-list">
-            {posts.length === 0 && (currentFilter === 'latest' && !currentTag) ? ( // 첫 로드 시 게시글이 없을 때만 표시
+            {posts.length === 0 && (currentFilter === 'latest' && !currentTag) ? (
                 <p style={{textAlign: 'center', marginTop: '20px', fontSize: '1.1rem', color: '#666'}}>
                     아직 작성된 게시글이 없습니다. 첫 게시글을 작성해보세요!
                 </p>
-            ) : posts.length === 0 ? ( // 필터링/태그 적용 후 게시글이 없을 때
+            ) : posts.length === 0 ? (
                 <p style={{textAlign: 'center', marginTop: '20px', fontSize: '1.1rem', color: '#666'}}>
                     현재 선택된 필터와 태그에 해당하는 게시글이 없습니다.
                 </p>
@@ -312,7 +306,6 @@ const BoardList = () => {
                       )}
                       <div>
                         <Link className="post-title" to={`/post/${post.id}`}>{post.title}</Link>
-                        {/* ISOString으로 저장된 날짜를 다시 로케일 형식으로 변환하여 표시 */}
                         <p className="text-muted" style={{ fontSize: '0.9rem', color: '#888' }}>
                           <img src="/images/calendar.svg" alt="calendar" style={{ verticalAlign: 'middle', marginRight: '5px', width: '16px', height: '16px' }} />
                           {new Date(post.date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).replace(/\. /g, '.').replace(/\.$/, '')}
