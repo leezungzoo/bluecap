@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Image, Tabs, Tab, Card } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom'; // useLocation 임포트 추가
 import NavBar from './components/NavBar';
 import './PlayerStatus.css';
 
 const SpotlightBox = ({ title, player, statValue, statUnit, getImageUrl }) => (
-    <div 
-      className="text-center p-3 border rounded h-100 d-flex flex-column" 
+    <div
+      className="text-center p-3 border rounded h-100 d-flex flex-column"
       style={{ minWidth: '240px' }}
     >
       <h4 className="mb-3" style={{ fontSize: '1.5rem' }}>{title}</h4>
       {player ? (
         <>
-          <Image 
-            src={getImageUrl(player.name)} 
+          <Image
+            src={getImageUrl(player.name)}
             alt={player.name}
             onError={(e) => { e.target.onerror = null; e.target.src="/images/player/big/default_big.png"; }}
-            fluid 
-            rounded 
-            style={{ 
-              maxHeight: '300px', 
-              objectFit: 'contain', 
+            fluid
+            rounded
+            style={{
+              maxHeight: '300px',
+              objectFit: 'contain',
               borderRadius: '8px',
               marginBottom: '1rem'
             }}
@@ -36,7 +37,7 @@ const StatBarChart = ({ label, playerA, playerB, statKey }) => {
   const valueA = playerA?.[statKey] ?? 0;
   const valueB = playerB?.[statKey] ?? 0;
   const total = valueA + valueB;
-  
+
   let percentA = 50;
   if (total > 0) {
     percentA = (valueA / total) * 100;
@@ -133,6 +134,9 @@ function PlayerStatus() {
   const [topRbiPlayer, setTopRbiPlayer] = useState(null);
   const [topHomerunPlayer, setTopHomerunPlayer] = useState(null);
 
+  const location = useLocation(); // useLocation 훅 사용
+  const { selectedPlayerName } = location.state || {}; // 전달받은 선수 이름
+
   useEffect(() => {
     fetch('/player.json')
       .then(response => response.json())
@@ -150,9 +154,23 @@ function PlayerStatus() {
           setTopRbiPlayer([...batters].sort((a, b) => b.rbi - a.rbi)[0]);
           setTopHomerunPlayer([...batters].sort((a, b) => b.homeruns - a.homeruns)[0]);
         }
+
+        // ElevenPage에서 선수 이름이 전달된 경우, 해당 선수를 자동으로 선택
+        if (selectedPlayerName) {
+            const foundPlayer = [...pitchers, ...batters].find(p => p.name === selectedPlayerName);
+            if (foundPlayer) {
+                // 선수가 투수인지 타자인지에 따라 탭을 변경
+                if (pitchers.some(p => p.name === selectedPlayerName)) {
+                    setSelectedType('pitchers');
+                } else if (batters.some(p => p.name === selectedPlayerName)) {
+                    setSelectedType('batters');
+                }
+                setComparisonPlayers([foundPlayer]); // 해당 선수를 비교 대상으로 자동 설정
+            }
+        }
       })
       .catch(error => console.error("Error fetching player data:", error));
-  }, []);
+  }, [selectedPlayerName]); // selectedPlayerName이 변경될 때마다 useEffect 재실행
   
   const getPlayerThumbImage = (playerName) => `/images/player/thumb/${playerName}_thumb.jpg`;
   const getPlayerBigImage = (playerName) => `/images/player/big/${playerName}_big.png`;
@@ -186,12 +204,12 @@ function PlayerStatus() {
               <Row className="g-2">
                 {displayedPlayers.map(player => (
                   <Col key={player.name} xs={4} className="d-flex justify-content-center mb-2">
-                    <div 
+                    <div
                       className={`player-button ${isPlayerSelected(player) ? 'selected' : ''}`}
-                      role="button" 
-                      tabIndex={0} 
-                      onClick={() => handlePlayerSelect(player)} 
-                      onKeyPress={(e) => { if (e.key === 'Enter') handlePlayerSelect(player) }} 
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => handlePlayerSelect(player)}
+                      onKeyPress={(e) => { if (e.key === 'Enter') handlePlayerSelect(player) }}
                       style={{ width: '90px', height: '90px', borderRadius: '12px', border: '1px solid #ddd', overflow: 'hidden', cursor: 'pointer' }}
                     >
                       <Button as="div" variant="light" className="p-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center" style={{ border: 'none', backgroundColor: 'transparent', boxShadow: 'none' }}>
@@ -207,7 +225,7 @@ function PlayerStatus() {
 
           <Col>
             {comparisonPlayers.length === 0 ? (
-              <Row className="g-4 h-100 align-items-center"> 
+              <Row className="g-4 h-100 align-items-center">
                   <Col md={4} className="d-flex justify-content-center">
                     <div className={`spotlight-wrapper ${topStrikeoutPlayer ? 'visible' : ''}`}>
                       <SpotlightBox title="탈삼진" player={topStrikeoutPlayer} statValue={topStrikeoutPlayer?.strikeouts} statUnit="K" getImageUrl={getPlayerBigImage} />

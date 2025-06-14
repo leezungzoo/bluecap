@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // useEffect를 import 해야 합니다.
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom'; // useLocation을 import 해야 합니다.
 import { FaSearch } from 'react-icons/fa';
-import NavBar from './NavBar'; 
+import NavBar from './NavBar';
 import Footer from './Footer';
-import '../styles/Footer.css'; 
-import '../styles/News.css'; 
+import '../styles/Footer.css';
+import '../styles/News.css';
 
 const newsArticles = [
   {
@@ -146,21 +146,25 @@ const videoHighlights = [
 
 function News() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1); 
-  const [selectedCategory, setSelectedCategory] = useState(null); 
-  const [activeTab, setActiveTab] = useState('news'); 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const itemsPerPage = 6; 
-  const navigate = useNavigate(); 
+  // useLocation 훅을 사용하여 전달된 state를 읽고 activeTab의 초기값으로 설정합니다.
+  const location = useLocation();
+  const initialActiveTab = location.state?.activeTab || 'news';
+  const [activeTab, setActiveTab] = useState(initialActiveTab);
+
+  const itemsPerPage = 6;
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
-    e.preventDefault(); 
-    setCurrentPage(1); 
+    e.preventDefault();
+    setCurrentPage(1);
   };
 
   const filteredItems = (activeTab === 'news' ? newsArticles : videoHighlights).filter((item) => {
-    const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()); // 제목으로 검색
-    const matchesCategory = selectedCategory ? item.category === selectedCategory : true; // 카테고리 필터링
+    const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory ? item.category === selectedCategory : true;
     return matchesSearch && matchesCategory;
   });
 
@@ -176,17 +180,24 @@ function News() {
     ...(activeTab === 'news' ? ['경기 소식', '선수 소식', '구단 소식'] : ['경기 하이라이트', '스페셜 영상', '팀 훈련'])
   ];
 
+  // activeTab이 변경될 때마다 페이지를 1로 초기화하고, 검색어/카테고리 초기화하는 useEffect를 추가합니다.
+  useEffect(() => {
+    setCurrentPage(1);
+    setSearchTerm('');
+    setSelectedCategory(null);
+  }, [activeTab]);
+
   return (
     <div>
       <NavBar />
 
-      <div className='bdy'> 
+      <div className='bdy'>
         <Container fluid className="mt-4">
           <Row>
             <Col md={12}>
 
               <div id='content-section'>
-                <h2>{activeTab === 'news' ? '최신 뉴스' : '하이라이트'}</h2> 
+                <h2>{activeTab === 'news' ? '최신 뉴스' : '하이라이트'}</h2>
               </div>
               <div className="d-flex justify-content-end align-items-center mb-3">
                 <div id="searching" className="ms-auto">
@@ -214,6 +225,8 @@ function News() {
                         onClick={() => {
                           if (activeTab === 'news') {
                             console.log(`뉴스 클릭: ${item.title}`);
+                            // 뉴스 상세 페이지로 이동하는 로직이 필요하다면 여기에 추가
+                            // navigate(`/news/${item.id}`);
                           } else if (activeTab === 'videos') {
                             window.open(item.videoUrl, '_blank');
                           }
@@ -281,7 +294,7 @@ function News() {
           </Button>
         </div>
 
-        <Footer /> 
+        <Footer />
       </div>
     </div>
   );

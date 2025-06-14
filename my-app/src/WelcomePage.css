@@ -71,13 +71,6 @@ body {
   justify-content: center;
 }
 
-.scroll-fade-in {
-  /*opacity: 0;*/
-  /*transform: translateY(40px);*/
-  /*transition: opacity 0.8s ease-out, transform 0.8s ease-out;*/
-  /*gap: 30px;*/
-}
-
 .scroll-fade-in.visible {
   opacity: 1;
   transform: translateY(0);
