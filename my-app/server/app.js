@@ -4,6 +4,9 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid'); // 고유 ID 생성을 위해
+const mysql = require('mysql');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const app = express();
 const PORT = 5000;
@@ -11,6 +14,110 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, '../build')));
+
+const db = mysql.createConnection({
+    host : 'localhost',
+    user: 'root',
+    password: 'ohs27122760@',
+    database: 'bluecap_db'
+})
+
+db.connect(err => {
+  if (err) throw err;
+  console.log('MySQL Connected!');
+});
+
+//회원가입
+app.post('/api/signup', (req, res) => {
+  const { name, email, username, password } = req.body;
+
+  if (!name || !email || !username || !password) {
+    return res.status(400).json({ success: false, message: "모든 필드가 입력되지 않았습니다" });
+  }
+
+  //비밀번호 해싱
+  bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+    if (err) {
+      console.error('Bcrypt 해싱 에러:', err);
+      return res.status(500).json({ success: false, message: '서버에서 오류발생.' });
+    }
+
+    const sql = "INSERT INTO users (name, email, username, password) VALUES (?, ?, ?, ?)"
+    const values = [name, email, username, hashedPassword];
+
+    db.query(sql, values, (dbErr, result) => {
+      if (dbErr) {
+        console.error('MySQL 쿼리 에러:', dbErr);
+        if (dbErr.code === 'ER_DUP_ENTRY') {
+          return res.status(409).json({ success: false, message: '이미 사용 중인 아이디 또는 이메일입니다.' });
+        }
+        return res.status(500).json({ success: false, message: '데이터베이스 오류입니다.' });
+      }
+
+      console.log('회원가입 성공');
+      res.status(201).json({ success: true, message: '회원가입이 완료되었습니다.'});
+    });
+  });
+});
+
+// 로그인
+// app.js 파일에서
+
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body; // 1. 프런트엔드에서 받은 값
+
+    console.log('--- 로그인 요청 시작 ---');
+    console.log('클라이언트로부터 받은 아이디 (username):', username);
+    // console.log('클라이언트로부터 받은 비밀번호 (password):', password); // 보안상 실제 비밀번호는 로그에 남기지 않는 것이 좋음
+
+    if (!username || !password) {
+        console.log('아이디 또는 비밀번호 누락');
+        return res.status(400).json({ success: false, message: '아이디와 비밀번호를 입력해주세요.' });
+    }
+
+    const sql = "SELECT * FROM users WHERE username = ?";
+    db.query(sql, [username], async (err, results) => { // async 키워드 확인
+        if (err) {
+            console.error('로그인 중 데이터베이스 쿼리 오류:', err);
+            return res.status(500).json({ success: false, message: '서버 오류가 발생했습니다.' });
+        }
+
+        console.log('DB 조회 결과 (results 배열):', results); // 2. DB에서 조회된 결과 배열 전체
+
+        if (results.length === 0) {
+            console.log('DB에서 사용자를 찾을 수 없음:', username); // 3. 사용자가 DB에 없는 경우
+            return res.status(401).json({ success: false, message: '아이디 또는 비밀번호가 잘못되었습니다.' });
+        }
+
+        const user = results[0];
+        console.log('DB에서 찾은 사용자 객체 (user):', user); // 4. DB에서 찾은 사용자 객체 전체
+        console.log('DB에서 찾은 사용자 이름 (user.username):', user.username);
+        console.log('DB에 저장된 해싱된 비밀번호 (user.password):', user.password); // 5. DB에서 가져온 해싱된 비밀번호
+
+        // bcrypt.compare 함수에 전달되는 인자 확인
+        console.log('bcrypt.compare 첫 번째 인자 (사용자 입력 password):', password);
+        console.log('bcrypt.compare 두 번째 인자 (DB user.password):', user.password);
+
+        try {
+            const isMatch = await bcrypt.compare(password, user.password); // 6. 실제 비교 결과
+            console.log('bcrypt.compare 결과 (비밀번호 일치 여부):', isMatch);
+
+            if (isMatch) {
+                console.log('로그인 성공:', username);
+                res.json({ success: true, message: '로그인 성공!', user: { id: user.id, username: user.username, email: user.email } });
+            } else {
+                console.log('비밀번호 불일치: bcrypt.compare 결과 false');
+                res.status(401).json({ success: false, message: '아이디 또는 비밀번호가 잘못되었습니다.' });
+            }
+        } catch (compareError) {
+            console.error('bcrypt.compare 오류:', compareError); // bcrypt.compare 자체에서 오류 발생 시
+            res.status(500).json({ success: false, message: '비밀번호 비교 중 오류가 발생했습니다.' });
+        }
+        console.log('--- 로그인 요청 종료 ---');
+    });
+});
 
 const postsFilePath = path.join(__dirname, 'posts.json');
 const commentsFilePath = path.join(__dirname, 'comments.json'); // 댓글 파일 경로 추가

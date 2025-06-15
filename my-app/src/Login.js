@@ -1,22 +1,47 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-import { FaShoppingBag, FaSignInAlt } from 'react-icons/fa';
 import NavBar from './components/NavBar';
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (username === 'admin' && password === 'admin') {
-      onLogin();
-      navigate('/Home');
-    } else {
-      alert('아이디 또는 비밀번호가 잘못되었습니다.');
+    setLoginError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json(); 
+
+      if (response.ok) { 
+        if (data.success) {
+          onLogin();
+          navigate('/Home');
+        } else {
+          setLoginError(data.message || '로그인 실패: 알 수 없는 오류');
+          alert(data.message || '아이디 또는 비밀번호가 잘못되었습니다.');
+        }
+      } else {
+        setLoginError(data.message || '서버 오류가 발생했습니다.');
+        alert(data.message || '서버 오류가 발생했습니다.');
+      }
+
+    } catch (error) {
+      console.error('로그인 중 오류 발생:', error);
+      setLoginError('서버에 연결할 수 없거나 알 수 없는 오류가 발생했습니다.');
+      alert('서버에 연결할 수 없거나 알 수 없는 오류가 발생했습니다.');
     }
   };
 
@@ -32,17 +57,20 @@ function Login({ onLogin }) {
       <div className="login-container">
         <form onSubmit={handleSubmit} className="login-form">
           <h2>Login</h2>
+          {loginError && <p className="error-message">{loginError}</p>}
           <input
             type="text"
             placeholder="ID"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
           <input
             type="password"
             placeholder="PW"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <button type="submit" className="login-btn">로그인</button>
           <button

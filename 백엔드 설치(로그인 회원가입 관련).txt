@@ -13,3 +13,13 @@ bluecap\my-app> npm start
     콘텐츠 <div className="">로 감싸주고 <NavBar /> 추가
     CSS로 콘텐츠 ."" 안에 padding-top: 80px; 넣기
 */
+
+4. server 폴더에서
+
+npm install bcrypt
+npm install mysql
+
+하셔서 회원가입 관련 라이브러리 설치하시고
+server/app.js 에서 mysql 관련 계정 내용을 본인 mysql로 입력하시면 됩니다.
+
+localhost:5000에서 작동합니다.
