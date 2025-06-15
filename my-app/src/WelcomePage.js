@@ -9,8 +9,6 @@ import './styles/Footer.css';
 import NavBar from './components/NavBar';
 
 const images = [
-  "images/ss-1.png",
-  "images/ss-2.png",
   "images/ss-3.png",
   "images/ss-4.png",
   "images/ss-5.png",
