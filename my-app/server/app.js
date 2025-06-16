@@ -91,15 +91,15 @@ app.post('/api/login', (req, res) => {
         }
 
         const user = results[0];
-        console.log('DB에서 찾은 사용자 객체 (user):', user); // 4. DB에서 찾은 사용자 객체 전체
+        console.log('DB에서 찾은 사용자 객체 (user):', user);
         console.log('DB에서 찾은 사용자 이름 (user.username):', user.username);
-        console.log('DB에 저장된 해싱된 비밀번호 (user.password):', user.password); // 5. DB에서 가져온 해싱된 비밀번호
+        console.log('DB에 저장된 해싱된 비밀번호 (user.password):', user.password);
 
         console.log('bcrypt.compare 첫 번째 인자 (사용자 입력 password):', password);
         console.log('bcrypt.compare 두 번째 인자 (DB user.password):', user.password);
 
         try {
-            const isMatch = await bcrypt.compare(password, user.password); // 6. 실제 비교 결과
+            const isMatch = await bcrypt.compare(password, user.password); //실제 비교
             console.log('bcrypt.compare 결과 (비밀번호 일치 여부):', isMatch);
 
             if (isMatch) {
