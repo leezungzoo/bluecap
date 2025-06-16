@@ -6,7 +6,6 @@ import { FaHome, FaCalendarAlt, FaChevronLeft, FaChevronRight } from 'react-icon
 import React, { useEffect, useRef, useState } from 'react';
 import Footer from './components/Footer';
 import './styles/Footer.css';
-import NavBar from './components/NavBar';
 
 const images = [
   "images/ss-3.png",
@@ -61,7 +60,6 @@ function WelcomePage() {
 
   return (
     <div>
-      <NavBar />
       <div className="welcomepage-container">
         <div id="body">
           <div className='welcompage-img' style={{ position: 'relative' }}>

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'; // useEffect를 import 해�
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom'; // useLocation을 import 해야 합니다.
 import { FaSearch } from 'react-icons/fa';
-import NavBar from './NavBar';
 import Footer from './Footer';
 import '../styles/Footer.css';
 import '../styles/News.css';
@@ -189,8 +188,6 @@ function News() {
 
   return (
     <div>
-      <NavBar />
-
       <div className='bdy'>
         <Container fluid className="mt-4">
           <Row>

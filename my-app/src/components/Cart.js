@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import '../styles/Cart.css';
-import NavBar from './NavBar';
 import Footer from './Footer';
 import '../styles/Footer.css'; 
 
@@ -150,8 +149,6 @@ function Cart() {
 
   return (
     <div>
-      <NavBar />
-
       <div id='basket'>
         {product ? (
           <div>

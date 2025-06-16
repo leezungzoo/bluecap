@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './Page.css';
 import Footer from './components/Footer';
 import './styles/Footer.css';
-import NavBar from './components/NavBar';
 
 function SevenPage() {
   const location = useLocation();
@@ -32,7 +31,6 @@ function SevenPage() {
   //나는 혼자 돋보이는 것 보다 팀을위해 희생하는 것을 선호한다
   return (
   <div>
-    <NavBar />
     <div className="welcomepage-container">
     <div className = "container">
     <div className = "page">

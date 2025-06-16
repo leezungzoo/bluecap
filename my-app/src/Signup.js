@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaShoppingBag, FaSignInAlt } from 'react-icons/fa';
-import './Login.css'; // 스타일 유지
-import NavBar from './components/NavBar';
+import './Login.css';
 
 
 function Signup() {
@@ -14,19 +13,42 @@ function Signup() {
 
   const navigate = useNavigate();
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     if (newPassword !== passwordConfirm) {
       alert('비밀번호가 일치하지 않습니다!');
       return;
     }
-    alert(`회원가입 성공!\nID: ${newUsername}`);
-    // 회원가입 처리 후 이동할 경우: navigate('/login');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          username: newUsername,
+          password: newPassword
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.message); // "회원가입 성공"
+        navigate('/login');  // 성공 시 로그인 페이지로 이동
+      } else {
+        alert(data.message); // "이미 사용중인 아이디..." 등 서버 에러 메시지
+      }
+
+      } catch (error) {
+          console.error('회원가입 요청 실패:', error);
+          alert('서버와 통신할 수 없습니다.');
+      }
   };
 
   return (
     <div>
-      <NavBar />
       <div classname="welcomepage-container"></div>
 
       {/* Signup Form */}

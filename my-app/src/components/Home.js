@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Home.css';
 import Footer from './Footer';
 import '../styles/Footer.css';
-import NavBar from './NavBar';
 
 const newsArticles = [
   {
@@ -93,7 +92,6 @@ function Home() {
 
   return (
     <div>
-      <NavBar />
       <div className="home-container">
         <section className="section bdy">
           <div className="section-header">

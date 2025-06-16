@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './Page.css';
 import Footer from './components/Footer';
 import './styles/Footer.css';
-import NavBar from './components/NavBar';
 
 function OnePage() {
   const [yesCount, setYesCount] = useState(0);
@@ -28,7 +27,6 @@ function OnePage() {
 
   return (
     <div>
-      <NavBar />
       <div className="welcomepage-container">
         <div className="container">
           <div className="page">

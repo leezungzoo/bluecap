@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import '../styles/Board.css';
-import NavBar from './NavBar';
 
 const BoardDetail = () => {
   const { id } = useParams();
@@ -190,7 +189,6 @@ const BoardDetail = () => {
 
   return (
     <div>
-      <NavBar />
     <div className="board-container">
       <div className="board-main">
         <div className="post-detail">
