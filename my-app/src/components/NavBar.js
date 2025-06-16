@@ -58,7 +58,7 @@ function NavBar({ isLoggedIn, user, onLogout}) {
           <div id="login" className="nav-right">
           {isLoggedIn ? (
             <>
-              <span className="welcome-message">{user.username}님 환영합니다</span>
+              <span className="welcome-message"> {user.name}님 환영합니다</span>
               <div onClick={handleLogoutClick} className="logout-button">
                 로그아웃 <FaSignOutAlt style={{ marginRight: '6px', verticalAlign: 'middle' }} />
               </div>

@@ -3,7 +3,6 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom'; // useLocation 임포트
 import { FaSearch } from 'react-icons/fa';
 import ShopSidebar from './ShopSidebar';
-import NavBar from './NavBar';
 import { products } from './products'; // products 데이터는 여기에 있다고 가정
 import Footer from './Footer';
 import '../styles/Footer.css';

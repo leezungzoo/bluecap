@@ -104,7 +104,7 @@ app.post('/api/login', (req, res) => {
 
             if (isMatch) {
                 console.log('로그인 성공:', username);
-                res.json({ success: true, message: `환영합니다 ${user.name} 님!`, user: { id: user.id, username: user.username, email: user.email } });
+                res.json({ success: true, message: `환영합니다 ${user.name} 님!`, user: { id: user.id, name: user.name, username: user.username, email: user.email } });
             } else {
                 console.log('비밀번호 불일치: bcrypt.compare 결과 false');
                 res.status(401).json({ success: false, message: '아이디 또는 비밀번호가 잘못되었습니다.' });

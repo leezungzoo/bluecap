@@ -87,9 +87,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login onLogin={handleLogin} />} />
-        <Route path="/signup" element={<Signup />} />
-        
         <Route element={<MainLayout />}>
           <Route path="/" element={<WelcomePage />} />
           <Route path="/home" element={<Home />} />
@@ -113,6 +110,8 @@ function App() {
           <Route path="/purchase" element={<Purchase />} />
           <Route path="/Status" element={<PlayerStatus />} />
           <Route path="/News" element={<News />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="/signup" element={<Signup />} />
         </Route>
       </Routes>
     </Router>
