@@ -73,7 +73,6 @@ function Shop() {
 
   return (
     <div>
-      <NavBar />
       <h2 className='market-text'>한화장터 매물</h2>
 
       <div className="market-grid">

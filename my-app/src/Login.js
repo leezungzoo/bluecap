@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-import NavBar from './components/NavBar';
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState('');
@@ -27,7 +26,8 @@ function Login({ onLogin }) {
 
       if (response.ok) { 
         if (data.success) {
-          onLogin();
+          alert(data.message || `환영합니다 ${data.name} 님`);
+          onLogin(data.user);
           navigate('/Home');
         } else {
           setLoginError(data.message || '로그인 실패: 알 수 없는 오류');
@@ -51,7 +51,6 @@ function Login({ onLogin }) {
 
   return (
     <div>
-      <NavBar />
       <div className="welcomepage-container"></div>
 
       <div className="login-container">

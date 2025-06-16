@@ -31,7 +31,6 @@ function FourPage() {
 
   return (
   <div>
-    <NavBar />
     <div className="welcomepage-container">
     <div className = "container">
     <div className = "page">

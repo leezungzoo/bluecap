@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaShoppingBag, FaSignInAlt } from 'react-icons/fa';
-import './Login.css'; // 스타일 유지
-import NavBar from './components/NavBar';
+import './Login.css';
 
 
 function Signup() {
@@ -22,7 +21,7 @@ function Signup() {
     }
 
     try {
-      const response = await fetch('/api/signup', {
+      const response = await fetch('http://localhost:5000/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -50,7 +49,6 @@ function Signup() {
 
   return (
     <div>
-      <NavBar />
       <div classname="welcomepage-container"></div>
 
       {/* Signup Form */}

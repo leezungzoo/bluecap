@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import '../styles/Purchase.css';
-import NavBar from './NavBar';
 import Footer from './Footer';
 
 
@@ -133,7 +132,6 @@ function Purchase() {
 
   return (
     <div>
-      <NavBar />
       <div id="purchase-container">
         <h2>결제하기</h2>
 

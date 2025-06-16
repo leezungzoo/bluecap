@@ -155,12 +155,24 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  cursor: pointer;
   color: black;
 }
 
-#login:hover{
-  color: #e56f1f;
+
+.welcome-message {
+  cursor: default; /* 또는 cursor: text; */
 }
 
+/* 로그인 버튼과 로그아웃 버튼에만 손가락 모양 커서를 적용합니다. */
+.login-button,
+.logout-button {
+  cursor: pointer;
+  display: flex; /* 아이콘과 텍스트 정렬을 위해 추가 */
+  align-items: center; /* 아이콘과 텍스트 정렬을 위해 추가 */
+}
 
+/* 마우스를 올렸을 때 색상 변경 효과 */
+.login-button:hover,
+.logout-button:hover {
+  color: #e56f1f;
+}

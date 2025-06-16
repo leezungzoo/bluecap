@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './Page.css';
 import Footer from './components/Footer';
 import './styles/Footer.css';
-import NavBar from './components/NavBar';
 
 function ElevenPage() {
   const location = useLocation();
@@ -27,7 +26,6 @@ function ElevenPage() {
 
   return (
     <div>
-      <NavBar />
       <div className="welcomepage-container"></div>
       <div className="container">
         <div className="player">

@@ -66,11 +66,10 @@ app.post('/api/signup', (req, res) => {
 // app.js 파일에서
 
 app.post('/api/login', (req, res) => {
-    const { username, password } = req.body; // 1. 프런트엔드에서 받은 값
+    const { username, password } = req.body; // 프런트엔드에서 받은 값
 
     console.log('--- 로그인 요청 시작 ---');
     console.log('클라이언트로부터 받은 아이디 (username):', username);
-    // console.log('클라이언트로부터 받은 비밀번호 (password):', password); // 보안상 실제 비밀번호는 로그에 남기지 않는 것이 좋음
 
     if (!username || !password) {
         console.log('아이디 또는 비밀번호 누락');
@@ -78,16 +77,16 @@ app.post('/api/login', (req, res) => {
     }
 
     const sql = "SELECT * FROM users WHERE username = ?";
-    db.query(sql, [username], async (err, results) => { // async 키워드 확인
+    db.query(sql, [username], async (err, results) => {
         if (err) {
             console.error('로그인 중 데이터베이스 쿼리 오류:', err);
             return res.status(500).json({ success: false, message: '서버 오류가 발생했습니다.' });
         }
 
-        console.log('DB 조회 결과 (results 배열):', results); // 2. DB에서 조회된 결과 배열 전체
+        console.log('DB 조회 결과 (results 배열):', results);
 
         if (results.length === 0) {
-            console.log('DB에서 사용자를 찾을 수 없음:', username); // 3. 사용자가 DB에 없는 경우
+            console.log('DB에서 사용자를 찾을 수 없음:', username); // 사용자가 DB에 없는 경우
             return res.status(401).json({ success: false, message: '아이디 또는 비밀번호가 잘못되었습니다.' });
         }
 
@@ -96,7 +95,6 @@ app.post('/api/login', (req, res) => {
         console.log('DB에서 찾은 사용자 이름 (user.username):', user.username);
         console.log('DB에 저장된 해싱된 비밀번호 (user.password):', user.password); // 5. DB에서 가져온 해싱된 비밀번호
 
-        // bcrypt.compare 함수에 전달되는 인자 확인
         console.log('bcrypt.compare 첫 번째 인자 (사용자 입력 password):', password);
         console.log('bcrypt.compare 두 번째 인자 (DB user.password):', user.password);
 
@@ -106,7 +104,7 @@ app.post('/api/login', (req, res) => {
 
             if (isMatch) {
                 console.log('로그인 성공:', username);
-                res.json({ success: true, message: '로그인 성공!', user: { id: user.id, username: user.username, email: user.email } });
+                res.json({ success: true, message: `환영합니다 ${user.name} 님!`, user: { id: user.id, username: user.username, email: user.email } });
             } else {
                 console.log('비밀번호 불일치: bcrypt.compare 결과 false');
                 res.status(401).json({ success: false, message: '아이디 또는 비밀번호가 잘못되었습니다.' });
@@ -117,6 +115,12 @@ app.post('/api/login', (req, res) => {
         }
         console.log('--- 로그인 요청 종료 ---');
     });
+});
+
+//로그아웃
+app.post('/api/logout', (req, res) => {
+  console.log('로그아웃 요청을 수신');
+  res.status(200).json({ success: true, message: '서버에서 로그아웃 처리가 완료' });
 });
 
 const postsFilePath = path.join(__dirname, 'posts.json');

@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './Page.css';
 import Footer from './components/Footer';
 import './styles/Footer.css';
-import NavBar from './components/NavBar';
 
 function NinePage() {
   const location = useLocation();
@@ -31,7 +30,6 @@ function NinePage() {
 
   return (
   <div>
-    <NavBar />
     <div className="welcomepage-container">
     <div className = "container">
     <div className = "page">

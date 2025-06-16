@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Image, Tabs, Tab, Card } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom'; // useLocation 임포트 추가
-import NavBar from './components/NavBar';
 import './PlayerStatus.css';
 
 const SpotlightBox = ({ title, player, statValue, statUnit, getImageUrl }) => (
@@ -192,7 +191,6 @@ function PlayerStatus() {
 
   return (
     <div style={{ marginTop: '100px' }}>
-      <NavBar />
       <Container fluid style={{ marginTop: '20px', marginBottom: '20px', padding: '0 30px' }}>
         <Row className="align-items-stretch">
           <Col md="auto">

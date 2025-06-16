@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/NavBar.css';
 
 import { FaHome, FaCalendarAlt } from 'react-icons/fa';
-import { FaSignInAlt } from 'react-icons/fa';
+import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { CiTextAlignCenter } from 'react-icons/ci';
 import { FaShoppingBag } from 'react-icons/fa';
 
@@ -12,8 +12,13 @@ import { FaShoppingBag } from 'react-icons/fa';
     CSS로 콘텐츠 ."" 안에 padding-top: 80px; 넣기
 */
 
-function NavBar() {
-  const navigate = useNavigate();
+function NavBar({ isLoggedIn, user, onLogout}) {
+  const navigate = useNavigate(); 
+
+  const handleLogoutClick = () => {
+    onLogout();
+    navigate('/home');
+  }
 
   return (
     <div>
@@ -37,7 +42,7 @@ function NavBar() {
         <ul id="navigation" className="nav-center">
           <li onClick={() => navigate('/home')}>홈</li>
           <li onClick={() => navigate('/News')}>뉴스/하이라이트</li>
-          <li onClick={() => navigate('/Board')}>게시판</li>
+          <li onClick={() => navigate('/board')}>게시판</li>
           
           <li className='page-button'> 
             <ul className='SubMenu'>
@@ -50,9 +55,20 @@ function NavBar() {
           <li onClick={() => navigate('/Shop')}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FaShoppingBag style={{marginRight: '6px', verticalAlign: 'middle' }} />장터</li>
           </ul>
 
-          <div id="login" className="nav-right" onClick={() => navigate('/Login')}>
-            로그인 / 회원가입 <FaSignInAlt style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+          <div id="login" className="nav-right">
+          {isLoggedIn ? (
+            <>
+              <span className="welcome-message">{user.username}님 환영합니다</span>
+              <div onClick={handleLogoutClick} className="logout-button">
+                로그아웃 <FaSignOutAlt style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+              </div>
+            </>
+          ) : (
+            <div onClick={() => navigate('/Login')} className='login-button'>
+              로그인 / 회원가입 <FaSignInAlt style={{ marginRight: '6px', verticalAlign: 'middle' }} />
             </div>
+          )}
+        </div>
       </div>
     </div>
 
